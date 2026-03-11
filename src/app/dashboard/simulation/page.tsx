@@ -144,7 +144,7 @@ export default function SimulationPage() {
           ))}
         </div>
         <div className="flex gap-3">
-          <button onClick={startSession} className="flex-1 bg-[#FF4D1C] text-white py-3.5 rounded-full font-bold hover:bg-[#E8421A] transition-colors cursor-pointer text-[15px]">
+          <button onClick={() => startSession()} className="flex-1 bg-[#FF4D1C] text-white py-3.5 rounded-full font-bold hover:bg-[#E8421A] transition-colors cursor-pointer text-[15px]">
             Nouvelle session
           </button>
           <button onClick={() => setState("picking")} className="flex-1 bg-white border border-black/[0.07] text-gray-700 py-3.5 rounded-2xl font-semibold hover:shadow-md transition-all cursor-pointer text-[15px] shadow-sm">
