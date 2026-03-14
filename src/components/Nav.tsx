@@ -6,12 +6,12 @@ export default function Nav({ onOpenAuth }: Props) {
       <div className="max-w-7xl mx-auto px-4 lg:px-10 py-3 flex items-center justify-between gap-4">
 
         {/* Logo */}
-        <div className="flex items-center gap-2 shrink-0">
+        <a href="/" className="flex items-center gap-2 shrink-0">
           <img src="/icon.svg" alt="" className="h-7 w-7" aria-hidden="true" />
           <span className="text-[20px] font-black tracking-tight text-gray-900">
             Citoyen<span className="text-[#FF4D1C]">Facile</span>
           </span>
-        </div>
+        </a>
 
         {/* Links — desktop only */}
         <div className="hidden md:flex items-center gap-7 flex-1">
