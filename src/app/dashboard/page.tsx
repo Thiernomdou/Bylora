@@ -5,12 +5,6 @@ import { THEMES, QUESTIONS } from "@/lib/questions";
 
 export const dynamic = "force-dynamic";
 
-const TOOLS = [
-  { href: "/dashboard/apprendre",    icon: "menu_book",  label: "Apprendre",             desc: "Lire les questions & réponses" },
-  { href: "/dashboard/simulation",   icon: "exercise",   label: "S'entraîner",            desc: "Flashcards par thème"          },
-  { href: "/dashboard/examen",       icon: "assignment", label: "Simulation d'entretien", desc: "Conditions réelles"            },
-  { href: "/dashboard/statistiques", icon: "monitoring", label: "Statistiques",           desc: "Suivre votre progression"      },
-];
 
 export default async function DashboardHome() {
   const supabase = await createClient();
@@ -107,7 +101,7 @@ export default async function DashboardHome() {
             <div className="flex items-center gap-3 flex-wrap">
               <Link
                 href="/dashboard/simulation"
-                className="inline-flex items-center gap-2 bg-[#FF4D1C] text-white font-bold text-[14px] px-5 py-2.5 rounded-full hover:bg-[#E8421A] transition-colors shadow-lg shadow-[#FF4D1C]/25"
+                className="inline-flex items-center gap-2 bg-[#FF4D1C] text-white font-bold text-[14px] px-5 py-2.5 rounded-full hover:bg-[#E8421A] transition-colors shadow-lg shadow-[#FF4D1C]/25 whitespace-nowrap"
               >
                 Commencer la session
                 <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>arrow_forward</span>
@@ -173,45 +167,8 @@ export default async function DashboardHome() {
         </div>
       </div>
 
-      {/* ── TOOLS + PROGRESS — 2 cols on desktop ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-
-        {/* Tools */}
-        <div className="space-y-2">
-          <p className="text-gray-400 text-[11px] font-semibold uppercase tracking-wider px-1 mb-3">Accès rapide</p>
-          {TOOLS.map((tool, i) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className={`group flex items-center gap-4 px-4 py-3.5 rounded-2xl border transition-all shadow-sm hover:shadow-md ${
-                i === 0
-                  ? "bg-[#FF4D1C] border-[#FF4D1C]"
-                  : "bg-white border-black/[0.07]"
-              }`}
-            >
-              <div className={`size-9 rounded-xl flex items-center justify-center shrink-0 ${
-                i === 0 ? "bg-white/20" : "bg-[#FAF4EC] border border-[#FF4D1C]/20"
-              }`}>
-                <span
-                  className={`material-symbols-outlined ${i === 0 ? "text-white" : "text-[#FF4D1C]"}`}
-                  style={{ fontSize: "18px" }}
-                >
-                  {tool.icon}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className={`text-[14px] font-bold leading-none ${i === 0 ? "text-white" : "text-gray-900"}`}>{tool.label}</p>
-                <p className={`text-[11px] mt-0.5 ${i === 0 ? "text-white/60" : "text-gray-400"}`}>{tool.desc}</p>
-              </div>
-              <span
-                className={`material-symbols-outlined shrink-0 transition-colors ${i === 0 ? "text-white/50" : "text-gray-300 group-hover:text-[#FF4D1C]"}`}
-                style={{ fontSize: "18px" }}
-              >
-                chevron_right
-              </span>
-            </Link>
-          ))}
-        </div>
+      {/* ── PROGRESS ── */}
+      <div className="grid grid-cols-1 gap-4 md:gap-5">
 
         {/* Progress by theme */}
         <div className="bg-white border border-black/[0.07] rounded-2xl p-5 md:p-6 shadow-sm">

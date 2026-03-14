@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useState, useEffect } from "react";
 import { QUESTIONS, THEMES, type Theme } from "@/lib/questions";
 import { createClient } from "@/lib/supabase/client";
