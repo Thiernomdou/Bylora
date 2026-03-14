@@ -4,11 +4,11 @@ import { useState } from "react";
 
 const faqs = [
   { q: "Est-ce que les 555 questions sont vraiment celles posées à l'entretien ?", a: "Oui. Elles ont été collectées et vérifiées par le fondateur lui-même, qui a passé son entretien en novembre 2025, et complétées par des retours d'autres candidats. Elles couvrent tous les thèmes officiels." },
-  { q: "Est-ce que ça fonctionne sur téléphone sans installer d'application ?", a: "Oui. Bylora est une PWA (Progressive Web App). Tu l'ouvres dans ton navigateur et tu peux l'ajouter sur ton écran d'accueil en un tap. Aucune installation App Store nécessaire. Fonctionne aussi parfaitement sur ordinateur." },
+  { q: "Est-ce que ça fonctionne sur téléphone sans installer d'application ?", a: "Oui. CitoyenFacile est une PWA (Progressive Web App). Tu l'ouvres dans ton navigateur et tu peux l'ajouter sur ton écran d'accueil en un tap. Aucune installation App Store nécessaire. Fonctionne aussi parfaitement sur ordinateur." },
   { q: "Comment fonctionne la répétition espacée ?", a: "Quand tu réponds à une question, tu choisis entre Je connais / J'hésite / Je ne sais pas. L'algorithme fait revenir les questions difficiles plus souvent, et espace celles que tu maîtrises. Tu mémorises mieux, plus vite." },
   { q: "Mon entretien est dans 2 semaines. C'est suffisant ?", a: "Oui. 20 minutes par jour pendant 2 semaines couvrent l'essentiel. L'algorithme priorisera automatiquement les questions les plus importantes selon le temps qu'il te reste." },
   { q: "Et si mon entretien est reporté ou annulé ?", a: "Tu peux mettre à jour ta date d'entretien à tout moment. Si tu as choisi l'accès à vie, pas de problème — tu y as accès aussi longtemps que nécessaire." },
-  { q: "Comment Bylora se différencie des autres outils ?", a: "Bylora est fondé par quelqu'un qui a réellement passé l'entretien. Les questions viennent de vrais entretiens, pas de manuels scolaires. Et l'interface est pensée pour le téléphone — révise dans le métro, au travail, chez toi." },
+  { q: "Comment CitoyenFacile se différencie des autres outils ?", a: "CitoyenFacile est fondé par quelqu'un qui a réellement passé l'entretien. Les questions viennent de vrais entretiens, pas de manuels scolaires. Et l'interface est pensée pour le téléphone — révise dans le métro, au travail, chez toi." },
 ];
 
 export default function Faq() {

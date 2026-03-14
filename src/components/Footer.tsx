@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-black/[0.07]">
           <div>
             <p className="text-[22px] font-black text-gray-900 mb-1.5">
-              By<span className="text-[#FF4D1C]">lora</span>
+              Citoyen<span className="text-[#FF4D1C]">Facile</span>
             </p>
             <p className="text-[13px] text-gray-500 leading-relaxed max-w-xs">
               La préparation à l&apos;entretien de naturalisation française<br />pour la diaspora africaine.
@@ -18,7 +18,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="pt-7 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[12px] text-gray-400">© 2026 Bylora · Fait avec ❤️ en France</p>
+          <p className="text-[12px] text-gray-400">© 2026 CitoyenFacile · Fait avec ❤️ en France</p>
           <p className="text-[12px] text-gray-400">Paiement sécurisé · Données protégées</p>
         </div>
       </div>

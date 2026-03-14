@@ -201,8 +201,8 @@ function IPhoneScreen() {
         <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(255,77,28,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <span className="material-symbols-outlined" style={{ fontSize: 12, color: "#FF4D1C" }}>local_library</span>
         </div>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginLeft: 8, flex: 1 }}>Bylora</span>
-        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#FF4D1C", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 11, fontWeight: 700 }}>B</div>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginLeft: 8, flex: 1 }}>CitoyenFacile</span>
+        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#FF4D1C", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 11, fontWeight: 700 }}>C</div>
       </div>
 
       {/* Content */}
@@ -379,7 +379,7 @@ export default function Hero({ onOpenAuth }: HeroProps) {
 
         {/* Text */}
         <div className="flex-1 text-center lg:text-left">
-          <p className="text-gray-400 text-[14px] font-medium mb-4 tracking-wide">Bienvenue sur Bylora</p>
+          <p className="text-gray-400 text-[14px] font-medium mb-4 tracking-wide">Bienvenue sur CitoyenFacile</p>
 
           <h1 className="text-[36px] lg:text-[50px] xl:text-[58px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-6">
             Réussis ton entretien<br />

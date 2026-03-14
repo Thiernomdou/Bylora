@@ -43,12 +43,12 @@ export default function CgvModal({ open, onClose }: Props) {
 
           <section>
             <h3 className="font-bold text-slate-900 mb-2">Article 1 : Objet</h3>
-            <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre Bylora et toute personne physique non commerçante (ci-après "le Client") souhaitant acquérir un accès aux services proposés sur bylora.fr. L'acquisition d'un service implique une acceptation sans réserve par le Client des présentes CGV.</p>
+            <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre CitoyenFacile et toute personne physique non commerçante (ci-après "le Client") souhaitant acquérir un accès aux services proposés sur citoyenfacile.fr. L'acquisition d'un service implique une acceptation sans réserve par le Client des présentes CGV.</p>
           </section>
 
           <section>
             <h3 className="font-bold text-slate-900 mb-2">Article 2 – Exploitant du Site</h3>
-            <p>Le Site est édité par Bylora, plateforme de préparation à l'entretien de naturalisation française. Pour toute question : <strong>contact@bylora.fr</strong></p>
+            <p>Le Site est édité par CitoyenFacile, plateforme de préparation à l'entretien de naturalisation française. Pour toute question : <strong>contact@citoyenfacile.fr</strong></p>
           </section>
 
           <section>
@@ -95,7 +95,7 @@ export default function CgvModal({ open, onClose }: Props) {
 
           <section>
             <h3 className="font-bold text-slate-900 mb-2">Article 6 – Paiement</h3>
-            <p>Le paiement s'effectue exclusivement via Stripe (CB, Visa, MasterCard, Apple Pay, Google Pay). Bylora ne conserve aucune donnée bancaire. En cas d'échec de paiement, l'accès est suspendu.</p>
+            <p>Le paiement s'effectue exclusivement via Stripe (CB, Visa, MasterCard, Apple Pay, Google Pay). CitoyenFacile ne conserve aucune donnée bancaire. En cas d'échec de paiement, l'accès est suspendu.</p>
           </section>
 
           <section>
@@ -110,12 +110,12 @@ export default function CgvModal({ open, onClose }: Props) {
 
           <section>
             <h3 className="font-bold text-slate-900 mb-2">Article 9 – Propriété intellectuelle</h3>
-            <p>Tous les contenus (questions, réponses, fiches, statistiques, code source) sont la propriété exclusive de Bylora. Usage strictement personnel. Toute reproduction ou distribution sans autorisation écrite est interdite.</p>
+            <p>Tous les contenus (questions, réponses, fiches, statistiques, code source) sont la propriété exclusive de CitoyenFacile. Usage strictement personnel. Toute reproduction ou distribution sans autorisation écrite est interdite.</p>
           </section>
 
           <section>
             <h3 className="font-bold text-slate-900 mb-2">Article 10 – Données personnelles</h3>
-            <p>Vos données sont traitées conformément au RGPD. Vous pouvez exercer vos droits (accès, rectification, effacement) en contactant contact@bylora.fr.</p>
+            <p>Vos données sont traitées conformément au RGPD. Vous pouvez exercer vos droits (accès, rectification, effacement) en contactant contact@citoyenfacile.fr.</p>
           </section>
 
           <section>

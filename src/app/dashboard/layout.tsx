@@ -89,11 +89,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         {/* Logo */}
-        <div className="flex items-center justify-center md:justify-start md:gap-3 px-0 md:px-5 py-4 md:py-5 border-b border-black/[0.06] shrink-0">
-          <div className="size-9 rounded-full bg-[#FF4D1C]/10 border border-[#FF4D1C]/20 flex items-center justify-center shrink-0">
+        <div className="flex items-center justify-center md:justify-start px-0 md:px-4 py-4 md:py-5 border-b border-black/[0.06] shrink-0">
+          {/* Mobile: icône seule */}
+          <div className="flex md:hidden size-9 rounded-full bg-[#FF4D1C]/10 border border-[#FF4D1C]/20 items-center justify-center shrink-0">
             <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "18px" }}>local_library</span>
           </div>
-          <span className="hidden md:block text-gray-900 text-[17px] font-bold">Bylora</span>
+          {/* Desktop: logo SVG */}
+          <img src="/logo.svg" alt="CitoyenFacile" className="hidden md:block h-6 w-auto" />
         </div>
 
         {/* Nav items */}

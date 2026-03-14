@@ -17,13 +17,13 @@ export default function FounderNote() {
             Des listes de questions sans réponses, des forums contradictoires, des documents trop longs à lire.
             Impossible de savoir ce qui était à jour, ce qui était important, et comment s&apos;entraîner concrètement.
             <br /><br />
-            J&apos;ai décidé de créer Bylora — l&apos;application que j&apos;aurais voulu trouver à ce moment-là.
+            J&apos;ai décidé de créer CitoyenFacile — l&apos;application que j&apos;aurais voulu trouver à ce moment-là.
             Parce que la naturalisation, ça change tout dans la vie d&apos;un étranger. Et personne ne devrait rater
             son entretien par manque de préparation alors que les questions existent et peuvent s&apos;apprendre.
           </p>
 
           <p className="text-[13px] text-gray-400 font-medium">
-            — Le fondateur de Bylora · Naturalisé français
+            — Le fondateur de CitoyenFacile · Naturalisé français
           </p>
         </div>
       </div>

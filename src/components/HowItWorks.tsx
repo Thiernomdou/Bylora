@@ -1,5 +1,5 @@
 const steps = [
-  { n: "1", title: "Indique ta date d'entretien",   desc: "Bylora crée ton plan de révision personnalisé. Le countdown démarre immédiatement." },
+  { n: "1", title: "Indique ta date d'entretien",   desc: "CitoyenFacile crée ton plan de révision personnalisé. Le countdown démarre immédiatement." },
   { n: "2", title: "Révise 20 min par jour",         desc: "Des flashcards avec 3 niveaux — Je connais / J'hésite / Je ne sais pas. L'algorithme adapte les questions." },
   { n: "3", title: "Simule l'entretien réel",        desc: "20 questions · 15 minutes · sans correction immédiate. Exactement comme le vrai entretien." },
   { n: "4", title: "Tu passes. Tu réussis.",         desc: "Tu vois ton niveau en % par thème. Tu arrives le jour J sans surprise ni stress." },
