@@ -1,33 +1,33 @@
 const features = [
   {
+    icon: "quiz",
+    title: "Simulateur d'examen civique",
+    desc: "40 questions QCM en 45 minutes dans les conditions réelles. Titre de séjour, carte de résident, naturalisation — une seule préparation.",
+  },
+  {
+    icon: "record_voice_over",
+    title: "Simulation d'entretien oral",
+    desc: "Tu réponds aux questions comme face à l'agent — valeurs françaises, histoire, situation personnelle. Pour ne pas être pris au dépourvu le jour J.",
+  },
+  {
     icon: "style",
     title: "Flashcards intelligentes",
-    desc: "L'application met en avant les questions que tu connais moins bien, pour que tu progresses plus vite.",
+    desc: "L'algorithme met en avant les questions que tu maîtrises moins, pour que tu progresses vite sur les 555 questions.",
   },
   {
     icon: "timer",
-    title: "Compte à rebours jusqu'à l'entretien",
-    desc: "Tu vois chaque jour combien de temps il te reste pour te préparer. Ça aide à rester motivé.",
-  },
-  {
-    icon: "assignment",
-    title: "Simulation d'entretien",
-    desc: "Tu réponds à des questions comme si tu étais face à l'agent — pour ne pas être pris au dépourvu le jour J.",
+    title: "Compte à rebours personnalisé",
+    desc: "Tu indiques ta date d'examen ou d'entretien. Le plan de révision s'adapte au temps qu'il te reste.",
   },
   {
     icon: "monitoring",
     title: "Suivi de ta progression",
-    desc: "Tu vois exactement ce que tu maîtrises et ce qu'il te reste à apprendre, thème par thème.",
-  },
-  {
-    icon: "thumbs_up_down",
-    title: "3 boutons simples",
-    desc: "Je connais / J'hésite / Je ne sais pas. Rapide à utiliser, même en 10 minutes dans le métro.",
+    desc: "Tu vois exactement ce que tu maîtrises et ce qu'il te reste, thème par thème — histoire, institutions, valeurs, géographie.",
   },
   {
     icon: "devices",
     title: "Téléphone et ordinateur",
-    desc: "Tu révises depuis ton téléphone ou ton ordinateur, comme tu veux, où tu veux.",
+    desc: "Tu révises depuis ton téléphone ou ton ordinateur, où tu veux. 20 minutes dans le métro suffisent.",
   },
 ];
 

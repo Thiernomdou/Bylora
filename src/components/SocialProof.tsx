@@ -1,8 +1,8 @@
 const stats = [
-  { val: "555",    sup: "",   label: "vraies questions d'entretien" },
-  { val: "20",     sup: "min", label: "par jour suffisent" },
-  { val: "35 000", sup: "",   label: "naturalisations par an en France" },
-  { val: "4,9",    sup: "★",  label: "note moyenne des utilisateurs" },
+  { val: "555",  sup: "",    label: "questions civiques et d'entretien" },
+  { val: "2",    sup: "",    label: "étapes préparées en une seule app" },
+  { val: "20",   sup: "min", label: "par jour suffisent" },
+  { val: "4,9",  sup: "★",   label: "note moyenne des utilisateurs" },
 ];
 
 export default function SocialProof() {

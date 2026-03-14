@@ -46,9 +46,11 @@ function MacBookMockup() {
             <div style={{ width: 82, background: "#ffffff", borderRight: "1px solid #ebebeb", display: "flex", flexDirection: "column", flexShrink: 0 }}>
               {/* Logo */}
               <div style={{ padding: "12px 0", display: "flex", justifyContent: "center", borderBottom: "1px solid #f0f0f0" }}>
-                <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(255,77,28,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#FF4D1C" }}>local_library</span>
-                </div>
+                <svg width="30" height="30" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="18" cy="18" r="17" fill="#002395"/>
+                  <circle cx="18" cy="18" r="11" fill="#FFFFFF"/>
+                  <circle cx="18" cy="18" r="6"  fill="#ED2939"/>
+                </svg>
               </div>
               {/* Nav */}
               <div style={{ flex: 1, padding: "10px 7px", display: "flex", flexDirection: "column", gap: 3 }}>
@@ -198,9 +200,11 @@ function IPhoneScreen() {
     <>
       {/* Header */}
       <div style={{ background: "white", borderBottom: "1px solid rgba(0,0,0,0.06)", display: "flex", alignItems: "center", padding: "10px 14px", flexShrink: 0, marginTop: 50 }}>
-        <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(255,77,28,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 12, color: "#FF4D1C" }}>local_library</span>
-        </div>
+        <svg width="24" height="24" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="17" fill="#002395"/>
+          <circle cx="18" cy="18" r="11" fill="#FFFFFF"/>
+          <circle cx="18" cy="18" r="6"  fill="#ED2939"/>
+        </svg>
         <span style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginLeft: 8, flex: 1 }}>CitoyenFacile</span>
         <div style={{ width: 26, height: 26, borderRadius: "50%", background: "#FF4D1C", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 11, fontWeight: 700 }}>C</div>
       </div>
@@ -381,16 +385,50 @@ export default function Hero({ onOpenAuth }: HeroProps) {
         <div className="flex-1 text-center lg:text-left">
           <p className="text-gray-400 text-[14px] font-medium mb-4 tracking-wide">Bienvenue sur CitoyenFacile</p>
 
-          <h1 className="text-[36px] lg:text-[50px] xl:text-[58px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-6">
-            Réussis ton entretien<br />
-            de naturalisation<br />
-            <span className="text-[#FF4D1C] font-extrabold">en toute sérénité</span>
+          <h1 className="text-[32px] lg:text-[48px] xl:text-[54px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-5">
+            Réussis ton examen civique<br />
+            et ton entretien de<br />
+            <span className="text-[#FF4D1C] font-extrabold">naturalisation</span>
           </h1>
 
-          <p className="text-[15px] lg:text-[17px] text-gray-500 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 font-normal">
-            555 questions issues des vrais entretiens. Répétition espacée intelligente.
-            20 minutes par jour depuis ton téléphone ou ton ordinateur.
-          </p>
+          {/* Two cards */}
+          <div className="grid grid-cols-2 gap-3 mb-8 max-w-lg mx-auto lg:mx-0">
+            {/* Examen civique */}
+            <div className="bg-white border border-black/[0.08] rounded-2xl p-4 text-left shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="size-7 rounded-lg bg-[#FF4D1C]/10 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "15px" }}>quiz</span>
+                </div>
+                <p className="text-gray-900 text-[13px] font-bold leading-tight">Examen civique</p>
+              </div>
+              <div className="flex flex-wrap gap-1 mb-3">
+                {["Titre de séjour", "Carte de résident", "Naturalisation"].map((tag) => (
+                  <span key={tag} className="text-[10px] font-semibold bg-[#FAF4EC] border border-[#FF4D1C]/20 text-[#FF4D1C] px-2 py-0.5 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <p className="text-[11px] text-gray-400 leading-snug">QCM · 40 questions · 45 minutes</p>
+            </div>
+
+            {/* Entretien de naturalisation */}
+            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-4 text-left shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="size-7 rounded-lg bg-[#FF4D1C]/20 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "15px" }}>record_voice_over</span>
+                </div>
+                <p className="text-white text-[13px] font-bold leading-tight">Entretien de naturalisation</p>
+              </div>
+              <div className="flex flex-wrap gap-1 mb-3">
+                {["Questions orales", "Valeurs françaises", "Histoire"].map((tag) => (
+                  <span key={tag} className="text-[10px] font-semibold bg-white/10 text-white/70 px-2 py-0.5 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <p className="text-[11px] text-white/40 leading-snug">Simulation entretien réel</p>
+            </div>
+          </div>
 
           <div className="flex justify-center lg:justify-start">
             <button
@@ -406,7 +444,7 @@ export default function Hero({ onOpenAuth }: HeroProps) {
           </p>
 
           {/* Trust */}
-          <div className="flex flex-wrap items-center gap-5 mt-8 justify-center lg:justify-start">
+          <div className="flex flex-wrap items-center gap-5 mt-6 justify-center lg:justify-start">
             <div className="flex items-center gap-1.5 text-[13px] font-medium text-gray-500">
               <span className="text-[#FF4D1C]">★★★★★</span> 4,9/5
             </div>

@@ -2,9 +2,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { THEMES, QUESTIONS } from "@/lib/questions";
+import DashboardChoix from "@/components/DashboardChoix";
 
 export const dynamic = "force-dynamic";
-
 
 export default async function DashboardHome() {
   const supabase = await createClient();
@@ -13,12 +13,22 @@ export default async function DashboardHome() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("display_name, interview_date, onboarding_done")
+    .select("display_name, interview_date, onboarding_done, parcours_defaut")
     .eq("id", user.id)
     .single();
 
   if (!profile?.onboarding_done) redirect("/onboarding");
 
+  // Routing par parcours
+  if (profile?.parcours_defaut === "examen-civique") redirect("/dashboard/examen-civique");
+
+  // Pas de parcours → page de choix
+  if (!profile?.parcours_defaut) {
+    const firstName = (profile?.display_name || "vous").split(" ")[0];
+    return <DashboardChoix userId={user.id} firstName={firstName} />;
+  }
+
+  // ── ENTRETIEN DE NATURALISATION (parcours existant inchangé) ─────────────
   const { data: progressRows } = await supabase
     .from("user_progress")
     .select("question_id, rating, theme, updated_at")
@@ -49,7 +59,6 @@ export default async function DashboardHome() {
     ? Math.max(0, Math.ceil((interviewDate.getTime() - Date.now()) / 86400000))
     : null;
 
-  // SVG ring
   const R = 50;
   const circ = 2 * Math.PI * R;
   const offset = circ - (overall / 100) * circ;
@@ -59,12 +68,10 @@ export default async function DashboardHome() {
 
       {/* ── HERO CARD ── */}
       <div className="relative bg-gray-900 rounded-3xl overflow-hidden p-5 md:p-8">
-        {/* Ambient glows */}
         <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-[#FF4D1C]/20 blur-3xl" />
         <div className="pointer-events-none absolute -left-10 bottom-0 size-52 rounded-full bg-[#FF4D1C]/8 blur-3xl" />
 
         <div className="relative z-10 flex items-start justify-between gap-4">
-          {/* Left */}
           <div className="flex-1 min-w-0">
             <p className="text-white/40 text-[12px] md:text-[13px] font-medium uppercase tracking-wider">Tableau de bord</p>
             <h1 className="text-white text-[24px] md:text-[36px] font-black leading-tight mt-1">
@@ -79,7 +86,6 @@ export default async function DashboardHome() {
                 : "Continuez — chaque session compte."}
             </p>
 
-            {/* Countdown pill */}
             {daysLeft !== null ? (
               <div className="inline-flex items-center gap-2 bg-[#FF4D1C]/20 border border-[#FF4D1C]/30 rounded-full px-3.5 py-1.5 mb-5">
                 <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "14px" }}>event</span>
@@ -97,7 +103,6 @@ export default async function DashboardHome() {
               </Link>
             )}
 
-            {/* CTA */}
             <div className="flex items-center gap-3 flex-wrap">
               <Link
                 href="/dashboard/simulation"
@@ -109,7 +114,6 @@ export default async function DashboardHome() {
             </div>
           </div>
 
-          {/* Progress ring */}
           <div className="shrink-0 relative flex items-center justify-center size-16 md:size-24">
             <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ transform: "rotate(-90deg)" }}>
               <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
@@ -133,7 +137,6 @@ export default async function DashboardHome() {
 
       {/* ── STATS 3 COLS ── */}
       <div className="grid grid-cols-3 gap-2 md:gap-3">
-        {/* Today */}
         <div className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
           <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider mb-1.5">Aujourd&apos;hui</p>
           <p className="text-gray-900 font-black leading-none">
@@ -148,14 +151,12 @@ export default async function DashboardHome() {
           </p>
         </div>
 
-        {/* Mastered */}
         <div className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
           <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider mb-1.5">Maîtrisées</p>
           <p className="text-gray-900 text-[20px] md:text-[30px] font-black leading-none">{totalConnais}</p>
           <p className="text-[#FF4D1C] text-[9px] md:text-[10px] font-semibold mt-2 leading-tight">sur {QUESTIONS.length}</p>
         </div>
 
-        {/* Interview */}
         <div className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
           <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider mb-1.5">Entretien</p>
           <p className="text-gray-900 text-[20px] md:text-[30px] font-black leading-none">
@@ -167,49 +168,38 @@ export default async function DashboardHome() {
         </div>
       </div>
 
-      {/* ── PROGRESS ── */}
-      <div className="grid grid-cols-1 gap-4 md:gap-5">
-
-        {/* Progress by theme */}
-        <div className="bg-white border border-black/[0.07] rounded-2xl p-5 md:p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-5">
-            <p className="text-gray-900 text-[15px] font-bold">Progression par thème</p>
-            <Link
-              href="/dashboard/statistiques"
-              className="text-[#FF4D1C] text-[12px] font-bold hover:underline flex items-center gap-0.5"
-            >
-              Tout voir
-              <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>chevron_right</span>
-            </Link>
-          </div>
-          <div className="space-y-4">
-            {themes.map((themeKey) => {
-              const { pct, done, total } = THEME_PROGRESS[themeKey];
-              const theme = THEMES[themeKey];
-              return (
-                <div key={themeKey} className="flex items-center gap-3">
-                  <div className="size-8 rounded-lg bg-[#FAF4EC] border border-[#FF4D1C]/20 flex items-center justify-center shrink-0">
-                    <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "15px" }}>{theme.icon}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center mb-1.5">
-                      <span className="text-gray-700 text-[12px] font-semibold truncate">{theme.label}</span>
-                      <span className="text-gray-400 text-[11px] font-medium ml-2 shrink-0">{done}/{total}</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-black/[0.07] rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-[#FF4D1C] rounded-full transition-all"
-                        style={{ width: `${pct}%` }}
-                      />
-                    </div>
-                  </div>
-                  <span className="text-[#FF4D1C] text-[12px] font-bold shrink-0 w-8 text-right">{pct}%</span>
-                </div>
-              );
-            })}
-          </div>
+      {/* ── PROGRESS BY THEME ── */}
+      <div className="bg-white border border-black/[0.07] rounded-2xl p-5 md:p-6 shadow-sm">
+        <div className="flex items-center justify-between mb-5">
+          <p className="text-gray-900 text-[15px] font-bold">Progression par thème</p>
+          <Link href="/dashboard/statistiques" className="text-[#FF4D1C] text-[12px] font-bold hover:underline flex items-center gap-0.5">
+            Tout voir
+            <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>chevron_right</span>
+          </Link>
         </div>
-
+        <div className="space-y-4">
+          {themes.map((themeKey) => {
+            const { pct, done, total } = THEME_PROGRESS[themeKey];
+            const theme = THEMES[themeKey];
+            return (
+              <div key={themeKey} className="flex items-center gap-3">
+                <div className="size-8 rounded-lg bg-[#FAF4EC] border border-[#FF4D1C]/20 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "15px" }}>{theme.icon}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-gray-700 text-[12px] font-semibold truncate">{theme.label}</span>
+                    <span className="text-gray-400 text-[11px] font-medium ml-2 shrink-0">{done}/{total}</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-black/[0.07] rounded-full overflow-hidden">
+                    <div className="h-full bg-[#FF4D1C] rounded-full transition-all" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+                <span className="text-[#FF4D1C] text-[12px] font-bold shrink-0 w-8 text-right">{pct}%</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

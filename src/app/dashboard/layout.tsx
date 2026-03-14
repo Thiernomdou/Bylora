@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 const NAV = [
-  { href: "/dashboard",              icon: "home",             label: "Accueil"      },
-  { href: "/dashboard/apprendre",    icon: "menu_book",        label: "Apprendre"    },
-  { href: "/dashboard/simulation",   icon: "fitness_center",   label: "S'entraîner"  },
-  { href: "/dashboard/examen",       icon: "assignment",       label: "Entretien"    },
-  { href: "/dashboard/statistiques", icon: "bar_chart_4_bars", label: "Statistiques" },
+  { href: "/dashboard",                  icon: "home",             label: "Accueil"        },
+  { href: "/dashboard/examen-civique",   icon: "quiz",             label: "Examen civique" },
+  { href: "/dashboard/apprendre",        icon: "menu_book",        label: "Apprendre"      },
+  { href: "/dashboard/simulation",       icon: "fitness_center",   label: "S'entraîner"    },
+  { href: "/dashboard/examen",           icon: "assignment",       label: "Entretien"      },
+  { href: "/dashboard/statistiques",     icon: "bar_chart_4_bars", label: "Statistiques"   },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

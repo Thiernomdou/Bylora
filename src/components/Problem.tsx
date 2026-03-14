@@ -1,18 +1,18 @@
 const pains = [
   {
-    icon: "description",
-    title: "Des ressources qu'on lit et qu'on oublie",
-    desc: "Tu lis, tu oublies. Pas de quiz, pas de suivi. Tu ne sais pas ce que tu retiens vraiment.",
+    icon: "quiz",
+    title: "L'examen civique pris à la légère",
+    desc: "40 questions QCM en 45 minutes. Beaucoup ne savent pas que c'est obligatoire pour le titre de séjour ou la naturalisation — et arrivent sans s'y être préparés.",
   },
   {
     icon: "forum",
-    title: "Des groupes et forums éparpillés",
-    desc: "Les informations sont partout, pas toujours à jour, et tu perds un temps précieux à trier le vrai du faux.",
+    title: "Des infos éparpillées et contradictoires",
+    desc: "Les ressources sont partout, pas toujours à jour. Tu perds un temps précieux à trier le vrai du faux entre forums et groupes WhatsApp.",
   },
   {
     icon: "sentiment_stressed",
     title: "Aucune vraie mise en situation",
-    desc: "Le jour de l'entretien, le stress peut tout bloquer — même ce que tu connais bien. S'entraîner à l'oral change tout.",
+    desc: "Pour l'entretien oral, le stress peut tout bloquer. Sans simulation réelle, on ne sait pas quelles questions attendent — ni comment y répondre sereinement.",
   },
 ];
 
@@ -26,7 +26,7 @@ export default function Problem() {
             Ce qui ne fonctionne pas
           </span>
           <h2 className="text-[32px] lg:text-[42px] font-bold text-gray-900 leading-tight tracking-tight">
-            Pourquoi beaucoup de gens arrivent à l&apos;entretien sans être vraiment prêts
+            Pourquoi beaucoup ratent l&apos;examen ou arrivent à l&apos;entretien sans être vraiment prêts
           </h2>
         </div>
 

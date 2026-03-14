@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   stripe_customer_id TEXT,
   marketing_opt_in  BOOLEAN DEFAULT FALSE,
   onboarding_done   BOOLEAN DEFAULT FALSE,
+  parcours_defaut   TEXT,          -- 'examen-civique' | 'entretien-naturalisation'
   created_at        TIMESTAMPTZ DEFAULT NOW(),
   updated_at        TIMESTAMPTZ DEFAULT NOW()
 );

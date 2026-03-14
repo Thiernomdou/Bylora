@@ -11,10 +11,10 @@ export default function FinalCta({ onOpenAuth }: FinalCtaProps) {
 
           <div className="relative z-10">
             <h2 className="text-[32px] lg:text-[48px] font-bold text-white leading-tight tracking-tight mb-5">
-              Ton entretien approche.<br />Commence aujourd&apos;hui.
+              Ton examen ou entretien approche.<br />Commence aujourd&apos;hui.
             </h2>
             <p className="text-[15px] lg:text-[17px] text-white/60 mb-10 leading-relaxed">
-              20 minutes par jour. Les vraies questions. Arriver confiant le jour J.
+              20 minutes par jour. Les deux épreuves préparées. Arriver confiant le jour J.
             </p>
             <button
               onClick={onOpenAuth}

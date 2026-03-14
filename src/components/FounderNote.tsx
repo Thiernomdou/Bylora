@@ -23,7 +23,7 @@ export default function FounderNote() {
           </p>
 
           <p className="text-[13px] text-gray-400 font-medium">
-            — Le fondateur de CitoyenFacile · Naturalisé français
+            — Le fondateur de CitoyenFacile
           </p>
         </div>
       </div>
