@@ -110,8 +110,8 @@ export default async function DashboardHome() {
           </div>
 
           {/* Progress ring */}
-          <div className="shrink-0 relative flex items-center justify-center" style={{ width: 96, height: 96 }}>
-            <svg width="96" height="96" viewBox="0 0 120 120" style={{ transform: "rotate(-90deg)" }}>
+          <div className="shrink-0 relative flex items-center justify-center size-16 md:size-24">
+            <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ transform: "rotate(-90deg)" }}>
               <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
               <circle
                 cx="60" cy="60" r={R} fill="none"
@@ -124,8 +124,8 @@ export default async function DashboardHome() {
               />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-white font-black text-[22px] leading-none">{overall}%</span>
-              <span className="text-white/35 text-[9px] font-semibold uppercase tracking-wide mt-0.5">niveau</span>
+              <span className="text-white font-black text-[16px] md:text-[22px] leading-none">{overall}%</span>
+              <span className="text-white/35 text-[8px] md:text-[9px] font-semibold uppercase tracking-wide mt-0.5">niveau</span>
             </div>
           </div>
         </div>

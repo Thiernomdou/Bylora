@@ -134,7 +134,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      <div className="flex-1 flex flex-col ml-14 md:ml-56">
+      <div className="flex-1 flex flex-col ml-14 md:ml-56 min-w-0 overflow-x-hidden">
 
         {/* TOPBAR */}
         <header className="bg-white/80 backdrop-blur-md border-b border-black/[0.06] flex items-center justify-end px-4 md:px-8 py-3 sticky top-0 z-40">
