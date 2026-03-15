@@ -27,18 +27,16 @@ export default async function DashboardHome() {
   if (!p) redirect("/onboarding");
 
   // "les-deux" → afficher les deux cards
-  const firstName = (profile?.display_name || "vous").split(" ")[0];
-
   return (
     <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-6">
 
       <div>
         <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Tableau de bord</p>
         <h1 className="text-gray-900 text-[28px] md:text-[36px] font-black leading-tight mt-0.5">
-          Bonjour, {firstName}
+          Par où commencer ?
         </h1>
-        <p className="text-gray-500 text-[14px] mt-1.5">
-          Quel examen souhaitez-vous préparer aujourd&apos;hui ?
+        <p className="text-gray-500 text-[14px] mt-1.5 max-w-lg">
+          Préparez l&apos;examen civique ou l&apos;entretien de naturalisation — ou les deux. Chaque parcours est indépendant, avancez à votre rythme.
         </p>
       </div>
 
