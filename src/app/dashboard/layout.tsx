@@ -29,16 +29,22 @@ function buildNavCivique(parcours?: string) {
   ];
 }
 
-const NAV_HOME = [
-  { href: "/dashboard", icon: "home", label: "Accueil" },
-];
+function buildNavHome(parcours: string) {
+  const home = { href: "/dashboard", icon: "home", label: "Accueil" };
+  if (parcours === "examen-civique")           return [home, { href: "/dashboard/examen-civique", icon: "quiz",              label: "Examen civique" }];
+  if (parcours === "entretien-naturalisation") return [home, { href: "/dashboard/entretien",      icon: "record_voice_over", label: "Naturalisation" }];
+  if (parcours === "les-deux")                 return [home, { href: "/dashboard/examen-civique", icon: "quiz",              label: "Examen civique" },
+                                                             { href: "/dashboard/entretien",      icon: "record_voice_over", label: "Naturalisation" }];
+  return [home];
+}
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const path    = usePathname();
   const router  = useRouter();
-  const [initial,     setInitial]     = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [initial,        setInitial]        = useState("");
+  const [displayName,    setDisplayName]    = useState("");
+  const [parcoursDefaut, setParcoursDefaut] = useState("");
+  const [profileOpen,    setProfileOpen]    = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,13 +55,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         setInitial(emailInitial);
         const { data: profile } = await supabase
           .from("profiles")
-          .select("display_name")
+          .select("display_name, parcours_defaut")
           .eq("id", data.user.id)
           .single();
         if (profile?.display_name) {
           setInitial(profile.display_name.charAt(0).toUpperCase());
           setDisplayName(profile.display_name);
         }
+        if (profile?.parcours_defaut) setParcoursDefaut(profile.parcours_defaut);
       }
     });
   }, []);
@@ -127,7 +134,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ? buildNavCivique(path.match(/\/dashboard\/examen-civique\/([^/]+)/)?.[1])
             : path.startsWith("/dashboard/entretien") || path.startsWith("/dashboard/apprendre") || path.startsWith("/dashboard/simulation") || path.startsWith("/dashboard/examen") || path.startsWith("/dashboard/statistiques")
             ? NAV_ENTRETIEN
-            : NAV_HOME
+            : buildNavHome(parcoursDefaut)
           ).map((n) => {
             const active = path === n.href || (n.href !== "/dashboard" && path.startsWith(n.href));
             return (
