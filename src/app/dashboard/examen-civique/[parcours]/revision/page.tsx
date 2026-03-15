@@ -7,69 +7,52 @@ import { QUESTIONS_CIVIQUES, THEMES_CIVIQUES, type ThemeCivique } from "@/lib/qu
 
 const THEME_KEYS = Object.keys(THEMES_CIVIQUES) as ThemeCivique[];
 
-type Phase = "themes" | "cards" | "done";
-
 export default function RevisionPage() {
-  const params = useParams();
+  const params   = useParams();
   const parcours = params.parcours as string;
 
-  const [phase, setPhase]       = useState<Phase>("themes");
-  const [activeTheme, setActiveTheme] = useState<ThemeCivique>("republique");
-  const [index, setIndex]       = useState(0);
-  const [revealed, setRevealed] = useState(false);
-  const [known, setKnown]       = useState<Record<string, boolean>>({});
-
-  const themeQuestions = QUESTIONS_CIVIQUES.filter((q) => q.theme === activeTheme);
-  const current = themeQuestions[index];
-
-  const startTheme = (t: ThemeCivique) => {
-    setActiveTheme(t);
-    setIndex(0);
-    setRevealed(false);
-    setPhase("cards");
-  };
-
-  const handleAnswer = (isKnown: boolean) => {
-    setKnown((k) => ({ ...k, [current.id]: isKnown }));
-    if (index + 1 >= themeQuestions.length) {
-      setPhase("done");
-    } else {
-      setIndex((i) => i + 1);
-      setRevealed(false);
-    }
-  };
+  const [selected, setSelected] = useState<ThemeCivique | null>(null);
 
   /* ── CHOIX DE THÈME ── */
-  if (phase === "themes") {
+  if (!selected) {
     return (
-      <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-5">
+      <div className="px-5 md:px-10 pt-6 pb-6 max-w-5xl mx-auto w-full space-y-5 md:space-y-7">
         <div className="flex items-center gap-3">
-          <Link href={`/dashboard/examen-civique/${parcours}`} className="size-9 rounded-full bg-black/[0.05] flex items-center justify-center hover:bg-black/[0.09] transition-colors">
-            <span className="material-symbols-outlined text-gray-600" style={{ fontSize: "18px" }}>arrow_back</span>
+          <Link
+            href={`/dashboard/examen-civique/${parcours}`}
+            className="size-9 flex items-center justify-center rounded-full bg-white border border-black/[0.07] text-gray-600 hover:text-gray-900 transition-colors cursor-pointer shadow-sm shrink-0"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>arrow_back</span>
           </Link>
           <div>
-            <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Mode révision</p>
-            <h1 className="text-gray-900 text-[22px] font-black">Choisissez un thème</h1>
+            <p className="text-gray-500 text-[12px] md:text-[13px] font-medium">Mode révision</p>
+            <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight">Apprendre</h1>
           </div>
         </div>
-        <div className="space-y-3">
+        <p className="text-gray-500 text-[13px] md:text-[14px]">
+          Choisissez un thème pour lire toutes les questions et réponses officielles.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {THEME_KEYS.map((key) => {
-            const t = THEMES_CIVIQUES[key];
-            const qs = QUESTIONS_CIVIQUES.filter((q) => q.theme === key);
+            const t     = THEMES_CIVIQUES[key];
+            const count = QUESTIONS_CIVIQUES.filter((q) => q.theme === key).length;
             return (
               <button
                 key={key}
-                onClick={() => startTheme(key)}
-                className="w-full flex items-center gap-4 bg-white border border-black/[0.07] rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:border-[#FF4D1C]/30 transition-all text-left cursor-pointer group"
+                onClick={() => setSelected(key)}
+                className="flex items-start gap-4 px-5 py-5 rounded-2xl border border-black/[0.07] bg-white transition-all shadow-sm cursor-pointer text-left group hover:shadow-md"
               >
-                <div className="size-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${t.accent}18` }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: "20px", color: t.accent }}>{t.icon}</span>
+                <div className="size-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5 border" style={{ background: `${t.accent}15`, borderColor: `${t.accent}30` }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: "22px", color: t.accent }}>{t.icon}</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-gray-900 text-[14px] font-bold">{t.label}</p>
-                  <p className="text-gray-400 text-[12px]">{qs.length} questions</p>
+                  <p className="text-gray-900 text-[16px] font-bold leading-snug mb-1">{t.label}</p>
+                  <p className="text-gray-400 text-[11px] font-semibold mt-2">{count} questions · réponses incluses</p>
                 </div>
-                <span className="material-symbols-outlined text-gray-300 group-hover:text-[#FF4D1C] transition-colors shrink-0" style={{ fontSize: "18px" }}>chevron_right</span>
+                <span className="material-symbols-outlined text-gray-300 group-hover:text-gray-500 shrink-0 mt-1 transition-colors" style={{ fontSize: "20px" }}>
+                  chevron_right
+                </span>
               </button>
             );
           })}
@@ -78,82 +61,66 @@ export default function RevisionPage() {
     );
   }
 
-  /* ── RÉSULTATS THÈME ── */
-  if (phase === "done") {
-    const total = themeQuestions.length;
-    const correct = themeQuestions.filter((q) => known[q.id]).length;
-    const pct = Math.round((correct / total) * 100);
-    return (
-      <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-5">
-        <div className="bg-white border border-black/[0.07] rounded-3xl p-7 text-center shadow-sm space-y-3">
-          <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">{THEMES_CIVIQUES[activeTheme].label}</p>
-          <div className="text-[56px] font-black text-[#FF4D1C]">{pct}%</div>
-          <p className="text-gray-900 font-bold text-[16px]">{correct} / {total} questions connues</p>
-          <p className="text-gray-400 text-[13px]">{pct >= 80 ? "Excellent ! Vous maîtrisez ce thème." : "Continuez à réviser pour atteindre 80%."}</p>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => { setPhase("themes"); setKnown({}); }} className="bg-white border border-black/[0.08] rounded-2xl py-3.5 text-[14px] font-bold text-gray-700 hover:bg-black/[0.04] transition-colors cursor-pointer">
-            Autre thème
-          </button>
-          <button onClick={() => startTheme(activeTheme)} className="bg-[#FF4D1C] rounded-2xl py-3.5 text-[14px] font-bold text-white hover:bg-[#E8421A] transition-colors cursor-pointer">
-            Recommencer
-          </button>
-        </div>
-      </div>
-    );
-  }
+  /* ── LISTE Q+R ── */
+  const t         = THEMES_CIVIQUES[selected];
+  const questions = QUESTIONS_CIVIQUES.filter((q) => q.theme === selected);
 
-  /* ── FLASHCARD ── */
-  const t = THEMES_CIVIQUES[activeTheme];
   return (
-    <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-4">
-      {/* Progress */}
-      <div className="flex items-center justify-between">
-        <button onClick={() => setPhase("themes")} className="size-9 rounded-full bg-black/[0.05] flex items-center justify-center hover:bg-black/[0.09] transition-colors cursor-pointer">
-          <span className="material-symbols-outlined text-gray-600" style={{ fontSize: "18px" }}>arrow_back</span>
+    <div className="px-5 md:px-10 pt-6 pb-6 max-w-5xl mx-auto w-full space-y-5">
+
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => setSelected(null)}
+          className="size-9 flex items-center justify-center rounded-full bg-white border border-black/[0.07] text-gray-600 hover:text-gray-900 transition-colors cursor-pointer shadow-sm shrink-0"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>arrow_back</span>
         </button>
-        <span className="text-gray-700 text-[13px] font-bold">{index + 1} / {themeQuestions.length}</span>
-      </div>
-      <div className="w-full bg-black/[0.07] rounded-full h-1.5">
-        <div className="h-1.5 rounded-full transition-all duration-300" style={{ width: `${((index + 1) / themeQuestions.length) * 100}%`, backgroundColor: t.accent }} />
-      </div>
-
-      <div className="inline-flex items-center gap-1.5 text-[12px] font-bold px-3 py-1 rounded-full border" style={{ background: `${t.accent}12`, borderColor: `${t.accent}30`, color: t.accent }}>
-        <span className="material-symbols-outlined" style={{ fontSize: "13px" }}>{t.icon}</span>
-        {t.label}
-      </div>
-
-      {/* Card */}
-      <div className="bg-white border border-black/[0.07] rounded-3xl p-5 md:p-7 shadow-sm space-y-4 min-h-[200px]">
-        <div>
-          <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-3">Question</p>
-          <p className="text-gray-900 text-[17px] md:text-[19px] font-bold leading-snug">{current.question}</p>
-        </div>
-        {revealed && (
-          <div className="pt-4 border-t border-black/[0.07]">
-            <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: t.accent }}>Bonne réponse</p>
-            <p className="text-gray-700 text-[15px] font-semibold">{current.options[current.correct]}</p>
-            {current.explication && <p className="text-gray-400 text-[13px] mt-2 leading-relaxed">{current.explication}</p>}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="size-10 rounded-xl flex items-center justify-center shrink-0 border" style={{ background: `${t.accent}15`, borderColor: `${t.accent}30` }}>
+            <span className="material-symbols-outlined" style={{ fontSize: "20px", color: t.accent }}>{t.icon}</span>
           </div>
-        )}
+          <h1 className="text-gray-900 text-[22px] md:text-[28px] font-bold leading-tight truncate">{t.label}</h1>
+        </div>
+        <span className="text-gray-500 text-[12px] font-medium shrink-0">{questions.length} questions</span>
       </div>
 
-      {!revealed ? (
-        <button onClick={() => setRevealed(true)} className="w-full bg-white border border-black/[0.1] text-gray-900 py-4 rounded-full text-[16px] font-bold hover:shadow-md transition-all cursor-pointer shadow-sm">
-          Voir la réponse
-        </button>
-      ) : (
-        <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => handleAnswer(false)} className="flex items-center justify-center gap-2 border border-black/[0.12] text-gray-600 bg-white py-4 rounded-2xl font-bold hover:bg-black/[0.04] transition-colors cursor-pointer text-[14px]">
-            <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>cancel</span>
-            Je ne savais pas
-          </button>
-          <button onClick={() => handleAnswer(true)} className="flex items-center justify-center gap-2 text-white py-4 rounded-2xl font-bold transition-colors cursor-pointer text-[14px]" style={{ background: t.accent }}>
-            <span className="material-symbols-outlined" style={{ fontSize: "18px", fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-            Je savais
-          </button>
+      {/* Q+R grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        {questions.map((q, i) => (
+          <div key={q.id} className="bg-white border border-black/[0.07] rounded-2xl p-4 md:p-5 shadow-sm space-y-3">
+            <div className="flex items-start gap-3">
+              <span
+                className="shrink-0 size-6 rounded-full flex items-center justify-center text-[11px] font-bold mt-0.5"
+                style={{ backgroundColor: `${t.accent}18`, color: t.accent, border: `1px solid ${t.accent}30` }}
+              >
+                {i + 1}
+              </span>
+              <p className="text-gray-900 text-[14px] md:text-[15px] font-semibold leading-snug">{q.question}</p>
+            </div>
+            <div className="ml-8 md:ml-9 pl-3 md:pl-4 border-l-2 space-y-1.5" style={{ borderColor: `${t.accent}40` }}>
+              <p className="text-gray-600 text-[13px] leading-relaxed font-medium">{q.options[q.correct]}</p>
+              {q.explication && (
+                <p className="text-gray-400 text-[12px] leading-relaxed">{q.explication}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <div className="bg-white border border-black/[0.07] rounded-2xl p-4 md:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <p className="text-gray-900 text-[15px] font-semibold">Tu as bien lu ?</p>
+          <p className="text-gray-500 text-[12px] font-medium mt-0.5">Teste-toi avec le simulateur d&apos;examen.</p>
         </div>
-      )}
+        <Link
+          href={`/dashboard/examen-civique/${parcours}/examen`}
+          className="inline-flex items-center justify-center bg-[#FF4D1C] text-white text-[14px] font-bold px-5 py-3 rounded-full hover:bg-[#E8421A] transition-colors sm:shrink-0"
+        >
+          Lancer l&apos;examen
+        </Link>
+      </div>
     </div>
   );
 }

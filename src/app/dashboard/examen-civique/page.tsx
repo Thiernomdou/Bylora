@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PARCOURS_CIVIQUES } from "@/lib/questions-civiques";
-import ParcoursSwitcher from "@/components/ParcoursSwitcher";
 
 export const dynamic = "force-dynamic";
 
@@ -13,16 +12,18 @@ export default async function ExamenCiviquePage() {
 
   return (
     <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-5">
+
       {/* Header */}
-      <div>
-        <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Examen civique</p>
-        <h1 className="text-gray-900 text-[28px] md:text-[36px] font-black leading-tight mt-0.5">
-          Choisissez votre parcours
-        </h1>
-        <p className="text-gray-500 text-[14px] mt-1.5">
-          L&apos;examen civique est le même pour tous — 40 questions QCM en 45 minutes.
-          Sélectionnez le titre que vous préparez.
-        </p>
+      <div className="flex items-center gap-3">
+        <Link href="/dashboard" className="size-9 rounded-full bg-black/[0.05] flex items-center justify-center hover:bg-black/[0.09] transition-colors">
+          <span className="material-symbols-outlined text-gray-600" style={{ fontSize: "18px" }}>arrow_back</span>
+        </Link>
+        <div>
+          <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Examen civique</p>
+          <h1 className="text-gray-900 text-[22px] md:text-[28px] font-black leading-tight">
+            Choisissez votre parcours
+          </h1>
+        </div>
       </div>
 
       {/* Info card */}

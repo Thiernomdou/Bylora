@@ -4,286 +4,320 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-type Step = 1 | 2 | 3 | 4;
-
-const PARCOURS = [
-  {
-    id: "naturalisation",
-    icon: "👤",
-    iconBg: "bg-violet-100",
-    title: "Naturalisation",
-    sub: "Niveau B2 · Citoyenneté française",
-    available: true,
-  },
-  {
-    id: "titre_sejour",
-    icon: "🎓",
-    iconBg: "bg-blue-100",
-    title: "Titre de séjour",
-    sub: "Niveau A2 · Résidence temporaire",
-    available: false,
-  },
-  {
-    id: "carte_residence",
-    icon: "📅",
-    iconBg: "bg-green-100",
-    title: "Carte de résidence",
-    sub: "Niveau B1 · Résidence longue durée",
-    available: false,
-  },
-];
-
-const DEPOT_OPTIONS = [
-  {
-    id: "avant_2026",
-    icon: "📅",
-    iconBg: "bg-blue-100",
-    title: "Avant le 1er janvier 2026",
-    sub: "Entretien de naturalisation uniquement",
-  },
-  {
-    id: "apres_2026",
-    icon: "🎯",
-    iconBg: "bg-green-100",
-    title: "Après le 1er janvier 2026",
-    sub: "Examen civique + entretien",
-  },
-  {
-    id: "pas_encore",
-    icon: "👤",
-    iconBg: "bg-slate-100",
-    title: "Pas encore déposé",
-    sub: "",
-  },
-];
+type Step = 1 | 2;
 
 export default function OnboardingPage() {
-  const router = useRouter();
+  const router   = useRouter();
   const supabase = createClient();
 
-  const [step, setStep] = useState<Step>(1);
-  const [userName, setUserName] = useState("toi");
-  const [parcours, setParcours] = useState("");
-  const [depotType, setDepotType] = useState("");
+  const [step,          setStep]          = useState<Step>(1);
+  const [userName,      setUserName]      = useState("");
+  const [initial,       setInitial]       = useState("");
+  const [email,         setEmail]         = useState("");
+  const [dropdownOpen,  setDropdownOpen]  = useState(false);
+  const [selected,      setSelected]      = useState<Set<string>>(new Set());
+  const [examDate,      setExamDate]      = useState("");
   const [interviewDate, setInterviewDate] = useState("");
-  const [saving, setSaving] = useState(false);
+  const [saving,        setSaving]        = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) { router.push("/"); return; }
+      setEmail(user.email ?? "");
+      setInitial((user.email ?? "?").charAt(0).toUpperCase());
       supabase.from("profiles").select("display_name").eq("id", user.id).single()
         .then(({ data }) => {
-          if (data?.display_name) setUserName(data.display_name.split(" ")[0]);
+          if (data?.display_name) {
+            setUserName(data.display_name.split(" ")[0]);
+            setInitial(data.display_name.charAt(0).toUpperCase());
+          }
         });
     });
-  }, []);
+  }, []); // eslint-disable-line
 
-  const pct = Math.round(((step - 1) / 4) * 100);
+  const hasCivique   = selected.has("civique");
+  const hasEntretien = selected.has("entretien");
+
+  const toggle = (key: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
+  };
 
   const handleFinish = async () => {
     setSaving(true);
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { router.push("/"); return; }
 
-    await supabase.from("profiles").upsert({
-      id: user.id,
-      parcours,
-      depot_type: depotType,
-      interview_date: interviewDate || null,
-      onboarding_done: true,
-    });
+    const both = hasCivique && hasEntretien;
+    const parcoursDefaut = both ? "les-deux" : hasCivique ? "examen-civique" : "entretien-naturalisation";
+
+    try {
+      await supabase.from("profiles").update({
+        onboarding_done: true,
+        parcours_defaut: parcoursDefaut,
+        interview_date:  hasEntretien ? (interviewDate || null) : null,
+        exam_date:       hasCivique   ? (examDate      || null) : null,
+      }).eq("id", user.id);
+    } catch {
+      // Si exam_date n'existe pas encore en base, on réessaie sans
+      await supabase.from("profiles").update({
+        onboarding_done: true,
+        parcours_defaut: parcoursDefaut,
+        interview_date:  hasEntretien ? (interviewDate || null) : null,
+      }).eq("id", user.id);
+    }
 
     setSaving(false);
-    router.push("/dashboard");
+    if (both)            router.push("/dashboard");
+    else if (hasCivique) router.push("/dashboard/examen-civique");
+    else                 router.push("/dashboard/entretien");
     router.refresh();
   };
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-start pt-12 px-4">
-      <div className="w-full max-w-lg">
+  const today = new Date().toISOString().split("T")[0];
 
-        {/* Back button */}
-        {step > 1 && step < 4 && (
-          <button
-            onClick={() => setStep((s) => (s - 1) as Step)}
-            className="mb-6 flex items-center gap-2 text-sm font-semibold border border-white/20 text-white/70 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl cursor-pointer transition-colors"
-          >
-            ← Retour
-          </button>
+  const Topbar = () => (
+    <header className="bg-white/80 backdrop-blur-md border-b border-black/[0.06] flex items-center justify-between px-4 md:px-8 py-3 sticky top-0 z-40">
+      <div className="flex items-center gap-2">
+        <img src="/icon.svg" alt="" className="h-7 w-7" />
+        <span className="text-[17px] font-black tracking-tight text-gray-900">
+          Citoyen<span className="text-[#FF4D1C]">Facile</span>
+        </span>
+      </div>
+      <div className="relative">
+        <button
+          onClick={() => setDropdownOpen((v) => !v)}
+          className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-black/[0.04] border border-black/[0.07] hover:bg-black/[0.07] transition-colors cursor-pointer"
+        >
+          <div className="size-7 rounded-full bg-[#FF4D1C] flex items-center justify-center text-white font-bold text-[12px] shrink-0">
+            {initial}
+          </div>
+          <span className="material-symbols-outlined text-gray-400" style={{ fontSize: "16px" }}>expand_more</span>
+        </button>
+        {dropdownOpen && (
+          <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-black/[0.08] rounded-2xl shadow-xl z-[200] overflow-hidden">
+            <div className="px-4 py-3">
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Connecté avec</p>
+              <p className="text-[13px] font-bold text-gray-900 truncate">{email}</p>
+            </div>
+          </div>
         )}
+      </div>
+    </header>
+  );
+
+  /* ── STEP 1 ──────────────────────────────────────────── */
+  if (step === 1) return (
+    <div className="min-h-screen bg-[#FAF9F7] flex flex-col">
+      <Topbar />
+      <div className="flex-1 flex flex-col items-center justify-start py-8 px-4">
+      <div className="w-full max-w-lg space-y-6">
 
         {/* Progress */}
-        {step < 4 && (
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-semibold text-white/60">Étape {step} sur 3</span>
-              <span className="text-sm font-bold text-[#b5f23a]">{pct}%</span>
-            </div>
-            <div className="w-full bg-white/15 rounded-full h-2">
-              <div
-                className="bg-[#b5f23a] h-2 rounded-full transition-all duration-500"
-                style={{ width: `${Math.round((step / 3) * 100)}%` }}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[12px] font-semibold text-gray-400 uppercase tracking-wider">Étape 1 sur 2</span>
+            <span className="text-[12px] font-bold text-[#FF4D1C]">50%</span>
+          </div>
+          <div className="w-full bg-black/[0.07] rounded-full h-1.5">
+            <div className="bg-[#FF4D1C] h-1.5 rounded-full w-1/2 transition-all duration-500" />
+          </div>
+        </div>
+
+        <div>
+          <h1 className="text-gray-900 text-[26px] md:text-[30px] font-black leading-tight">
+            Quel examen préparez-vous ?
+          </h1>
+          <p className="text-gray-500 text-[15px] mt-1.5">Sélectionnez un examen ou les deux si vous souhaitez préparer les deux parcours.</p>
+        </div>
+
+        <div className="space-y-3">
+
+          {/* Examen civique */}
+          {(() => {
+            const active = selected.has("civique");
+            return (
+              <button
+                onClick={() => toggle("civique")}
+                className={`w-full text-left rounded-3xl p-5 border-2 transition-all cursor-pointer ${
+                  active ? "border-[#FF4D1C] bg-[#FF4D1C]/5" : "border-black/[0.08] bg-white hover:border-[#FF4D1C]/40"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`size-10 rounded-xl flex items-center justify-center ${active ? "bg-[#FF4D1C]/15" : "bg-black/[0.05]"}`}>
+                      <span className="material-symbols-outlined" style={{ fontSize: "20px", color: active ? "#FF4D1C" : "#9CA3AF" }}>quiz</span>
+                    </div>
+                    <div>
+                      <p className="text-gray-900 text-[15px] font-bold">Examen civique</p>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${active ? "bg-[#FF4D1C]/15 text-[#FF4D1C]" : "bg-black/[0.06] text-gray-400"}`}>QCM</span>
+                    </div>
+                  </div>
+                  <div className={`size-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all ${active ? "border-[#FF4D1C] bg-[#FF4D1C]" : "border-black/[0.2]"}`}>
+                    {active && <span className="material-symbols-outlined text-white" style={{ fontSize: "13px", fontVariationSettings: "'FILL' 1" }}>check</span>}
+                  </div>
+                </div>
+                <p className="text-gray-500 text-[13px] leading-relaxed mb-3">
+                  40 questions QCM en 45 minutes sur l&apos;histoire, les institutions et les valeurs de la République.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Titre de séjour", "Carte de résident", "Naturalisation"].map((tag) => (
+                    <span key={tag} className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${active ? "bg-[#FF4D1C]/10 text-[#FF4D1C]" : "bg-black/[0.05] text-gray-400"}`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            );
+          })()}
+
+          {/* Entretien de naturalisation */}
+          {(() => {
+            const active = selected.has("entretien");
+            return (
+              <button
+                onClick={() => toggle("entretien")}
+                className={`w-full text-left rounded-3xl p-5 border-2 transition-all cursor-pointer ${
+                  active ? "border-[#FF4D1C] bg-[#FF4D1C]/5" : "border-black/[0.08] bg-white hover:border-[#FF4D1C]/40"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`size-10 rounded-xl flex items-center justify-center ${active ? "bg-[#FF4D1C]/15" : "bg-black/[0.05]"}`}>
+                      <span className="material-symbols-outlined" style={{ fontSize: "20px", color: active ? "#FF4D1C" : "#9CA3AF" }}>record_voice_over</span>
+                    </div>
+                    <div>
+                      <p className="text-gray-900 text-[15px] font-bold">Entretien de naturalisation</p>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${active ? "bg-[#FF4D1C]/15 text-[#FF4D1C]" : "bg-black/[0.06] text-gray-400"}`}>ORAL</span>
+                    </div>
+                  </div>
+                  <div className={`size-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all ${active ? "border-[#FF4D1C] bg-[#FF4D1C]" : "border-black/[0.2]"}`}>
+                    {active && <span className="material-symbols-outlined text-white" style={{ fontSize: "13px", fontVariationSettings: "'FILL' 1" }}>check</span>}
+                  </div>
+                </div>
+                <p className="text-gray-500 text-[13px] leading-relaxed mb-3">
+                  555 questions pour préparer l&apos;entretien oral avec l&apos;agent préfectoral, réparties en 4 thèmes : Valeurs de la République, Histoire de France, Institutions politiques, et Vie en société.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Naturalisation"].map((tag) => (
+                    <span key={tag} className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${active ? "bg-[#FF4D1C]/10 text-[#FF4D1C]" : "bg-black/[0.05] text-gray-400"}`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            );
+          })()}
+        </div>
+
+        <button
+          onClick={() => selected.size > 0 && setStep(2)}
+          disabled={selected.size === 0}
+          className="w-full bg-[#FF4D1C] text-white py-4 rounded-full font-bold text-[15px] hover:bg-[#E8421A] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+        >
+          Continuer
+        </button>
+      </div>
+      </div>
+    </div>
+  );
+
+  /* ── STEP 2 : Dates ───────────────────────────────────── */
+  return (
+    <div className="min-h-screen bg-[#FAF9F7] flex flex-col">
+      <Topbar />
+      <div className="flex-1 flex flex-col items-center justify-start py-8 px-4">
+      <div className="w-full max-w-lg space-y-6">
+
+        {/* Progress */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[12px] font-semibold text-gray-400 uppercase tracking-wider">Étape 2 sur 2</span>
+            <span className="text-[12px] font-bold text-[#FF4D1C]">100%</span>
+          </div>
+          <div className="w-full bg-black/[0.07] rounded-full h-1.5">
+            <div className="bg-[#FF4D1C] h-1.5 rounded-full w-full transition-all duration-500" />
+          </div>
+        </div>
+
+        <button
+          onClick={() => setStep(1)}
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors text-[13px] font-semibold cursor-pointer -mb-2"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>arrow_back</span>
+          Retour
+        </button>
+
+        <div>
+          <h1 className="text-gray-900 text-[24px] font-black leading-tight">
+            {hasCivique && hasEntretien ? "Vos dates d'examens" : hasCivique ? "Date de votre examen" : "Date de votre entretien"}
+          </h1>
+          <p className="text-gray-500 text-[14px] mt-1.5">
+            Optionnel — permet d&apos;afficher un compte à rebours sur votre tableau de bord.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+
+          {/* Examen civique date */}
+          {hasCivique && (
+            <div className="bg-white border border-black/[0.08] rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "16px" }}>quiz</span>
+                <label className="text-[12px] font-bold text-gray-700 uppercase tracking-wider">
+                  {hasEntretien ? "Date de l'examen civique" : "Date de votre examen civique"}
+                </label>
+              </div>
+              <input
+                type="date"
+                value={examDate}
+                onChange={(e) => setExamDate(e.target.value)}
+                min={today}
+                className="w-full bg-[#FAF4EC] border border-black/[0.08] rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FF4D1C]/30 focus:border-[#FF4D1C] text-[14px]"
               />
             </div>
-          </div>
-        )}
+          )}
 
-        {/* ── STEP 1 : Parcours ─────────────────────────────── */}
-        {step === 1 && (
-          <div>
-            <h1 className="text-3xl font-black text-white mb-1">
-              Bonjour <span className="text-[#b5f23a]">{userName}</span>,
-            </h1>
-            <p className="text-white/65 mb-8">Quel titre préparez-vous ?</p>
-
-            <div className="space-y-3">
-              {PARCOURS.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => {
-                    if (!p.available) return;
-                    setParcours(p.id);
-                    setStep(2);
-                  }}
-                  className={`w-full rounded-2xl px-5 py-4 flex items-center gap-4 text-left transition-all
-                    ${p.available
-                      ? "bg-white/[0.07] border border-white/10 hover:border-[#b5f23a]/50 hover:bg-white/10 cursor-pointer"
-                      : "border border-white/5 bg-white/[0.03] opacity-50 cursor-not-allowed"
-                    }`}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl flex-shrink-0">
-                    {p.icon}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-bold text-white">{p.title}</div>
-                    <div className="text-sm text-white/55">{p.sub}</div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {!p.available && (
-                      <span className="text-[10px] font-bold bg-white/10 text-white/50 px-2 py-1 rounded-full">
-                        Bientôt
-                      </span>
-                    )}
-                    <span className="text-white/30 text-lg">›</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── STEP 2 : Dépôt ────────────────────────────────── */}
-        {step === 2 && (
-          <div>
-            <h1 className="text-3xl font-black text-white mb-2">
-              Quand avez-vous déposé votre demande ?
-            </h1>
-            <p className="text-sm text-white/65 mb-8">
-              Cette information nous permet de vous proposer le contenu le plus adapté à votre situation.
-            </p>
-
-            <div className="space-y-3">
-              {DEPOT_OPTIONS.map((d) => (
-                <button
-                  key={d.id}
-                  onClick={() => { setDepotType(d.id); setStep(3); }}
-                  className="w-full bg-white/[0.07] border border-white/10 rounded-2xl px-5 py-4 flex items-center gap-4 text-left hover:border-[#b5f23a]/50 hover:bg-white/10 transition-all cursor-pointer"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl flex-shrink-0">
-                    {d.icon}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-bold text-white">{d.title}</div>
-                    {d.sub && <div className="text-sm text-white/55">{d.sub}</div>}
-                  </div>
-                  <span className="text-white/30 text-lg">›</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── STEP 3 : Date entretien ────────────────────────── */}
-        {step === 3 && (
-          <div>
-            <h1 className="text-3xl font-black text-white mb-2">
-              Date de votre entretien
-            </h1>
-            <p className="text-sm text-white/65 mb-8">
-              Quand prévoyez-vous de passer votre entretien de naturalisation ?{" "}
-              <span className="text-white/40">(Optionnel)</span>
-            </p>
-
-            <div className="relative mb-6">
+          {/* Entretien date */}
+          {hasEntretien && (
+            <div className="bg-white border border-black/[0.08] rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "16px" }}>record_voice_over</span>
+                <label className="text-[12px] font-bold text-gray-700 uppercase tracking-wider">
+                  {hasCivique ? "Date de l'entretien de naturalisation" : "Date de votre entretien"}
+                </label>
+              </div>
               <input
                 type="date"
                 value={interviewDate}
                 onChange={(e) => setInterviewDate(e.target.value)}
-                min={new Date().toISOString().split("T")[0]}
-                className="w-full bg-black/30 border border-white/15 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-[#b5f23a] focus:border-[#b5f23a] appearance-none"
-                placeholder="Sélectionner la date de l'entretien"
+                min={today}
+                className="w-full bg-[#FAF4EC] border border-black/[0.08] rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FF4D1C]/30 focus:border-[#FF4D1C] text-[14px]"
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 text-lg pointer-events-none">📅</span>
             </div>
+          )}
+        </div>
 
-            <button
-              onClick={() => setStep(4)}
-              className="w-full bg-[#b5f23a] text-[#0a1f0e] py-4 rounded-full font-extrabold hover:bg-[#c8f856] cursor-pointer mb-4"
-            >
-              Continuer
-            </button>
+        <button
+          onClick={handleFinish}
+          disabled={saving}
+          className="w-full bg-[#FF4D1C] text-white py-4 rounded-full font-bold text-[15px] hover:bg-[#E8421A] disabled:opacity-50 cursor-pointer transition-colors"
+        >
+          {saving ? "Chargement…" : "Accéder à mon tableau de bord"}
+        </button>
 
-            <button
-              onClick={() => setStep(4)}
-              className="w-full text-sm text-white/40 underline hover:text-white/70 cursor-pointer"
-            >
-              Je n&apos;ai pas encore de date
-            </button>
-          </div>
-        )}
+        <button
+          onClick={handleFinish}
+          disabled={saving}
+          className="w-full text-[13px] text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+        >
+          Passer cette étape
+        </button>
 
-        {/* ── STEP 4 : Welcome ──────────────────────────────── */}
-        {step === 4 && (
-          <div className="text-center">
-            <div className="text-6xl mb-6">🎉</div>
-            <h1 className="text-3xl font-black text-white mb-3">
-              Tout est prêt, <span className="text-[#b5f23a]">{userName}</span> !
-            </h1>
-            <p className="text-white/65 mb-2 leading-relaxed">
-              Ton profil est configuré. Tu peux commencer à réviser dès maintenant.
-            </p>
-
-            <div className="bg-[#b5f23a]/10 border border-[#b5f23a]/20 rounded-2xl p-4 mb-8 text-left space-y-2">
-              <div className="flex items-center gap-2 text-sm text-white/80">
-                <span className="text-[#b5f23a]">✅</span>
-                <span><strong>555 questions</strong> disponibles immédiatement</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-white/80">
-                <span className="text-[#b5f23a]">✅</span>
-                <span><strong>3 boutons</strong> Je connais / J&apos;hésite / Je ne sais pas</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-white/80">
-                <span className="text-[#b5f23a]">✅</span>
-                <span><strong>Suivi</strong> de ta progression par thème</span>
-              </div>
-              {interviewDate && (
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <span>📅</span>
-                  <span>Entretien le <strong>{new Date(interviewDate).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</strong></span>
-                </div>
-              )}
-            </div>
-
-            <button
-              onClick={handleFinish}
-              disabled={saving}
-              className="w-full bg-[#b5f23a] text-[#0a1f0e] py-4 rounded-full font-extrabold hover:bg-[#c8f856] disabled:opacity-60 cursor-pointer"
-            >
-              {saving ? "Chargement…" : "Accéder à mon tableau de bord →"}
-            </button>
-          </div>
-        )}
-
+      </div>
       </div>
     </div>
   );

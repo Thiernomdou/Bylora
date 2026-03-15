@@ -3,6 +3,40 @@ import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PARCOURS_CIVIQUES } from "@/lib/questions-civiques";
 
+const PARCOURS_INFO: Record<string, {
+  who: string;
+  why: string;
+  level: string;
+  levelColor: string;
+  icon: string;
+  tags: string[];
+}> = {
+  csp: {
+    level: "Accessible",
+    levelColor: "#059669",
+    icon: "info",
+    who: "Vous renouvelez votre titre de séjour pour une carte pluriannuelle (2 à 4 ans).",
+    why: "Depuis la loi du 26 janvier 2024, l'examen civique est obligatoire pour obtenir une CSP. Il atteste de votre connaissance des valeurs et institutions françaises.",
+    tags: ["Obligatoire depuis 2024", "Score min. 80%", "40 questions · 45 min"],
+  },
+  cr: {
+    level: "Intermédiaire",
+    levelColor: "#D97706",
+    icon: "info",
+    who: "Vous demandez une carte de résident valable 10 ans, après 5 ans de résidence régulière en France.",
+    why: "La carte de résident marque une étape d'intégration durable. L'examen civique est obligatoire et témoigne de votre ancrage dans la société française.",
+    tags: ["Obligatoire", "5 ans de résidence requis", "Score min. 80%"],
+  },
+  nat: {
+    level: "Rigoureux",
+    levelColor: "#DC2626",
+    icon: "info",
+    who: "Vous demandez la nationalité française. C'est l'étape la plus exigeante du parcours d'intégration.",
+    why: "En devenant citoyen français, vous adhérez pleinement aux valeurs de la République. L'examen civique est obligatoire et le niveau d'exigence est le plus élevé — il s'accompagne de l'entretien de naturalisation.",
+    tags: ["Obligatoire", "Le plus exigeant", "Score min. 80%"],
+  },
+};
+
 export const dynamic = "force-dynamic";
 
 interface Props { params: Promise<{ parcours: string }> }
@@ -15,7 +49,8 @@ export default async function ParcoursPage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/");
 
-  const p = PARCOURS_CIVIQUES[parcours];
+  const p    = PARCOURS_CIVIQUES[parcours];
+  const info = PARCOURS_INFO[parcours];
 
   return (
     <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-5">
@@ -27,6 +62,27 @@ export default async function ParcoursPage({ params }: Props) {
         <div>
           <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Examen civique · {p.sigle}</p>
           <h1 className="text-gray-900 text-[22px] md:text-[28px] font-black leading-tight">{p.label}</h1>
+        </div>
+      </div>
+
+      {/* Info card */}
+      <div className="bg-white border border-black/[0.07] rounded-2xl p-5 shadow-sm space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-gray-900 text-[14px] font-bold">À savoir avant de commencer</p>
+          <span className="text-[11px] font-bold px-2.5 py-1 rounded-full border" style={{ color: info.levelColor, background: `${info.levelColor}12`, borderColor: `${info.levelColor}30` }}>
+            {info.level}
+          </span>
+        </div>
+        <div className="space-y-2 text-[13px] text-gray-600 leading-relaxed">
+          <p>{info.who}</p>
+          <p>{info.why}</p>
+        </div>
+        <div className="flex flex-wrap gap-1.5 pt-1">
+          {info.tags.map((tag) => (
+            <span key={tag} className="text-[11px] font-semibold bg-black/[0.04] text-gray-500 px-2.5 py-1 rounded-full">
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
 

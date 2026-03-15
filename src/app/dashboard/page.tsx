@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { THEMES, QUESTIONS } from "@/lib/questions";
-import DashboardChoix from "@/components/DashboardChoix";
 
 export const dynamic = "force-dynamic";
 
@@ -13,193 +11,100 @@ export default async function DashboardHome() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("display_name, interview_date, onboarding_done, parcours_defaut")
+    .select("display_name, onboarding_done, parcours_defaut")
     .eq("id", user.id)
     .single();
 
   if (!profile?.onboarding_done) redirect("/onboarding");
 
-  // Routing par parcours
-  if (profile?.parcours_defaut === "examen-civique") redirect("/dashboard/examen-civique");
+  const p = profile?.parcours_defaut;
 
-  // Pas de parcours → page de choix
-  if (!profile?.parcours_defaut) {
-    const firstName = (profile?.display_name || "vous").split(" ")[0];
-    return <DashboardChoix userId={user.id} firstName={firstName} />;
-  }
+  // Un seul parcours → redirect direct
+  if (p === "examen-civique")           redirect("/dashboard/examen-civique");
+  if (p === "entretien-naturalisation") redirect("/dashboard/entretien");
 
-  // ── ENTRETIEN DE NATURALISATION (parcours existant inchangé) ─────────────
-  const { data: progressRows } = await supabase
-    .from("user_progress")
-    .select("question_id, rating, theme, updated_at")
-    .eq("user_id", user.id);
+  // Pas encore de parcours → onboarding
+  if (!p) redirect("/onboarding");
 
-  const rows   = progressRows ?? [];
-  const themes = ["valeurs", "histoire", "institutions", "geographie", "droits"] as const;
-
-  const THEME_PROGRESS: Record<string, { pct: number; done: number; total: number }> = {};
-  for (const theme of themes) {
-    const total = QUESTIONS.filter((q) => q.theme === theme).length;
-    const done  = rows.filter((r) => r.theme === theme && r.rating === "connais").length;
-    THEME_PROGRESS[theme] = { pct: total > 0 ? Math.round((done / total) * 100) : 0, done, total };
-  }
-
-  const totalConnais = rows.filter((r) => r.rating === "connais").length;
-  const overall      = QUESTIONS.length > 0 ? Math.round((totalConnais / QUESTIONS.length) * 100) : 0;
-
-  const today      = new Date().toISOString().slice(0, 10);
-  const DONE_TODAY = rows.filter((r) => r.updated_at?.slice(0, 10) === today).length;
-  const DAILY_GOAL = 15;
-  const goalPct    = Math.min(100, Math.round((DONE_TODAY / DAILY_GOAL) * 100));
-
+  // "les-deux" → afficher les deux cards
   const firstName = (profile?.display_name || "vous").split(" ")[0];
 
-  const interviewDate = profile?.interview_date ? new Date(profile.interview_date) : null;
-  const daysLeft = interviewDate
-    ? Math.max(0, Math.ceil((interviewDate.getTime() - Date.now()) / 86400000))
-    : null;
-
-  const R = 50;
-  const circ = 2 * Math.PI * R;
-  const offset = circ - (overall / 100) * circ;
-
   return (
-    <div className="px-4 md:px-10 pt-6 pb-10 max-w-5xl mx-auto w-full space-y-4 md:space-y-5">
+    <div className="px-4 md:px-10 pt-6 pb-10 max-w-3xl mx-auto w-full space-y-6">
 
-      {/* ── HERO CARD ── */}
-      <div className="relative bg-gray-900 rounded-3xl overflow-hidden p-5 md:p-8">
-        <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-[#FF4D1C]/20 blur-3xl" />
-        <div className="pointer-events-none absolute -left-10 bottom-0 size-52 rounded-full bg-[#FF4D1C]/8 blur-3xl" />
+      <div>
+        <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Tableau de bord</p>
+        <h1 className="text-gray-900 text-[28px] md:text-[36px] font-black leading-tight mt-0.5">
+          Bonjour, {firstName}
+        </h1>
+        <p className="text-gray-500 text-[14px] mt-1.5">
+          Quel examen souhaitez-vous préparer aujourd&apos;hui ?
+        </p>
+      </div>
 
-        <div className="relative z-10 flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <p className="text-white/40 text-[12px] md:text-[13px] font-medium uppercase tracking-wider">Tableau de bord</p>
-            <h1 className="text-white text-[24px] md:text-[36px] font-black leading-tight mt-1">
-              Bonjour, {firstName}
-            </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-            <p className="text-white/50 text-[13px] md:text-[14px] mt-1 mb-5">
-              {overall === 0
-                ? "Commencez votre première session aujourd'hui."
-                : overall >= 75
-                ? "Excellent niveau — gardez le rythme."
-                : "Continuez — chaque session compte."}
-            </p>
-
-            {daysLeft !== null ? (
-              <div className="inline-flex items-center gap-2 bg-[#FF4D1C]/20 border border-[#FF4D1C]/30 rounded-full px-3.5 py-1.5 mb-5">
-                <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "14px" }}>event</span>
-                <span className="text-[#FF4D1C] text-[12px] font-bold">
-                  Entretien dans {daysLeft} jour{daysLeft !== 1 ? "s" : ""}
+        {/* Examen civique */}
+        <Link
+          href="/dashboard/examen-civique"
+          className="group bg-white border border-black/[0.08] rounded-3xl p-6 hover:shadow-lg hover:border-[#FF4D1C]/30 transition-all"
+        >
+          <div className="size-12 rounded-2xl bg-[#FF4D1C]/10 border border-[#FF4D1C]/20 flex items-center justify-center mb-4">
+            <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "22px" }}>quiz</span>
+          </div>
+          <span className="inline-flex items-center bg-[#FF4D1C]/10 text-[#FF4D1C] text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">QCM</span>
+          <p className="text-gray-900 text-[17px] font-bold mb-2">Examen civique</p>
+          <p className="text-gray-500 text-[13px] leading-relaxed mb-4">
+            40 questions QCM en 45 minutes sur l&apos;histoire, les institutions et les valeurs de la République.
+          </p>
+          <div className="space-y-1.5 mb-5">
+            {["Mode révision par thème", "Simulateur d'examen chronomètré", "Score détaillé par thème"].map((t) => (
+              <div key={t} className="flex items-center gap-2 text-[12px] text-gray-500">
+                <span className="size-4 rounded-full bg-[#FF4D1C]/10 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "10px", fontVariationSettings: "'FILL' 1" }}>check</span>
                 </span>
+                {t}
               </div>
-            ) : (
-              <Link
-                href="/dashboard/profil"
-                className="inline-flex items-center gap-2 bg-white/8 border border-white/15 rounded-full px-3.5 py-1.5 mb-5 hover:bg-white/12 transition-colors"
-              >
-                <span className="material-symbols-outlined text-white/40" style={{ fontSize: "14px" }}>event</span>
-                <span className="text-white/50 text-[12px] font-medium">Fixer la date d&apos;entretien</span>
-              </Link>
-            )}
+            ))}
+          </div>
+          <div className="flex items-center gap-1.5 text-[#FF4D1C] font-bold text-[14px]">
+            Accéder
+            <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>arrow_forward</span>
+          </div>
+        </Link>
 
-            <div className="flex items-center gap-3 flex-wrap">
-              <Link
-                href="/dashboard/simulation"
-                className="inline-flex items-center gap-2 bg-[#FF4D1C] text-white font-bold text-[14px] px-5 py-2.5 rounded-full hover:bg-[#E8421A] transition-colors shadow-lg shadow-[#FF4D1C]/25 whitespace-nowrap"
-              >
-                Commencer la session
-                <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>arrow_forward</span>
-              </Link>
+        {/* Entretien de naturalisation */}
+        <Link
+          href="/dashboard/entretien"
+          className="group bg-gray-900 border border-gray-800 rounded-3xl p-6 hover:shadow-lg transition-all relative overflow-hidden"
+        >
+          <div className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-[#FF4D1C]/20 blur-2xl" />
+          <div className="relative z-10">
+            <div className="size-12 rounded-2xl bg-[#FF4D1C]/20 flex items-center justify-center mb-4">
+              <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "22px" }}>record_voice_over</span>
+            </div>
+            <span className="inline-flex items-center bg-[#FF4D1C]/20 text-[#FF4D1C] text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">ORAL</span>
+            <p className="text-white text-[17px] font-bold mb-2">Entretien de naturalisation</p>
+            <p className="text-white/60 text-[13px] leading-relaxed mb-4">
+              555 questions civiques et personnelles pour préparer l&apos;entretien oral avec l&apos;agent préfectoral.
+            </p>
+            <div className="space-y-1.5 mb-5">
+              {["Révision par thème", "Simulation d'entretien", "Suivi de progression"].map((t) => (
+                <div key={t} className="flex items-center gap-2 text-[12px] text-white/50">
+                  <span className="size-4 rounded-full bg-[#FF4D1C]/20 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "10px", fontVariationSettings: "'FILL' 1" }}>check</span>
+                  </span>
+                  {t}
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center gap-1.5 text-[#FF4D1C] font-bold text-[14px]">
+              Accéder
+              <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>arrow_forward</span>
             </div>
           </div>
+        </Link>
 
-          <div className="shrink-0 relative flex items-center justify-center size-16 md:size-24">
-            <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
-              <circle
-                cx="60" cy="60" r={R} fill="none"
-                stroke="#FF4D1C"
-                strokeWidth="10"
-                strokeLinecap="round"
-                strokeDasharray={circ}
-                strokeDashoffset={offset}
-                style={{ transition: "stroke-dashoffset 0.6s ease" }}
-              />
-            </svg>
-            <div className="absolute flex flex-col items-center">
-              <span className="text-white font-black text-[16px] md:text-[22px] leading-none">{overall}%</span>
-              <span className="text-white/35 text-[8px] md:text-[9px] font-semibold uppercase tracking-wide mt-0.5">niveau</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── STATS 3 COLS ── */}
-      <div className="grid grid-cols-3 gap-2 md:gap-3">
-        <div className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
-          <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider mb-1.5">Aujourd&apos;hui</p>
-          <p className="text-gray-900 font-black leading-none">
-            <span className="text-[20px] md:text-[30px]">{DONE_TODAY}</span>
-            <span className="text-gray-300 text-[12px] md:text-[14px] font-medium">/{DAILY_GOAL}</span>
-          </p>
-          <div className="mt-2 h-1.5 w-full bg-black/[0.07] rounded-full overflow-hidden">
-            <div className="h-full bg-[#FF4D1C] rounded-full" style={{ width: `${goalPct}%` }} />
-          </div>
-          <p className="text-[#FF4D1C] text-[9px] md:text-[10px] font-semibold mt-1.5 leading-tight">
-            {DONE_TODAY >= DAILY_GOAL ? "Objectif ✓" : `/ ${DAILY_GOAL} objectif`}
-          </p>
-        </div>
-
-        <div className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
-          <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider mb-1.5">Maîtrisées</p>
-          <p className="text-gray-900 text-[20px] md:text-[30px] font-black leading-none">{totalConnais}</p>
-          <p className="text-[#FF4D1C] text-[9px] md:text-[10px] font-semibold mt-2 leading-tight">sur {QUESTIONS.length}</p>
-        </div>
-
-        <div className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
-          <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider mb-1.5">Entretien</p>
-          <p className="text-gray-900 text-[20px] md:text-[30px] font-black leading-none">
-            {daysLeft !== null ? daysLeft : "—"}
-          </p>
-          <p className="text-[#FF4D1C] text-[9px] md:text-[10px] font-semibold mt-2 leading-tight">
-            {daysLeft !== null ? `jour${daysLeft !== 1 ? "s" : ""}` : "à fixer"}
-          </p>
-        </div>
-      </div>
-
-      {/* ── PROGRESS BY THEME ── */}
-      <div className="bg-white border border-black/[0.07] rounded-2xl p-5 md:p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-5">
-          <p className="text-gray-900 text-[15px] font-bold">Progression par thème</p>
-          <Link href="/dashboard/statistiques" className="text-[#FF4D1C] text-[12px] font-bold hover:underline flex items-center gap-0.5">
-            Tout voir
-            <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>chevron_right</span>
-          </Link>
-        </div>
-        <div className="space-y-4">
-          {themes.map((themeKey) => {
-            const { pct, done, total } = THEME_PROGRESS[themeKey];
-            const theme = THEMES[themeKey];
-            return (
-              <div key={themeKey} className="flex items-center gap-3">
-                <div className="size-8 rounded-lg bg-[#FAF4EC] border border-[#FF4D1C]/20 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "15px" }}>{theme.icon}</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-gray-700 text-[12px] font-semibold truncate">{theme.label}</span>
-                    <span className="text-gray-400 text-[11px] font-medium ml-2 shrink-0">{done}/{total}</span>
-                  </div>
-                  <div className="h-1.5 w-full bg-black/[0.07] rounded-full overflow-hidden">
-                    <div className="h-full bg-[#FF4D1C] rounded-full transition-all" style={{ width: `${pct}%` }} />
-                  </div>
-                </div>
-                <span className="text-[#FF4D1C] text-[12px] font-bold shrink-0 w-8 text-right">{pct}%</span>
-              </div>
-            );
-          })}
-        </div>
       </div>
     </div>
   );

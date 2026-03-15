@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   stripe_customer_id TEXT,
   marketing_opt_in  BOOLEAN DEFAULT FALSE,
   onboarding_done   BOOLEAN DEFAULT FALSE,
-  parcours_defaut   TEXT,          -- 'examen-civique' | 'entretien-naturalisation'
+  parcours_defaut   TEXT,          -- 'examen-civique' | 'entretien-naturalisation' | 'les-deux'
+  exam_date         DATE,          -- date de l'examen civique
   created_at        TIMESTAMPTZ DEFAULT NOW(),
   updated_at        TIMESTAMPTZ DEFAULT NOW()
 );
@@ -47,3 +48,38 @@ DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- 5. Table résultats examens civiques
+CREATE TABLE IF NOT EXISTS public.civique_exam_results (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id       UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  parcours      TEXT NOT NULL,        -- 'csp' | 'cr' | 'nat'
+  score         INT  NOT NULL,        -- nb bonnes réponses
+  total         INT  NOT NULL,        -- nb total questions (40)
+  passed        BOOLEAN NOT NULL,
+  theme_results JSONB,               -- { republique: {correct, count}, ... }
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.civique_exam_results ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "users_own_civique_results"
+  ON public.civique_exam_results FOR ALL
+  USING (auth.uid() = user_id);
+
+-- 6. Table progression flashcards civiques
+CREATE TABLE IF NOT EXISTS public.civique_user_progress (
+  user_id     UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  question_id TEXT NOT NULL,
+  parcours    TEXT NOT NULL,
+  theme       TEXT NOT NULL,
+  rating      TEXT NOT NULL CHECK (rating IN ('connais', 'hesite', 'connais_pas')),
+  updated_at  TIMESTAMPTZ DEFAULT NOW(),
+  PRIMARY KEY (user_id, question_id, parcours)
+);
+
+ALTER TABLE public.civique_user_progress ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "users_own_civique_progress"
+  ON public.civique_user_progress FOR ALL
+  USING (auth.uid() = user_id);

@@ -5,19 +5,38 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-const NAV = [
-  { href: "/dashboard",                  icon: "home",             label: "Accueil"        },
-  { href: "/dashboard/examen-civique",   icon: "quiz",             label: "Examen civique" },
-  { href: "/dashboard/apprendre",        icon: "menu_book",        label: "Apprendre"      },
-  { href: "/dashboard/simulation",       icon: "fitness_center",   label: "S'entraîner"    },
-  { href: "/dashboard/examen",           icon: "assignment",       label: "Entretien"      },
-  { href: "/dashboard/statistiques",     icon: "bar_chart_4_bars", label: "Statistiques"   },
+const NAV_ENTRETIEN = [
+  { href: "/dashboard",              icon: "home",             label: "Accueil"      },
+  { href: "/dashboard/entretien",    icon: "record_voice_over",label: "Mon entretien" },
+  { href: "/dashboard/apprendre",    icon: "menu_book",        label: "Apprendre"    },
+  { href: "/dashboard/simulation",   icon: "fitness_center",   label: "S'entraîner"  },
+  { href: "/dashboard/examen",       icon: "assignment",       label: "Entretien"    },
+  { href: "/dashboard/statistiques", icon: "bar_chart_4_bars", label: "Statistiques" },
+];
+
+function buildNavCivique(parcours?: string) {
+  const base = [
+    { href: "/dashboard",                icon: "home",  label: "Accueil"        },
+    { href: "/dashboard/examen-civique", icon: "quiz",  label: "Examen civique" },
+  ];
+  if (!parcours) return base;
+  return [
+    ...base,
+    { href: `/dashboard/examen-civique/${parcours}/revision`,      icon: "menu_book",        label: "Apprendre"    },
+    { href: `/dashboard/examen-civique/${parcours}/entrainement`,  icon: "fitness_center",   label: "S'entraîner"  },
+    { href: `/dashboard/examen-civique/${parcours}/examen`,        icon: "assignment",       label: "Examen"       },
+    { href: `/dashboard/examen-civique/${parcours}/statistiques`,  icon: "bar_chart_4_bars", label: "Statistiques" },
+  ];
+}
+
+const NAV_HOME = [
+  { href: "/dashboard", icon: "home", label: "Accueil" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const path    = usePathname();
   const router  = useRouter();
-  const [initial,     setInitial]     = useState("T");
+  const [initial,     setInitial]     = useState("");
   const [displayName, setDisplayName] = useState("");
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -26,6 +45,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data }) => {
       if (data.user) {
+        const emailInitial = (data.user.email ?? "?").charAt(0).toUpperCase();
+        setInitial(emailInitial);
         const { data: profile } = await supabase
           .from("profiles")
           .select("display_name")
@@ -102,7 +123,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Nav items */}
         <nav className="flex-1 flex flex-col px-1.5 md:px-3 py-3 md:py-4 gap-1 overflow-y-auto">
-          {NAV.map((n) => {
+          {(path.startsWith("/dashboard/examen-civique")
+            ? buildNavCivique(path.match(/\/dashboard\/examen-civique\/([^/]+)/)?.[1])
+            : path.startsWith("/dashboard/entretien") || path.startsWith("/dashboard/apprendre") || path.startsWith("/dashboard/simulation") || path.startsWith("/dashboard/examen") || path.startsWith("/dashboard/statistiques")
+            ? NAV_ENTRETIEN
+            : NAV_HOME
+          ).map((n) => {
             const active = path === n.href || (n.href !== "/dashboard" && path.startsWith(n.href));
             return (
               <Link

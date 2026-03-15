@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { QUESTIONS_CIVIQUES, THEMES_CIVIQUES, type ThemeCivique } from "@/lib/questions-civiques";
+import { createClient } from "@/lib/supabase/client";
 
 const TOTAL    = 40;
 const DURATION = 45 * 60; // seconds
@@ -37,9 +38,14 @@ export default function ExamenPage() {
   /* Countdown */
   useEffect(() => {
     if (phase !== "exam") return;
-    if (timeLeft <= 0) { setPhase("done"); return; }
+    if (timeLeft <= 0) {
+      saveResults(answers, questions);
+      setPhase("done");
+      return;
+    }
     const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearInterval(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, timeLeft]);
 
   const startExam = () => {
@@ -51,17 +57,44 @@ export default function ExamenPage() {
     setPhase("exam");
   };
 
+  async function saveResults(finalAnswers: Record<string, number>, qs: typeof QUESTIONS_CIVIQUES) {
+    const themes: ThemeCivique[] = ["republique", "institutions", "droits", "histoire", "societe"];
+    const themeResults: Record<string, { correct: number; count: number }> = {};
+    let total = 0;
+    for (const t of themes) {
+      const tqs = qs.filter((q) => q.theme === t);
+      const correct = tqs.filter((q) => finalAnswers[q.id] === q.correct).length;
+      total += correct;
+      themeResults[t] = { correct, count: tqs.length };
+    }
+    const pct = Math.round((total / TOTAL) * 100);
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from("civique_exam_results").insert({
+      user_id:       user.id,
+      parcours,
+      score:         total,
+      total:         TOTAL,
+      passed:        pct >= PASS_PCT,
+      theme_results: themeResults,
+    });
+  }
+
   const handleNext = useCallback(() => {
     if (selected === null) return;
     const q = questions[index];
-    setAnswers((a) => ({ ...a, [q.id]: selected }));
+    const newAnswers = { ...answers, [q.id]: selected };
+    setAnswers(newAnswers);
     if (index + 1 >= questions.length) {
+      saveResults(newAnswers, questions);
       setPhase("done");
     } else {
       setIndex((i) => i + 1);
       setSelected(null);
     }
-  }, [selected, questions, index]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, questions, index, answers]);
 
   /* Format mm:ss */
   const mm = String(Math.floor(timeLeft / 60)).padStart(2, "0");
