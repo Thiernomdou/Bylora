@@ -2,12 +2,12 @@ const features = [
   {
     icon: "quiz",
     title: "Simulateur d'examen civique",
-    desc: "40 questions QCM en 45 minutes dans les conditions réelles. Titre de séjour, carte de résident, naturalisation — une seule préparation.",
+    desc: "40 questions QCM en 45 minutes dans les conditions réelles. Titre de séjour, carte de résident, naturalisation. Une seule préparation.",
   },
   {
     icon: "record_voice_over",
     title: "Simulation d'entretien oral",
-    desc: "Tu réponds aux questions comme face à l'agent — valeurs françaises, histoire, situation personnelle. Pour ne pas être pris au dépourvu le jour J.",
+    desc: "Tu réponds aux questions comme face à l'agent : valeurs françaises, histoire, situation personnelle. Pour ne pas être pris au dépourvu le jour J.",
   },
   {
     icon: "style",
@@ -22,7 +22,7 @@ const features = [
   {
     icon: "monitoring",
     title: "Suivi de ta progression",
-    desc: "Tu vois exactement ce que tu maîtrises et ce qu'il te reste, thème par thème — histoire, institutions, valeurs, géographie.",
+    desc: "Tu vois exactement ce que tu maîtrises et ce qu'il te reste, thème par thème : histoire, institutions, valeurs, géographie.",
   },
   {
     icon: "devices",
@@ -33,13 +33,13 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="px-6 lg:px-10 py-20 lg:py-28 bg-[#FAF4EC]/40">
+    <section className="px-4 md:px-6 lg:px-10 py-16 md:py-20 lg:py-28 bg-[#FAF4EC]/40">
       <div className="max-w-7xl mx-auto">
         <div className="max-w-2xl mb-12">
           <span className="inline-block bg-[#FF4D1C]/8 border border-[#FF4D1C]/20 text-[#FF4D1C] text-[11px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full mb-5">
             Fonctionnalités
           </span>
-          <h2 className="text-[30px] lg:text-[38px] font-bold text-gray-900 leading-tight tracking-tight">
+          <h2 className="text-[24px] md:text-[30px] lg:text-[38px] font-bold text-gray-900 leading-tight tracking-tight">
             Simple à utiliser.<br className="hidden lg:block" /> Efficace pour réussir.
           </h2>
         </div>

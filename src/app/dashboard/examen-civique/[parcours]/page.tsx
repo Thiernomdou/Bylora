@@ -15,25 +15,25 @@ const PARCOURS_INFO: Record<string, {
     level: "Accessible",
     levelColor: "#059669",
     icon: "info",
-    who: "Vous renouvelez votre titre de séjour pour une carte pluriannuelle (2 à 4 ans).",
-    why: "Depuis la loi du 26 janvier 2024, l'examen civique est obligatoire pour obtenir une CSP. Il atteste de votre connaissance des valeurs et institutions françaises.",
-    tags: ["Obligatoire depuis 2024", "Score min. 80%", "40 questions · 45 min"],
+    who: "Vous renouvelez votre titre de séjour pour une carte pluriannuelle (2 à 4 ans). Sans cet examen, votre dossier est bloqué.",
+    why: "Depuis la loi du 26 janvier 2024, l'examen civique est obligatoire. 80% minimum. Pas 79%. CitoyenFacile vous donne toutes les questions du programme officiel, classées et expliquées, pour que vous arriviez préparé et confiant.",
+    tags: ["Obligatoire depuis jan. 2024", "Score min. 80%", "40 questions · 45 min"],
   },
   cr: {
     level: "Intermédiaire",
     levelColor: "#D97706",
     icon: "info",
-    who: "Vous demandez une carte de résident valable 10 ans, après 5 ans de résidence régulière en France.",
-    why: "La carte de résident marque une étape d'intégration durable. L'examen civique est obligatoire et témoigne de votre ancrage dans la société française.",
+    who: "Vous demandez la carte de résident valable 10 ans, après 5 ans de résidence régulière. Une étape clé pour votre stabilité en France.",
+    why: "Un score insuffisant reporte tout votre dossier. Les questions couvrent des sujets précis que la plupart des candidats découvrent le jour J. Trop tard. Révisez maintenant, chaque thème, chaque réponse officielle.",
     tags: ["Obligatoire", "5 ans de résidence requis", "Score min. 80%"],
   },
   nat: {
     level: "Rigoureux",
     levelColor: "#DC2626",
     icon: "info",
-    who: "Vous demandez la nationalité française. C'est l'étape la plus exigeante du parcours d'intégration.",
-    why: "En devenant citoyen français, vous adhérez pleinement aux valeurs de la République. L'examen civique est obligatoire et le niveau d'exigence est le plus élevé — il s'accompagne de l'entretien de naturalisation.",
-    tags: ["Obligatoire", "Le plus exigeant", "Score min. 80%"],
+    who: "Vous demandez la nationalité française. Des années de démarches aboutissent à ce moment. Ne laissez pas un examen mal préparé tout compromettre.",
+    why: "C'est le niveau le plus exigeant. L'examen civique s'accompagne de l'entretien de naturalisation : deux épreuves, un seul objectif. CitoyenFacile couvre les deux, avec le programme officiel, des simulations et un suivi de votre progression.",
+    tags: ["Obligatoire", "Niveau le plus exigeant", "Score min. 80%"],
   },
 };
 
@@ -68,7 +68,7 @@ export default async function ParcoursPage({ params }: Props) {
       {/* Info card */}
       <div className="bg-white border border-black/[0.07] rounded-2xl p-5 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
-          <p className="text-gray-900 text-[14px] font-bold">À savoir avant de commencer</p>
+          <p className="text-gray-900 text-[14px] font-bold">Ce que vous devez savoir avant qu&apos;il soit trop tard</p>
           <span className="text-[11px] font-bold px-2.5 py-1 rounded-full border" style={{ color: info.levelColor, background: `${info.levelColor}12`, borderColor: `${info.levelColor}30` }}>
             {info.level}
           </span>
@@ -98,7 +98,7 @@ export default async function ParcoursPage({ params }: Props) {
           </div>
           <p className="text-gray-900 text-[17px] font-bold mb-1.5">Mode révision</p>
           <p className="text-gray-500 text-[13px] leading-relaxed mb-4">
-            Révisez thème par thème à votre rythme. Apprenez et mémorisez les réponses officielles.
+            Toutes les réponses officielles, classées par thème. Apprenez ce que l&apos;examen attend exactement. Pas plus, pas moins.
           </p>
           <div className="space-y-1.5">
             {["Principes et valeurs", "Institutions", "Droits et devoirs", "Histoire & géographie", "Société française"].map((t) => (
@@ -128,7 +128,7 @@ export default async function ParcoursPage({ params }: Props) {
             </div>
             <p className="text-white text-[17px] font-bold mb-1.5">Simulateur d&apos;examen</p>
             <p className="text-white/60 text-[13px] leading-relaxed mb-4">
-              40 questions QCM en conditions réelles. Chronomètre de 45 minutes. Score final avec résultats par thème.
+              Reproduisez les conditions exactes du vrai examen. Chronomètre, 40 questions, score immédiat. Sachez si vous êtes prêt avant le jour J.
             </p>
             <div className="grid grid-cols-3 gap-2 mb-5">
               {[["40", "questions"], ["45", "minutes"], ["80%", "requis"]].map(([v, l]) => (

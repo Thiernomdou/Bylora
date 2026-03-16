@@ -9,8 +9,8 @@ type SessionState = "picking" | "question" | "answer" | "done";
 // Valeurs en premier, puis les autres
 const THEME_OPTIONS: { value: Theme | "all"; label: string; description: string; icon: string }[] = [
   { value: "all",          label: "Tous les thèmes",    description: "Un mélange de toutes les thématiques pour une préparation complète et variée.",                                                icon: "layers"          },
-  { value: "valeurs",      label: "Valeurs Françaises", description: "Liberté, Égalité, Fraternité, laïcité — les principes que vous devrez maîtriser le jour J.",                                  icon: THEMES.valeurs.icon      },
-  { value: "histoire",     label: "Histoire",           description: "De la Révolution à la Ve République — les grandes dates et figures de l'histoire française.",                                 icon: THEMES.histoire.icon     },
+  { value: "valeurs",      label: "Valeurs Françaises", description: "Liberté, Égalité, Fraternité, laïcité, les principes que vous devrez maîtriser le jour J.",                                  icon: THEMES.valeurs.icon      },
+  { value: "histoire",     label: "Histoire",           description: "De la Révolution à la Ve République, les grandes dates et figures de l'histoire française.",                                 icon: THEMES.histoire.icon     },
   { value: "institutions", label: "Institutions",       description: "La Constitution, les pouvoirs, le gouvernement et le fonctionnement de la République.",                                       icon: THEMES.institutions.icon },
   { value: "geographie",   label: "Géographie",         description: "Les régions, fleuves, reliefs et grandes villes qui composent le territoire français.",                                       icon: THEMES.geographie.icon   },
   { value: "droits",       label: "Droits & Devoirs",   description: "Vos droits et devoirs en tant que futur citoyen, les lois fondamentales et le cadre juridique.",                             icon: THEMES.droits.icon       },
@@ -88,8 +88,8 @@ export default function SimulationPage() {
       <div className="px-5 md:px-10 pt-6 pb-6 max-w-5xl mx-auto w-full space-y-5 md:space-y-7">
         <div>
           <p className="text-gray-500 text-[12px] md:text-[13px] font-medium">Flashcards</p>
-          <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight mt-0.5">S&apos;entraîner</h1>
-          <p className="text-gray-500 text-[13px] md:text-[14px] mt-1">Choisissez un thème — évaluez-vous question par question et suivez votre progression</p>
+          <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight mt-0.5">Testez-vous sans filet</h1>
+          <p className="text-gray-500 text-[13px] md:text-[14px] mt-1">Question par question, soyez honnête avec vous-même. C&apos;est ici que vous découvrez ce que vous savez vraiment et ce qui risque de vous coûter l&apos;entretien.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -121,7 +121,7 @@ export default function SimulationPage() {
     const connais_pas = Object.values(ratings).filter((r) => r === "connais_pas").length;
     const total       = connais + hesite + connais_pas;
     const score       = total > 0 ? Math.round((connais / total) * 100) : 0;
-    const scoreLabel = score >= 70 ? "Très bon résultat" : score >= 40 ? "Bonne progression" : "À renforcer";
+    const scoreLabel = score >= 70 ? "Vous êtes prêt, continuez à ce rythme" : score >= 40 ? "Bonne progression, insistez sur les thèmes faibles" : "À renforcer, chaque session compte";
     return (
       <div className="px-5 md:px-10 pt-6 pb-6 max-w-xl mx-auto w-full space-y-4">
         <div className="bg-white border border-black/[0.07] rounded-2xl p-6 md:p-8 text-center space-y-4 shadow-sm">
@@ -180,7 +180,7 @@ export default function SimulationPage() {
         </div>
 
         {/* Flashcard */}
-        <div className="flex flex-col items-stretch rounded-2xl border border-black/[0.07] bg-white shadow-sm overflow-hidden min-h-[240px] md:min-h-[400px]">
+        <div className="flex flex-col items-stretch rounded-2xl border border-black/[0.07] bg-white shadow-sm overflow-hidden min-h-[280px] md:min-h-[400px]">
           <div className="h-[3px] w-full" style={{ backgroundColor: theme.accent }} />
           <div className="px-4 md:px-5 pt-3 md:pt-4 pb-0">
             <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${theme.bg} ${theme.border} border`}>
@@ -201,18 +201,18 @@ export default function SimulationPage() {
         </div>
 
         {/* Answer buttons */}
-        <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-3">
-          <button onClick={() => rate("connais")} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 rounded-2xl h-14 md:h-14 px-2 md:px-5 bg-[#FF4D1C] text-white hover:bg-[#E8421A] transition-colors font-bold text-[13px] md:text-[16px] cursor-pointer">
-            <span className="material-symbols-outlined" style={{ fontSize: "20px", fontVariationSettings: `'FILL' 1` }}>check_circle</span>
+        <div className="grid grid-cols-3 gap-2 md:gap-3">
+          <button onClick={() => rate("connais")} className="flex flex-col items-center justify-center gap-1 rounded-2xl h-16 md:h-14 px-1 md:px-5 bg-[#FF4D1C] text-white hover:bg-[#E8421A] transition-colors font-bold text-[11px] md:text-[15px] cursor-pointer">
+            <span className="material-symbols-outlined" style={{ fontSize: "22px", fontVariationSettings: `'FILL' 1` }}>check_circle</span>
             <span>Je connais</span>
           </button>
-          <button onClick={() => rate("hesite")} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 rounded-2xl h-14 md:h-14 px-2 md:px-5 border-2 border-[#FF4D1C] text-[#FF4D1C] bg-[#FAF4EC] hover:bg-[#FF4D1C]/10 transition-colors font-bold text-[13px] md:text-[16px] cursor-pointer">
-            <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>help</span>
+          <button onClick={() => rate("hesite")} className="flex flex-col items-center justify-center gap-1 rounded-2xl h-16 md:h-14 px-1 md:px-5 border-2 border-[#FF4D1C] text-[#FF4D1C] bg-[#FAF4EC] hover:bg-[#FF4D1C]/10 transition-colors font-bold text-[11px] md:text-[15px] cursor-pointer">
+            <span className="material-symbols-outlined" style={{ fontSize: "22px" }}>help</span>
             <span>J&apos;hésite</span>
           </button>
-          <button onClick={() => rate("connais_pas")} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 rounded-2xl h-14 md:h-14 px-2 md:px-5 border border-black/[0.12] text-gray-600 bg-white hover:bg-black/[0.04] transition-colors font-bold text-[13px] md:text-[16px] cursor-pointer">
-            <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>cancel</span>
-            <span>Je ne sais pas</span>
+          <button onClick={() => rate("connais_pas")} className="flex flex-col items-center justify-center gap-1 rounded-2xl h-16 md:h-14 px-1 md:px-5 border border-black/[0.12] text-gray-600 bg-white hover:bg-black/[0.04] transition-colors font-bold text-[11px] md:text-[15px] cursor-pointer">
+            <span className="material-symbols-outlined" style={{ fontSize: "22px" }}>cancel</span>
+            <span>Pas sûr</span>
           </button>
         </div>
       </div>

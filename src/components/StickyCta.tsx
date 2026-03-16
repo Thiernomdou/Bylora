@@ -25,7 +25,7 @@ export default function StickyCta({ onOpenAuth }: Props) {
         onClick={onOpenAuth}
         className="w-full bg-[#FF4D1C] text-white py-3.5 rounded-full text-[15px] font-bold cursor-pointer hover:bg-[#E8421A] transition-colors shadow-md"
       >
-        Commencer — dès 9,99 €
+        Commencer · dès 9,99 €
       </button>
     </div>
   );

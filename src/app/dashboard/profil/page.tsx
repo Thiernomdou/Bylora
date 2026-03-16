@@ -89,7 +89,7 @@ export default function ProfilPage() {
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="Mamadou"
+                placeholder="Sarah"
                 className="w-full bg-[#FAF4EC] border border-black/[0.08] rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FF4D1C]/30 focus:border-[#FF4D1C] text-[14px]"
               />
             </div>

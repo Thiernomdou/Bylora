@@ -103,15 +103,15 @@ export default async function StatistiquesCiviquePage({ params }: Props) {
               <div className="h-full rounded-full bg-[#FF4D1C] transition-all" style={{ width: `${overall}%` }} />
             </div>
           </div>
-          <div className="shrink-0 relative flex items-center justify-center" style={{ width: 76, height: 76 }}>
-            <svg width="76" height="76" viewBox="0 0 120 120" style={{ transform: "rotate(-90deg)" }}>
+          <div className="shrink-0 relative flex items-center justify-center size-20 md:size-24">
+            <svg width="100%" height="100%" viewBox="0 0 120 120" style={{ transform: "rotate(-90deg)" }}>
               <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="12" />
               <circle cx="60" cy="60" r={R} fill="none" stroke="#FF4D1C"
                 strokeWidth="12" strokeLinecap="round"
                 strokeDasharray={circ} strokeDashoffset={offset} />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-white font-black text-[17px] leading-none">{overall}%</span>
+              <span className="text-white font-black text-[18px] leading-none">{overall}%</span>
             </div>
           </div>
         </div>
@@ -127,10 +127,10 @@ export default async function StatistiquesCiviquePage({ params }: Props) {
           <div key={s.label} className="bg-white border border-black/[0.07] rounded-2xl p-3 md:p-5 shadow-sm">
             <div className="flex items-center gap-1 mb-1.5">
               <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "13px" }}>{s.icon}</span>
-              <p className="text-gray-400 text-[9px] md:text-[11px] font-semibold uppercase tracking-wider">{s.label}</p>
+              <p className="text-gray-400 text-[11px] font-semibold uppercase tracking-wider">{s.label}</p>
             </div>
             <p className="text-gray-900 text-[22px] md:text-[32px] font-black leading-none">{s.value}</p>
-            <p className="text-gray-400 text-[9px] md:text-[10px] font-medium mt-1 leading-tight">{s.sub}</p>
+            <p className="text-gray-400 text-[11px] font-medium mt-1 leading-tight">{s.sub}</p>
           </div>
         ))}
       </div>

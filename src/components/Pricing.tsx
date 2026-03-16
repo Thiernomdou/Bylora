@@ -12,7 +12,7 @@ const plans = [
       "Simulation d'entretien oral",
       "Statistiques de progression",
     ],
-    cta: "Commencer — 9,99 €",
+    cta: "Commencer · 9,99 €",
     variant: "secondary" as const,
   },
   {
@@ -29,7 +29,7 @@ const plans = [
       "Statistiques de progression",
       "Rappels de révision",
     ],
-    cta: "Commencer — 24,99 €",
+    cta: "Commencer · 24,99 €",
     variant: "primary" as const,
   },
   {
@@ -45,7 +45,7 @@ const plans = [
       "Accès aux futurs contenus",
       "Parfait à offrir à un proche",
     ],
-    cta: "Accès à vie — 39,99 €",
+    cta: "Accès à vie · 39,99 €",
     variant: "secondary" as const,
   },
 ];
@@ -54,13 +54,13 @@ interface PricingProps { onOpenAuth: () => void; }
 
 export default function Pricing({ onOpenAuth }: PricingProps) {
   return (
-    <section id="pricing" className="px-6 lg:px-10 py-20 lg:py-28">
+    <section id="pricing" className="px-4 md:px-6 lg:px-10 py-16 md:py-20 lg:py-28">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <span className="inline-block bg-[#FF4D1C]/8 border border-[#FF4D1C]/20 text-[#FF4D1C] text-[11px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full mb-5">
             Tarifs
           </span>
-          <h2 className="text-[32px] lg:text-[42px] font-bold text-gray-900 leading-tight tracking-tight mb-3">
+          <h2 className="text-[26px] md:text-[32px] lg:text-[42px] font-bold text-gray-900 leading-tight tracking-tight mb-3">
             Choisis ton accès
           </h2>
           <p className="text-gray-500 text-[15px]">Un seul paiement. Pas d&apos;abonnement caché. Accès immédiat.</p>
@@ -72,7 +72,7 @@ export default function Pricing({ onOpenAuth }: PricingProps) {
               key={p.name}
               className={`relative rounded-3xl p-7 flex flex-col transition-all duration-300
                 ${p.popular
-                  ? "bg-[#111827] shadow-[0_24px_64px_rgba(0,0,0,0.18)] scale-[1.02]"
+                  ? "bg-[#111827] shadow-[0_24px_64px_rgba(0,0,0,0.18)] md:scale-[1.02]"
                   : "bg-white border border-black/[0.06] shadow-[0_2px_16px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.10)]"
                 }`}
             >
@@ -88,7 +88,7 @@ export default function Pricing({ onOpenAuth }: PricingProps) {
                   <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${p.popular ? "bg-white/10 text-white/70" : "bg-[#FF4D1C]/8 text-[#FF4D1C]"}`}>{p.duration}</span>
                 </div>
                 <div className="flex items-baseline gap-0.5 mb-2">
-                  <span className={`text-[48px] font-black leading-none ${p.popular ? "text-white" : "text-gray-900"}`}>{p.price}</span>
+                  <span className={`text-[40px] md:text-[48px] font-black leading-none ${p.popular ? "text-white" : "text-gray-900"}`}>{p.price}</span>
                   <span className={`text-[18px] font-semibold ${p.popular ? "text-white/40" : "text-gray-400"}`}>{p.cents}</span>
                 </div>
                 <p className={`text-[13px] leading-snug ${p.popular ? "text-white/50" : "text-gray-400"}`}>{p.per}</p>

@@ -33,10 +33,10 @@ export default async function DashboardHome() {
       <div>
         <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Tableau de bord</p>
         <h1 className="text-gray-900 text-[28px] md:text-[36px] font-black leading-tight mt-0.5">
-          Par où commencer ?
+          Votre dossier ne s&apos;obtiendra pas tout seul.
         </h1>
         <p className="text-gray-500 text-[14px] mt-1.5 max-w-lg">
-          Préparez l&apos;examen civique ou l&apos;entretien de naturalisation — ou les deux. Chaque parcours est indépendant, avancez à votre rythme.
+          Chaque année, des candidats échouent faute de préparation. Choisissez votre parcours et commencez dès aujourd&apos;hui. Votre avenir en France mérite mieux que l&apos;improvisation.
         </p>
       </div>
 
@@ -53,10 +53,10 @@ export default async function DashboardHome() {
           <span className="inline-flex items-center bg-[#FF4D1C]/10 text-[#FF4D1C] text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">QCM</span>
           <p className="text-gray-900 text-[17px] font-bold mb-2">Examen civique</p>
           <p className="text-gray-500 text-[13px] leading-relaxed mb-4">
-            40 questions QCM en 45 minutes sur l&apos;histoire, les institutions et les valeurs de la République.
+            40 questions en 45 minutes. Score minimum 80%. Obligatoire depuis la loi de janvier 2024. Beaucoup le ratent au premier essai.
           </p>
           <div className="space-y-1.5 mb-5">
-            {["Mode révision par thème", "Simulateur d'examen chronomètré", "Score détaillé par thème"].map((t) => (
+            {["Toutes les questions officielles classées par thème", "Flashcards pour mémoriser sans effort", "Simulateur en conditions réelles avec chronomètre"].map((t) => (
               <div key={t} className="flex items-center gap-2 text-[12px] text-gray-500">
                 <span className="size-4 rounded-full bg-[#FF4D1C]/10 flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "10px", fontVariationSettings: "'FILL' 1" }}>check</span>
@@ -84,10 +84,10 @@ export default async function DashboardHome() {
             <span className="inline-flex items-center bg-[#FF4D1C]/20 text-[#FF4D1C] text-[10px] font-bold px-2.5 py-1 rounded-full mb-3">ORAL</span>
             <p className="text-white text-[17px] font-bold mb-2">Entretien de naturalisation</p>
             <p className="text-white/60 text-[13px] leading-relaxed mb-4">
-              555 questions civiques et personnelles pour préparer l&apos;entretien oral avec l&apos;agent préfectoral.
+              L&apos;agent préfectoral décide en 20 minutes. 555 questions pour que vous soyez prêt à chaque seconde de cet entretien.
             </p>
             <div className="space-y-1.5 mb-5">
-              {["Révision par thème", "Simulation d'entretien", "Suivi de progression"].map((t) => (
+              {["555 questions réparties en 4 grands thèmes", "Simulations d'entretien comme le vrai", "Progression visible question par question"].map((t) => (
                 <div key={t} className="flex items-center gap-2 text-[12px] text-white/50">
                   <span className="size-4 rounded-full bg-[#FF4D1C]/20 flex items-center justify-center shrink-0">
                     <span className="material-symbols-outlined text-[#FF4D1C]" style={{ fontSize: "10px", fontVariationSettings: "'FILL' 1" }}>check</span>

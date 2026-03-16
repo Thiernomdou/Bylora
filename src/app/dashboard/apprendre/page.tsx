@@ -16,11 +16,11 @@ const THEME_PRIORITIES: Partial<Record<Theme, string[]>> = {
 };
 
 const THEME_DESCRIPTIONS: Record<Theme, string> = {
-  valeurs:      "Liberté, Égalité, Fraternité, laïcité — les principes fondamentaux qu'on vous demandera de connaître et d'incarner lors de l'entretien.",
-  histoire:     "De la Révolution française à la Ve République — les grandes dates, les figures marquantes et les événements qui ont construit la France.",
-  institutions: "La Constitution, les pouvoirs exécutif, législatif et judiciaire, le gouvernement et comment fonctionne la République au quotidien.",
-  geographie:   "Les régions, fleuves, reliefs, frontières et grandes villes qui composent le territoire français et ses DOM-TOM.",
-  droits:       "Vos droits et devoirs en tant que futur citoyen — les lois fondamentales, la nationalité et ce qu'on attend de vous.",
+  valeurs:      "Liberté, Égalité, Fraternité : l'agent vous demandera d'expliquer ces valeurs avec vos propres mots. C'est souvent ici que les candidats décrochent.",
+  histoire:     "Les grandes dates, les figures, les événements fondateurs. L'entretien teste si vous comprenez l'histoire du pays que vous demandez à rejoindre.",
+  institutions: "Comment fonctionne la République ? Qui décide quoi ? Ces questions reviennent systématiquement et piègent la majorité des candidats.",
+  geographie:   "Régions, fleuves, reliefs, frontières. Des questions qui semblent simples, mais qui font trébucher ceux qui n'ont pas révisé.",
+  droits:       "Ce que la France vous garantit. Ce qu'elle attend de vous. Connaître vos droits et devoirs, c'est montrer que vous méritez vos papiers.",
 };
 
 export default function ApprendrePage() {
@@ -31,9 +31,9 @@ export default function ApprendrePage() {
       <div className="px-5 md:px-10 pt-6 pb-6 max-w-5xl mx-auto w-full space-y-5 md:space-y-7">
         <div>
           <p className="text-gray-500 text-[12px] md:text-[13px] font-medium">Contenu du cours</p>
-          <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight mt-0.5">Apprendre</h1>
+          <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight mt-0.5">Apprenez les bonnes réponses</h1>
           <p className="text-gray-500 text-[13px] md:text-[14px] mt-1">
-            Choisissez un thème pour lire toutes les questions et réponses détaillées.
+            Ce sont les réponses que l&apos;agent préfectoral attend. Pas des approximations. Les réponses officielles, thème par thème.
           </p>
         </div>
 
@@ -124,8 +124,8 @@ export default function ApprendrePage() {
       {/* CTA */}
       <div className="bg-white border border-black/[0.07] rounded-2xl p-4 md:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <p className="text-gray-900 text-[15px] font-semibold">Tu as bien lu ?</p>
-          <p className="text-gray-500 text-[12px] font-medium mt-0.5">Teste-toi sans les réponses.</p>
+          <p className="text-gray-900 text-[15px] font-semibold">Lire, c&apos;est bien. Retenir, c&apos;est mieux.</p>
+          <p className="text-gray-500 text-[12px] font-medium mt-0.5">Entraînez-vous avec les flashcards et voyez ce qui reste vraiment en mémoire.</p>
         </div>
         <a
           href="/dashboard/simulation"

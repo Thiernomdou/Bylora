@@ -21,7 +21,7 @@ export default async function ExamenCiviquePage() {
         <div>
           <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Examen civique</p>
           <h1 className="text-gray-900 text-[22px] md:text-[28px] font-black leading-tight">
-            Choisissez votre parcours
+            Quel titre préparez-vous ?
           </h1>
         </div>
       </div>
@@ -45,7 +45,7 @@ export default async function ExamenCiviquePage() {
 
       {/* 5 thèmes */}
       <div className="bg-white border border-black/[0.07] rounded-2xl p-5 shadow-sm">
-        <p className="text-gray-900 text-[14px] font-bold mb-3">Les 5 thèmes du programme officiel</p>
+        <p className="text-gray-900 text-[14px] font-bold mb-3">Ce que l&apos;examen teste, sans exception</p>
         <div className="space-y-2">
           {[
             { icon: "flag",            label: "Principes et valeurs de la République" },
@@ -66,7 +66,7 @@ export default async function ExamenCiviquePage() {
 
       {/* 3 parcours cards */}
       <div className="space-y-3">
-        <p className="text-gray-400 text-[11px] font-semibold uppercase tracking-wider px-1">Je prépare :</p>
+        <p className="text-gray-400 text-[11px] font-semibold uppercase tracking-wider px-1">Ma situation :</p>
         {Object.entries(PARCOURS_CIVIQUES).map(([key, p]) => (
           <Link
             key={key}

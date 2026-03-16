@@ -1,6 +1,6 @@
 const testimonials = [
-  { avatar: "👨🏾", text: "J'avais 3 semaines. J'ai révisé 20 min par jour dans le RER. Le jour J, je connaissais toutes les questions posées. Je suis French maintenant !", name: "Mamadou K.", info: "Guinée · Naturalisé en janvier 2026" },
-  { avatar: "👩🏾", text: "Les autres outils que j'avais testés étaient trop compliqués. CitoyenFacile c'est simple, direct, adapté au téléphone. J'ai révisé partout.", name: "Aminata D.", info: "Côte d'Ivoire · Naturalisée en février 2026" },
+  { avatar: "👩🏻", text: "J'avais 3 semaines. J'ai révisé 20 min par jour dans le RER. Le jour J, je connaissais toutes les questions posées. Je suis French maintenant !", name: "Sarah M.", info: "Maroc · Naturalisée en janvier 2026" },
+  { avatar: "👨🏽", text: "Les autres outils que j'avais testés étaient trop compliqués. CitoyenFacile c'est simple, direct, adapté au téléphone. J'ai révisé partout.", name: "Karim B.", info: "Algérie · Naturalisé en février 2026" },
   { avatar: "👨🏿", text: "Le mode simulation m'a appris à répondre calmement même sous pression. J'ai réussi du premier coup.", name: "Ibrahim S.", info: "Sénégal · Naturalisé en mars 2026" },
 ];
 

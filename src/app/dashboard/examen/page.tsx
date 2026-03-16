@@ -125,7 +125,7 @@ export default function ExamenPage() {
               L&apos;entretien, c&apos;est avant tout une discussion.
             </p>
             <p className="text-white/60 text-[13px] md:text-[14px] leading-relaxed">
-              Si vous avez bien travaillé les questions, soyez serein — l&apos;agent ne cherche pas à vous piéger.
+              Si vous avez bien travaillé les questions, soyez serein : l&apos;agent ne cherche pas à vous piéger.
               Il veut comprendre qui vous êtes, votre attachement à la France et aux valeurs de la République.
               Répondez naturellement, avec vos mots. La sincérité compte autant que la précision.
             </p>
@@ -136,9 +136,9 @@ export default function ExamenPage() {
           <p className="text-gray-900 text-[15px] md:text-[16px] font-bold mb-1">Déroulement</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[
-              { icon: "person",    text: "Questions personnelles — présentez-vous comme lors d'un vrai entretien"          },
-              { icon: "school",    text: "Questions de culture civique — histoire, valeurs, institutions et plus"               },
-              { icon: "timer_off", text: "Pas de chrono — prends le temps de bien répondre"                                      },
+              { icon: "person",    text: "Questions personnelles : présentez-vous comme lors d'un vrai entretien"          },
+              { icon: "school",    text: "Questions de culture civique : histoire, valeurs, institutions et plus"               },
+              { icon: "timer_off", text: "Pas de chrono, prends le temps de bien répondre"                                      },
               { icon: "save",      text: "Tes réponses sont enregistrées dans tes statistiques"                                   },
             ].map(({ icon, text }) => (
               <div key={text} className="flex items-start gap-3 text-[13px] md:text-[14px] text-gray-600 bg-[#FAF4EC] rounded-xl px-3 py-3">
@@ -308,7 +308,7 @@ export default function ExamenPage() {
       </div>
 
       <div className="rounded-2xl p-4 text-[13px] md:text-[14px] font-medium bg-[#FAF4EC] border border-[#FF4D1C]/20 text-gray-600">
-        {score >= 70 ? "Très bon résultat — tu es bien préparé(e) pour ton entretien." : score >= 50 ? "Bonne base — continue à revoir les thèmes moins maîtrisés." : "Continue à réviser régulièrement. Retourne dans S'entraîner pour renforcer tes connaissances."}
+        {score >= 70 ? "Très bon résultat, tu es bien préparé(e) pour ton entretien." : score >= 50 ? "Bonne base, continue à revoir les thèmes moins maîtrisés." : "Continue à réviser régulièrement. Retourne dans S'entraîner pour renforcer tes connaissances."}
       </div>
 
       <div className="flex gap-3 md:max-w-md">

@@ -26,11 +26,11 @@ export default function RevisionPage() {
           </Link>
           <div>
             <p className="text-gray-500 text-[12px] md:text-[13px] font-medium">Mode révision</p>
-            <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight">Apprendre</h1>
+            <h1 className="text-gray-900 text-[28px] md:text-[36px] font-bold leading-tight">Apprenez les bonnes réponses</h1>
           </div>
         </div>
         <p className="text-gray-500 text-[13px] md:text-[14px]">
-          Choisissez un thème pour lire toutes les questions et réponses officielles.
+          Ce sont les réponses officielles attendues par l&apos;examen. Pas des interprétations, pas des approximations. Choisissez un thème et mémorisez chaque réponse.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
@@ -111,8 +111,8 @@ export default function RevisionPage() {
       {/* CTA */}
       <div className="bg-white border border-black/[0.07] rounded-2xl p-4 md:p-5 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <p className="text-gray-900 text-[15px] font-semibold">Tu as bien lu ?</p>
-          <p className="text-gray-500 text-[12px] font-medium mt-0.5">Teste-toi avec le simulateur d&apos;examen.</p>
+          <p className="text-gray-900 text-[15px] font-semibold">Lire, c&apos;est bien. Se tester, c&apos;est mieux.</p>
+          <p className="text-gray-500 text-[12px] font-medium mt-0.5">Lancez un examen blanc et voyez où vous en êtes vraiment.</p>
         </div>
         <Link
           href={`/dashboard/examen-civique/${parcours}/examen`}

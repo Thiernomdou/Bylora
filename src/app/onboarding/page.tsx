@@ -129,9 +129,9 @@ export default function OnboardingPage() {
 
         <div>
           <h1 className="text-gray-900 text-[26px] md:text-[30px] font-black leading-tight">
-            Quel examen préparez-vous ?
+            Quel titre préparez-vous ?
           </h1>
-          <p className="text-gray-500 text-[15px] mt-1.5">Sélectionnez un examen ou les deux si vous souhaitez préparer les deux parcours.</p>
+          <p className="text-gray-500 text-[15px] mt-1.5">Dites-nous où vous en êtes. Nous adaptons votre préparation. Chaque situation est différente, chaque examen aussi.</p>
         </div>
 
         <div className="space-y-3">
@@ -161,7 +161,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <p className="text-gray-500 text-[13px] leading-relaxed mb-3">
-                  40 questions QCM en 45 minutes sur l&apos;histoire, les institutions et les valeurs de la République.
+                  40 questions QCM en 45 minutes. Obligatoire depuis janvier 2024. Beaucoup le sous-estiment et le ratent au premier essai.
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {["Titre de séjour", "Carte de résident", "Naturalisation"].map((tag) => (
@@ -199,7 +199,7 @@ export default function OnboardingPage() {
                   </div>
                 </div>
                 <p className="text-gray-500 text-[13px] leading-relaxed mb-3">
-                  555 questions pour préparer l&apos;entretien oral avec l&apos;agent préfectoral, réparties en 4 thèmes : Valeurs de la République, Histoire de France, Institutions politiques, et Vie en société.
+                  L&apos;agent préfectoral vous juge en 20 minutes. 555 questions officielles, 4 thèmes, tout ce qu&apos;il peut vous demander, classé et expliqué.
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {["Naturalisation"].map((tag) => (
@@ -256,7 +256,7 @@ export default function OnboardingPage() {
             {hasCivique && hasEntretien ? "Vos dates d'examens" : hasCivique ? "Date de votre examen" : "Date de votre entretien"}
           </h1>
           <p className="text-gray-500 text-[14px] mt-1.5">
-            Optionnel — permet d&apos;afficher un compte à rebours sur votre tableau de bord.
+            Optionnel, mais conseillé. Voir le compte à rebours chaque jour change tout à votre motivation.
           </p>
         </div>
 
@@ -314,7 +314,7 @@ export default function OnboardingPage() {
           disabled={saving}
           className="w-full text-[13px] text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
         >
-          Passer cette étape
+          Je n&apos;ai pas encore ma date
         </button>
 
       </div>

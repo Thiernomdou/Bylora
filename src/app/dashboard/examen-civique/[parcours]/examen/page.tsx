@@ -112,7 +112,7 @@ export default function ExamenPage() {
           </Link>
           <div>
             <p className="text-gray-400 text-[12px] font-semibold uppercase tracking-wider">Simulateur d&apos;examen</p>
-            <h1 className="text-gray-900 text-[22px] font-black">Êtes-vous prêt ?</h1>
+            <h1 className="text-gray-900 text-[22px] font-black">Conditions réelles. Résultat immédiat.</h1>
           </div>
         </div>
 
@@ -129,11 +129,11 @@ export default function ExamenPage() {
         </div>
 
         <div className="bg-white border border-black/[0.07] rounded-2xl p-5 shadow-sm space-y-3">
-          <p className="text-gray-900 text-[14px] font-bold">Conditions de l&apos;examen</p>
+          <p className="text-gray-900 text-[14px] font-bold">Ce qui vous attend, exactement comme le vrai</p>
           {[
-            "40 questions QCM — 4 choix, 1 seule bonne réponse",
-            "45 minutes chronomètre décompte",
-            "Score minimum requis : 32/40 (80%)",
+            "40 questions QCM, 4 choix, une seule bonne réponse",
+            "45 minutes : le chronomètre tourne dès le départ",
+            "80% minimum requis, soit 32 bonnes réponses sur 40",
             "Résultats détaillés par thème à la fin",
           ].map((t) => (
             <div key={t} className="flex items-start gap-2.5 text-[13px] text-gray-600">
@@ -182,7 +182,7 @@ export default function ExamenPage() {
               <span className="material-symbols-outlined" style={{ fontSize: "16px", fontVariationSettings: "'FILL' 1" }}>
                 {pass ? "check_circle" : "cancel"}
               </span>
-              {pass ? "Examen réussi" : "Examen non réussi — continuez à réviser"}
+              {pass ? "Examen réussi" : "Examen non réussi, continuez à réviser"}
             </div>
           </div>
         </div>
@@ -278,7 +278,7 @@ export default function ExamenPage() {
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`w-full text-left px-5 py-4 rounded-2xl border text-[14px] font-semibold transition-all cursor-pointer flex items-center gap-3 ${
+              className={`w-full text-left px-4 md:px-5 py-3.5 md:py-4 rounded-2xl border text-[14px] md:text-[15px] font-semibold transition-all cursor-pointer flex items-center gap-3 ${
                 isSelected
                   ? "border-[#FF4D1C] bg-[#FF4D1C]/8 text-gray-900"
                   : "border-black/[0.08] bg-white text-gray-700 hover:border-black/[0.2] hover:bg-black/[0.02]"

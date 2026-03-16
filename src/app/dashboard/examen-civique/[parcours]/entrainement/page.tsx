@@ -108,7 +108,7 @@ export default function EntrainementPage() {
           </div>
         </div>
         <p className="text-gray-500 text-[13px] md:text-[14px]">
-          Choisissez un thème — évaluez-vous question par question et suivez votre progression.
+          Choisissez un thème et évaluez-vous question par question et suivez votre progression.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -200,7 +200,7 @@ export default function EntrainementPage() {
           <div className="h-full rounded-full transition-all" style={{ width: `${sessionProgress}%`, backgroundColor: theme.accent }} />
         </div>
 
-        <div className="flex flex-col items-stretch rounded-2xl border border-black/[0.07] bg-white shadow-sm overflow-hidden min-h-[240px] md:min-h-[400px]">
+        <div className="flex flex-col items-stretch rounded-2xl border border-black/[0.07] bg-white shadow-sm overflow-hidden min-h-[280px] md:min-h-[400px]">
           <div className="h-[3px] w-full" style={{ backgroundColor: theme.accent }} />
           <div className="px-4 md:px-5 pt-3 md:pt-4 pb-0">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border" style={{ background: `${theme.accent}15`, borderColor: `${theme.accent}30` }}>
@@ -221,17 +221,17 @@ export default function EntrainementPage() {
         </div>
 
         <div className="grid grid-cols-3 gap-2 md:gap-3">
-          <button onClick={() => rate("connais")} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 rounded-2xl h-14 px-2 md:px-5 bg-[#FF4D1C] text-white hover:bg-[#E8421A] transition-colors font-bold text-[13px] md:text-[16px] cursor-pointer">
-            <span className="material-symbols-outlined" style={{ fontSize: "20px", fontVariationSettings: `'FILL' 1` }}>check_circle</span>
+          <button onClick={() => rate("connais")} className="flex flex-col items-center justify-center gap-1 rounded-2xl h-16 md:h-14 px-1 md:px-5 bg-[#FF4D1C] text-white hover:bg-[#E8421A] transition-colors font-bold text-[11px] md:text-[15px] cursor-pointer">
+            <span className="material-symbols-outlined" style={{ fontSize: "22px", fontVariationSettings: `'FILL' 1` }}>check_circle</span>
             <span>Je connais</span>
           </button>
-          <button onClick={() => rate("hesite")} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 rounded-2xl h-14 px-2 md:px-5 border-2 border-[#FF4D1C] text-[#FF4D1C] bg-[#FAF4EC] hover:bg-[#FF4D1C]/10 transition-colors font-bold text-[13px] md:text-[16px] cursor-pointer">
-            <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>help</span>
+          <button onClick={() => rate("hesite")} className="flex flex-col items-center justify-center gap-1 rounded-2xl h-16 md:h-14 px-1 md:px-5 border-2 border-[#FF4D1C] text-[#FF4D1C] bg-[#FAF4EC] hover:bg-[#FF4D1C]/10 transition-colors font-bold text-[11px] md:text-[15px] cursor-pointer">
+            <span className="material-symbols-outlined" style={{ fontSize: "22px" }}>help</span>
             <span>J&apos;hésite</span>
           </button>
-          <button onClick={() => rate("connais_pas")} className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 rounded-2xl h-14 px-2 md:px-5 border border-black/[0.12] text-gray-600 bg-white hover:bg-black/[0.04] transition-colors font-bold text-[13px] md:text-[16px] cursor-pointer">
-            <span className="material-symbols-outlined" style={{ fontSize: "20px" }}>cancel</span>
-            <span>Je ne sais pas</span>
+          <button onClick={() => rate("connais_pas")} className="flex flex-col items-center justify-center gap-1 rounded-2xl h-16 md:h-14 px-1 md:px-5 border border-black/[0.12] text-gray-600 bg-white hover:bg-black/[0.04] transition-colors font-bold text-[11px] md:text-[15px] cursor-pointer">
+            <span className="material-symbols-outlined" style={{ fontSize: "22px" }}>cancel</span>
+            <span>Pas sûr</span>
           </button>
         </div>
       </div>

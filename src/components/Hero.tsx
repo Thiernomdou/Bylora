@@ -230,7 +230,7 @@ function IPhoneScreen() {
           <p style={{ fontSize: 12.5, fontWeight: 700, color: "#111827", lineHeight: 1.45 }}>Quelle est la devise de la République française ?</p>
           <div style={{ marginTop: 11, paddingTop: 11, borderTop: "1px solid rgba(0,0,0,0.06)" }}>
             <p style={{ fontSize: 8, fontWeight: 700, color: "#FF4D1C", textTransform: "uppercase" as const, letterSpacing: "0.1em", marginBottom: 6 }}>Réponse</p>
-            <p style={{ fontSize: 11.5, color: "#4b5563", lineHeight: 1.55 }}>&ldquo;Liberté, Égalité, Fraternité&rdquo; — inscrite dans la Constitution depuis 1789.</p>
+            <p style={{ fontSize: 11.5, color: "#4b5563", lineHeight: 1.55 }}>&ldquo;Liberté, Égalité, Fraternité&rdquo;, inscrite dans la Constitution depuis 1789.</p>
           </div>
         </div>
         {/* Rating label */}
@@ -379,20 +379,20 @@ interface HeroProps { onOpenAuth: () => void; }
 export default function Hero({ onOpenAuth }: HeroProps) {
   return (
     <section className="hero-bg">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-28 flex flex-col lg:flex-row items-center gap-14 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-10 py-12 md:py-16 lg:py-28 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
 
         {/* Text */}
         <div className="flex-1 text-center lg:text-left">
           <p className="text-gray-400 text-[14px] font-medium mb-4 tracking-wide">Bienvenue sur CitoyenFacile</p>
 
-          <h1 className="text-[32px] lg:text-[48px] xl:text-[54px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-5">
+          <h1 className="text-[26px] sm:text-[32px] lg:text-[48px] xl:text-[54px] font-bold leading-[1.1] tracking-tight text-gray-900 mb-5">
             Réussis ton examen civique<br />
             et ton entretien de<br />
             <span className="text-[#FF4D1C] font-extrabold">naturalisation</span>
           </h1>
 
           {/* Two cards */}
-          <div className="grid grid-cols-2 gap-3 mb-8 max-w-lg mx-auto lg:mx-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 max-w-lg mx-auto lg:mx-0">
             {/* Examen civique */}
             <div className="bg-white border border-black/[0.08] rounded-2xl p-4 text-left shadow-sm">
               <div className="flex items-center gap-2 mb-3">
