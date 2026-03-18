@@ -12,7 +12,6 @@ import HowItWorks from "@/components/HowItWorks";
 import Features from "@/components/Features";
 import QuestionsPreview from "@/components/QuestionsPreview";
 import Testimonials from "@/components/Testimonials";
-import Pricing from "@/components/Pricing";
 import FounderNote from "@/components/FounderNote";
 import Faq from "@/components/Faq";
 import FinalCta from "@/components/FinalCta";
@@ -41,8 +40,7 @@ function LandingContent() {
         <Reveal><Features /></Reveal>
         <Reveal><QuestionsPreview /></Reveal>
         <Reveal><Testimonials /></Reveal>
-        <Reveal><Pricing onOpenAuth={() => setAuthOpen(true)} /></Reveal>
-        <Reveal><FounderNote /></Reveal>
+<Reveal><FounderNote /></Reveal>
         <Reveal><Faq /></Reveal>
         <Reveal><FinalCta onOpenAuth={() => setAuthOpen(true)} /></Reveal>
       </main>
