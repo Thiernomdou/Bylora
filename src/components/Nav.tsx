@@ -21,11 +21,12 @@ export default function Nav({ onOpenAuth }: Props) {
           <a href="#faq"       className="text-[14px] font-medium text-gray-600 hover:text-gray-900 transition-colors">FAQ</a>
         </div>
 
-        {/* Actions — visibles sur tous les écrans */}
+        {/* Actions */}
         <div className="flex items-center gap-2">
+          {/* Se connecter — desktop uniquement (trop large sur mobile) */}
           <button
             onClick={onOpenAuth}
-            className="text-[13px] md:text-[14px] font-semibold text-gray-700 hover:text-gray-900 px-3 md:px-4 py-2 rounded-full hover:bg-black/[0.05] transition-colors cursor-pointer whitespace-nowrap"
+            className="hidden md:block text-[14px] font-semibold text-gray-700 hover:text-gray-900 px-4 py-2 rounded-full hover:bg-black/[0.05] transition-colors cursor-pointer whitespace-nowrap"
           >
             Se connecter
           </button>
@@ -33,7 +34,8 @@ export default function Nav({ onOpenAuth }: Props) {
             onClick={onOpenAuth}
             className="bg-[#FF4D1C] text-white text-[13px] md:text-[14px] font-bold px-4 md:px-5 py-2 md:py-2.5 rounded-full hover:bg-[#E8421A] transition-colors cursor-pointer shadow-sm whitespace-nowrap"
           >
-            Créer un compte
+            <span className="md:hidden">Commencer</span>
+            <span className="hidden md:inline">Créer un compte</span>
           </button>
         </div>
       </div>

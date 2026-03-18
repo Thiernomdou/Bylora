@@ -114,10 +114,12 @@ export default function AuthModal({ open, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-end sm:items-center justify-center sm:p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="bg-white border border-black/[0.08] rounded-3xl shadow-2xl w-full max-w-md p-8 relative">
+      <div className="bg-white border border-black/[0.08] rounded-t-3xl sm:rounded-3xl shadow-2xl w-full sm:max-w-md p-6 sm:p-8 relative max-h-[92vh] overflow-y-auto"
+        style={{ paddingBottom: "max(24px, env(safe-area-inset-bottom))" }}
+      >
 
         <button
           onClick={onClose}
