@@ -54,15 +54,15 @@ export default function OnboardingPage() {
     const both = hasCivique && hasEntretien;
     const parcoursDefaut = both ? "les-deux" : hasCivique ? "examen-civique" : "entretien-naturalisation";
 
-    try {
-      await supabase.from("profiles").update({
-        onboarding_done: true,
-        parcours_defaut: parcoursDefaut,
-        interview_date:  hasEntretien ? (interviewDate || null) : null,
-        exam_date:       hasCivique   ? (examDate      || null) : null,
-      }).eq("id", user.id);
-    } catch {
-      // Si exam_date n'existe pas encore en base, on réessaie sans
+    const { error } = await supabase.from("profiles").update({
+      onboarding_done: true,
+      parcours_defaut: parcoursDefaut,
+      interview_date:  hasEntretien ? (interviewDate || null) : null,
+      exam_date:       hasCivique   ? (examDate      || null) : null,
+    }).eq("id", user.id);
+
+    if (error) {
+      // exam_date n'existe pas encore en base, on réessaie sans
       await supabase.from("profiles").update({
         onboarding_done: true,
         parcours_defaut: parcoursDefaut,

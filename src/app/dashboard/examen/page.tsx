@@ -91,12 +91,34 @@ export default function ExamenPage() {
   useEffect(() => {
     if (phase !== "done" || saved || !userId) return;
     setSaved(true);
+
+    // Sauvegarde des ratings individuels dans user_progress
     const rows = knowledgeQueue.filter((q) => answers[q.id] !== undefined).map((q) => ({
       user_id: userId, question_id: q.id, theme: q.theme, rating: answers[q.id], updated_at: new Date().toISOString(),
     }));
-    if (rows.length === 0) return;
-    supabase.from("user_progress").upsert(rows, { onConflict: "user_id,question_id" })
-      .then(({ error }) => { if (error) console.error(error); });
+    if (rows.length > 0) {
+      supabase.from("user_progress").upsert(rows, { onConflict: "user_id,question_id" })
+        .then(({ error }) => { if (error) console.error(error); });
+    }
+
+    // Sauvegarde du résumé de la simulation dans entretien_exam_results
+    const correct = Object.values(answers).filter((a) => a === "connais").length;
+    const total   = Object.keys(answers).length;
+    if (total > 0) {
+      const themeResults: Record<string, { ok: number; total: number }> = {};
+      knowledgeQueue.forEach((q) => {
+        if (!themeResults[q.theme]) themeResults[q.theme] = { ok: 0, total: 0 };
+        themeResults[q.theme].total++;
+        if (answers[q.id] === "connais") themeResults[q.theme].ok++;
+      });
+      supabase.from("entretien_exam_results").insert({
+        user_id: userId,
+        score:   correct,
+        total,
+        passed:  correct / total >= 0.7,
+        theme_results: themeResults,
+      }).then(({ error }) => { if (error) console.error(error); });
+    }
   }, [phase, saved, userId, knowledgeQueue, answers, supabase]);
 
   const answerKnowledge = (val: "connais" | "connais_pas") => {

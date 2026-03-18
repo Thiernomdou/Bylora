@@ -11,10 +11,13 @@ export default async function StatistiquesPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/");
 
-  const { data: progressRows } = await supabase
-    .from("user_progress").select("question_id, rating, theme, updated_at").eq("user_id", user.id);
+  const [{ data: progressRows }, { data: examRows }] = await Promise.all([
+    supabase.from("user_progress").select("question_id, rating, theme, updated_at").eq("user_id", user.id),
+    supabase.from("entretien_exam_results").select("score, total, passed, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
+  ]);
 
-  const rows   = progressRows ?? [];
+  const rows  = progressRows ?? [];
+  const exams = examRows    ?? [];
   const themes = ["valeurs", "histoire", "institutions", "geographie", "droits"] as const;
 
   const STATS: Record<string, { connais: number; hesite: number; connais_pas: number; total: number }> = {};
@@ -161,6 +164,36 @@ export default async function StatistiquesPage() {
           })}
         </div>
       </div>
+
+      {/* ── HISTORIQUE SIMULATIONS D'ENTRETIEN ── */}
+      {exams.length > 0 && (
+        <div>
+          <p className="text-gray-900 text-[15px] font-bold mb-3 px-1">Historique des simulations d&apos;entretien</p>
+          <div className="space-y-2">
+            {exams.slice(0, 10).map((e, i) => {
+              const pct  = Math.round((e.score / e.total) * 100);
+              const date = new Date(e.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+              return (
+                <div key={i} className="bg-white border border-black/[0.07] rounded-2xl px-4 py-3 shadow-sm flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`size-8 rounded-full flex items-center justify-center ${e.passed ? "bg-green-50" : "bg-red-50"}`}>
+                      <span className="material-symbols-outlined" style={{ fontSize: "16px", color: e.passed ? "#059669" : "#DC2626", fontVariationSettings: "'FILL' 1" }}>
+                        {e.passed ? "check_circle" : "cancel"}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-gray-900 text-[13px] font-bold">{e.score} / {e.total} maîtrisées</p>
+                      <p className="text-gray-400 text-[11px]">{date}</p>
+                    </div>
+                  </div>
+                  <p className={`text-[16px] font-black ${e.passed ? "text-[#FF4D1C]" : "text-gray-400"}`}>{pct}%</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
