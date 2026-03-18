@@ -6,35 +6,37 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 const NAV_ENTRETIEN = [
-  { href: "/dashboard",              icon: "home",             label: "Accueil"      },
-  { href: "/dashboard/entretien",    icon: "record_voice_over",label: "Mon entretien" },
-  { href: "/dashboard/apprendre",    icon: "menu_book",        label: "Apprendre"    },
-  { href: "/dashboard/simulation",   icon: "fitness_center",   label: "S'entraîner"  },
-  { href: "/dashboard/examen",       icon: "assignment",       label: "Entretien"    },
-  { href: "/dashboard/statistiques", icon: "bar_chart_4_bars", label: "Statistiques" },
+  { href: "/dashboard",              icon: "home",             label: "Accueil",      short: "Accueil"    },
+  { href: "/dashboard/entretien",    icon: "record_voice_over",label: "Mon entretien",short: "Entretien"  },
+  { href: "/dashboard/apprendre",    icon: "menu_book",        label: "Apprendre",    short: "Apprendre"  },
+  { href: "/dashboard/simulation",   icon: "fitness_center",   label: "S'entraîner",  short: "Flashcards" },
+  { href: "/dashboard/examen",       icon: "assignment",       label: "Entretien",    short: "Examen"     },
+  { href: "/dashboard/statistiques", icon: "bar_chart_4_bars", label: "Statistiques", short: "Stats"      },
 ];
 
 function buildNavCivique(parcours?: string) {
   const base = [
-    { href: "/dashboard",                icon: "home",  label: "Accueil"        },
-    { href: "/dashboard/examen-civique", icon: "quiz",  label: "Examen civique" },
+    { href: "/dashboard",                icon: "home",  label: "Accueil",        short: "Accueil"   },
+    { href: "/dashboard/examen-civique", icon: "quiz",  label: "Examen civique", short: "Civique"   },
   ];
   if (!parcours) return base;
   return [
     ...base,
-    { href: `/dashboard/examen-civique/${parcours}/revision`,      icon: "menu_book",        label: "Apprendre"    },
-    { href: `/dashboard/examen-civique/${parcours}/entrainement`,  icon: "fitness_center",   label: "S'entraîner"  },
-    { href: `/dashboard/examen-civique/${parcours}/examen`,        icon: "assignment",       label: "Examen"       },
-    { href: `/dashboard/examen-civique/${parcours}/statistiques`,  icon: "bar_chart_4_bars", label: "Statistiques" },
+    { href: `/dashboard/examen-civique/${parcours}/revision`,      icon: "menu_book",        label: "Apprendre",    short: "Apprendre"  },
+    { href: `/dashboard/examen-civique/${parcours}/entrainement`,  icon: "fitness_center",   label: "S'entraîner",  short: "Flashcards" },
+    { href: `/dashboard/examen-civique/${parcours}/examen`,        icon: "assignment",       label: "Examen",       short: "Examen"     },
+    { href: `/dashboard/examen-civique/${parcours}/statistiques`,  icon: "bar_chart_4_bars", label: "Statistiques", short: "Stats"      },
   ];
 }
 
 function buildNavHome(parcours: string) {
-  const home = { href: "/dashboard", icon: "home", label: "Accueil" };
-  if (parcours === "examen-civique")           return [home, { href: "/dashboard/examen-civique", icon: "quiz",              label: "Examen civique" }];
-  if (parcours === "entretien-naturalisation") return [home, { href: "/dashboard/entretien",      icon: "record_voice_over", label: "Naturalisation" }];
-  if (parcours === "les-deux")                 return [home, { href: "/dashboard/examen-civique", icon: "quiz",              label: "Examen civique" },
-                                                             { href: "/dashboard/entretien",      icon: "record_voice_over", label: "Naturalisation" }];
+  const home = { href: "/dashboard", icon: "home", label: "Accueil", short: "Accueil" };
+  if (parcours === "examen-civique")           return [home, { href: "/dashboard/examen-civique", icon: "quiz",              label: "Examen civique", short: "Civique"   }];
+  if (parcours === "entretien-naturalisation") return [home, { href: "/dashboard/entretien",      icon: "record_voice_over", label: "Mon entretien",  short: "Entretien" }];
+  if (parcours === "les-deux")                 return [home,
+    { href: "/dashboard/examen-civique", icon: "quiz",              label: "Examen civique", short: "Civique"   },
+    { href: "/dashboard/entretien",      icon: "record_voice_over", label: "Mon entretien",  short: "Entretien" },
+  ];
   return [home];
 }
 
@@ -81,6 +83,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     router.push("/");
   }
 
+  const navItems = path.startsWith("/dashboard/examen-civique")
+    ? buildNavCivique(path.match(/\/dashboard\/examen-civique\/([^/]+)/)?.[1])
+    : path.startsWith("/dashboard/entretien") || path.startsWith("/dashboard/apprendre") || path.startsWith("/dashboard/simulation") || path.startsWith("/dashboard/examen") || path.startsWith("/dashboard/statistiques")
+    ? NAV_ENTRETIEN
+    : buildNavHome(parcoursDefaut);
+
   function ProfileDropdown() {
     return (
       <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-black/[0.08] rounded-2xl shadow-xl z-[200] overflow-hidden">
@@ -111,38 +119,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen flex">
 
-      {/* ── SIDEBAR (mobile: slim icons / desktop: full) ── */}
-      <aside className="flex flex-col fixed left-0 top-0 h-full z-50
-        w-14 md:w-56
-        bg-white/90 md:bg-white/80 backdrop-blur-md border-r border-black/[0.07] shadow-sm"
+      {/* ── SIDEBAR — desktop uniquement ── */}
+      <aside className="hidden md:flex flex-col fixed left-0 top-0 h-full z-50
+        w-56 bg-white/80 backdrop-blur-md border-r border-black/[0.07] shadow-sm"
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         {/* Logo */}
-        <Link href="/dashboard" className="flex items-center justify-center md:justify-start gap-2 px-0 md:px-4 py-4 md:py-5 border-b border-black/[0.06] shrink-0">
-          {/* Mobile: icône seule */}
-          <img src="/icon.svg" alt="" className="flex md:hidden h-7 w-7" aria-hidden="true" />
-          {/* Desktop: icône + texte */}
-          <img src="/icon.svg" alt="" className="hidden md:block h-7 w-7" aria-hidden="true" />
-          <span className="hidden md:block text-[17px] font-black tracking-tight text-gray-900">
+        <Link href="/dashboard" className="flex items-center gap-2 px-4 py-5 border-b border-black/[0.06] shrink-0">
+          <img src="/icon.svg" alt="" className="h-7 w-7" aria-hidden="true" />
+          <span className="text-[17px] font-black tracking-tight text-gray-900">
             Citoyen<span className="text-[#FF4D1C]">Facile</span>
           </span>
         </Link>
 
         {/* Nav items */}
-        <nav className="flex-1 flex flex-col px-1.5 md:px-3 py-3 md:py-4 gap-1 overflow-y-auto">
-          {(path.startsWith("/dashboard/examen-civique")
-            ? buildNavCivique(path.match(/\/dashboard\/examen-civique\/([^/]+)/)?.[1])
-            : path.startsWith("/dashboard/entretien") || path.startsWith("/dashboard/apprendre") || path.startsWith("/dashboard/simulation") || path.startsWith("/dashboard/examen") || path.startsWith("/dashboard/statistiques")
-            ? NAV_ENTRETIEN
-            : buildNavHome(parcoursDefaut)
-          ).map((n) => {
+        <nav className="flex-1 flex flex-col px-3 py-4 gap-1 overflow-y-auto">
+          {navItems.map((n) => {
             const active = path === n.href || (n.href !== "/dashboard" && path.startsWith(n.href));
             return (
               <Link
                 key={n.href}
                 href={n.href}
                 title={n.label}
-                className={`flex items-center justify-center md:justify-start gap-3 px-0 md:px-3 py-2.5 rounded-xl transition-all text-[14px] font-medium ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-[14px] font-medium ${
                   active
                     ? "bg-[#FF4D1C]/10 text-[#FF4D1C] font-semibold"
                     : "text-gray-500 hover:bg-black/[0.04] hover:text-gray-900"
@@ -159,19 +158,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 >
                   {n.icon}
                 </span>
-                <span className="hidden md:block">{n.label}</span>
+                <span>{n.label}</span>
               </Link>
             );
           })}
         </nav>
-
       </aside>
 
-      {/* ── MAIN CONTENT ── */}
-      <div className="flex-1 flex flex-col ml-14 md:ml-56 min-w-0 overflow-x-hidden">
+      {/* ── CONTENU PRINCIPAL ── */}
+      <div className="flex-1 flex flex-col md:ml-56 min-w-0 overflow-x-hidden">
 
         {/* TOPBAR */}
-        <header className="bg-white/80 backdrop-blur-md border-b border-black/[0.06] flex items-center justify-end px-4 md:px-8 py-3 sticky top-0 z-40">
+        <header className="bg-white/80 backdrop-blur-md border-b border-black/[0.06] flex items-center justify-between px-4 md:px-8 py-3 sticky top-0 z-40">
+          {/* Logo — mobile uniquement (pas de sidebar sur mobile) */}
+          <Link href="/dashboard" className="flex md:hidden items-center gap-2">
+            <img src="/icon.svg" alt="" className="h-6 w-6" aria-hidden="true" />
+            <span className="text-[16px] font-black tracking-tight text-gray-900">
+              Citoyen<span className="text-[#FF4D1C]">Facile</span>
+            </span>
+          </Link>
+          {/* Espace sur desktop (le logo est dans la sidebar) */}
+          <div className="hidden md:block" />
+
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setProfileOpen((v) => !v)}
@@ -187,10 +195,45 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </header>
 
-        <main className="flex-1 pb-6">
+        {/* Padding bottom pour laisser de la place à la bottom nav mobile */}
+        <main className="flex-1 pb-[calc(64px+env(safe-area-inset-bottom))] md:pb-6">
           {children}
         </main>
       </div>
+
+      {/* ── BOTTOM NAV — mobile uniquement ── */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-black/[0.07]"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div className="flex items-stretch overflow-x-auto no-scrollbar">
+          {navItems.map((n) => {
+            const active = path === n.href || (n.href !== "/dashboard" && path.startsWith(n.href));
+            return (
+              <Link
+                key={n.href}
+                href={n.href}
+                className={`flex flex-col items-center justify-center gap-0.5 py-2.5 flex-1 min-w-[56px] transition-colors ${
+                  active ? "text-[#FF4D1C]" : "text-gray-400"
+                }`}
+              >
+                <span
+                  className="material-symbols-outlined"
+                  style={{
+                    fontSize: "22px",
+                    fontVariationSettings: active
+                      ? `'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24`
+                      : `'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
+                  }}
+                >
+                  {n.icon}
+                </span>
+                <span className="text-[9px] font-semibold w-full text-center leading-tight px-0.5 truncate">{n.short}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
 
     </div>
   );
