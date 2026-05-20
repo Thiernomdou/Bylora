@@ -225,7 +225,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
     gap: 50px;
-    align-items: stretch;
+    align-items: start;
   }
   .hero-copy { position: relative; z-index: 2; }
   .squiggle-hero {
@@ -272,9 +272,8 @@
   .hero-photo {
     position: relative;
     display: flex;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
-    align-self: stretch;
   }
   .blob {
     position: absolute;
@@ -1345,9 +1344,10 @@
     position: relative;
     z-index: 3;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    object-position: center top;
     display: block;
     border-radius: 16px;
     filter: drop-shadow(0 24px 60px rgba(28,26,23,0.18));
