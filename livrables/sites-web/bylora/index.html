@@ -1340,6 +1340,17 @@
     color: var(--yellow-2);
   }
 
+  /* ===== PHOTO RÉELLE HERO ===== */
+  .photo-real {
+    position: relative;
+    z-index: 3;
+    width: 380px;
+    height: 480px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+
   /* ===== STICKY MOBILE CTA ===== */
   .sticky-mobile { display: none; }
 
@@ -1416,9 +1427,9 @@
         <h1 class="h1">
           Répondez à plus<br>
           d'<span class="coral">appels d'offres</span><span class="scribble"><svg viewBox="0 0 38 38" fill="none"><path d="M6 32 Q14 8 22 18 T34 14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg></span><br>
-          <span class="light">sans embaucher.</span>
+          <span class="light">en un temps record.</span>
         </h1>
-        <p class="lede">Bylora aide les PME du second œuvre — électricité, plomberie, CVC — à transformer 3 jours d'analyse DCE en 4 heures, et à livrer des mémoires techniques qui passent au premier tour.</p>
+        <p class="lede">Bylora aide les PME du second œuvre — électricité, plomberie, CVC — à gagner plusieurs jours sur chaque appel d'offres et à livrer des mémoires techniques qui passent au premier tour.</p>
 
         <div class="cta-row">
           <a href="#contact" class="btn btn-primary">Réserver un appel <span class="arrow-circle">→</span></a>
@@ -1441,12 +1452,11 @@
         <div class="blob blob-dark"></div>
         <div class="blob-coral-small"></div>
 
-        <div class="photo-slot">
-          <div class="glyph">+</div>
-          <div class="lbl">[ Portrait dirigeant ]</div>
-          <div class="sub">Photo authentique d'un<br>gérant de PME BTP, sourire pro</div>
-          <div class="sub" style="margin-top:14px; font-family: 'Bricolage Grotesque'; font-weight:700; color:var(--ink);">Format vertical, fond neutre</div>
-        </div>
+        <img
+          src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=380&h=480&fit=crop&q=80"
+          alt="Dirigeant PME BTP"
+          class="photo-real"
+        />
 
         <svg class="photo-slot-dot d1" viewBox="0 0 40 40" fill="none"><path d="M6 32 Q14 6 22 18 T36 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
       </div>
@@ -1465,9 +1475,11 @@
           Bylora
         </div>
         <svg class="dots-deco" viewBox="0 0 60 60" fill="currentColor"><circle cx="6" cy="6" r="3"/><circle cx="20" cy="6" r="3"/><circle cx="6" cy="20" r="3"/><circle cx="34" cy="6" r="3"/><circle cx="20" cy="20" r="3"/><circle cx="6" cy="34" r="3"/><circle cx="48" cy="6" r="3"/><circle cx="34" cy="20" r="3"/><circle cx="20" cy="34" r="3"/></svg>
-        <div class="glyph">+</div>
-        <div class="lbl">[ Photo équipe ]</div>
-        <div class="sub">Bylora au travail —<br>réunion sur un DCE réel</div>
+        <img
+          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=560&h=360&fit=crop&q=80"
+          alt="Équipe Bylora au travail"
+          style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;border-radius:16px;"
+        />
       </div>
 
       <!-- Stats -->
@@ -1717,7 +1729,7 @@
       </div>
       <div class="aud-card dark">
         <span class="tag"><span class="dot">C</span> Ambition</span>
-        <h3>Répondre à plus d'AO sans embaucher.</h3>
+        <h3>Répondre à plus d'AO en moins de temps.</h3>
         <ul>
           <li>Marchés publics <span class="meta">collectivités</span></li>
           <li>Bailleurs sociaux <span class="meta">OPH, ESH</span></li>
@@ -1770,8 +1782,8 @@
         </div>
         <div class="before">Avant : 18 dépôts / an</div>
         <div class="big">2×<span class="unit">plus</span></div>
-        <div class="delta"><span class="arc">↑</span>+100% sans recruter</div>
-        <div class="desc">Capacité à répondre à deux fois plus d'appels d'offres par an — sans chargé d'AO supplémentaire.</div>
+        <div class="delta"><span class="arc">↑</span>+100% de capacité de réponse</div>
+        <div class="desc">Capacité à répondre à deux fois plus d'appels d'offres par an — avec le même temps disponible.</div>
       </div>
     </div>
   </div>
@@ -1795,7 +1807,8 @@
         </div>
       </div>
 
-      <form class="form" onsubmit="event.preventDefault(); var b=this.querySelector('button'); b.innerHTML='✓ Merci — réponse sous 24h';">
+      <form class="form" name="contact" method="POST" data-netlify="true" onsubmit="var b=this.querySelector('button'); b.innerHTML='✓ Merci — réponse sous 24h';">
+        <input type="hidden" name="form-name" value="contact" />
         <div class="form-head">
           <span><span class="dot"></span>Formulaire — 4 champs</span>
           <span>~ 60 sec.</span>
