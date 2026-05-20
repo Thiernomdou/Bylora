@@ -1,8 +1,7 @@
 [build]
   publish = "livrables/sites-web/bylora"
-  command = ""
+  command = "echo 'Static site — no build needed'"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-    enable = false
+[build.environment]
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NODE_ENV = "production"
