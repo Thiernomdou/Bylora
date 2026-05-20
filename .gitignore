@@ -84,3 +84,6 @@ temp/
 *.csv
 # Décommenter si les CSV peuvent contenir des données clients
 # Pour l'instant commenté car les CSVs peuvent être utiles à versionner
+
+# --- Vercel / déploiement ---
+.vercel

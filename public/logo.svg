@@ -1,0 +1,13 @@
+<svg width="240" height="44" viewBox="0 0 240 44" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CitoyenFacile">
+  <!-- Cocarde tricolore -->
+  <circle cx="22" cy="22" r="20" fill="#002395"/>
+  <circle cx="22" cy="22" r="13" fill="#FFFFFF"/>
+  <circle cx="22" cy="22" r="7"  fill="#ED2939"/>
+  <!-- Text: Citoyen (dark) + Facile (orange) -->
+  <text x="50" y="30"
+    font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif"
+    font-size="21" font-weight="800" fill="#111827" letter-spacing="-0.5">Citoyen</text>
+  <text x="152" y="30"
+    font-family="Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif"
+    font-size="21" font-weight="800" fill="#FF4D1C" letter-spacing="-0.5">Facile</text>
+</svg>
