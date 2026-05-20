@@ -223,7 +223,7 @@
   }
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
     gap: 50px;
     align-items: center;
   }
@@ -271,7 +271,6 @@
   /* hero photo composition */
   .hero-photo {
     position: relative;
-    height: 580px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1344,11 +1343,12 @@
   .photo-real {
     position: relative;
     z-index: 3;
-    width: 380px;
-    height: 480px;
-    object-fit: cover;
-    border-radius: 4px;
+    width: 100%;
+    max-width: 620px;
+    height: auto;
     display: block;
+    border-radius: 16px;
+    filter: drop-shadow(0 24px 60px rgba(28,26,23,0.18));
   }
 
   /* ===== STICKY MOBILE CTA ===== */
@@ -1453,8 +1453,8 @@
         <div class="blob-coral-small"></div>
 
         <img
-          src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=380&h=480&fit=crop&q=80"
-          alt="Dirigeant PME BTP"
+          src="hero.png"
+          alt="Interface Bylora — analyse DCE en temps réel"
           class="photo-real"
         />
 
