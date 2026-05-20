@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bylora — Répondez aux appels d'offres 3x plus vite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf4ea;
+    --cream-2: #f3ead9;
+    --beige: #e8dcc8;
+    --paper: #ffffff;
+    --ink: #1c1a17;
+    --ink-2: #3a3631;
+    --muted: #6f6962;
+    --coral: #ff5b3a;
+    --coral-2: #ec4825;
+    --yellow: #fdd649;
+    --yellow-2: #f5c41a;
+    --green: #2a9d6e;
+    --rule: #1c1a1715;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { overflow-x: hidden; }
+
+  .display {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+  }
+
+  /* ===== TOP BAR ===== */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 22px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  /* Bylora mark: coral spiral-like shape */
+  .brand-mark svg { width: 100%; height: 100%; display: block; }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .nav a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav a:hover { color: var(--coral); }
+
+  .topbar-cta {
+    background: var(--yellow);
+    color: var(--ink);
+    border: none;
+    padding: 13px 26px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 999px;
+    transition: all 0.15s;
+  }
+  .topbar-cta:hover { background: var(--yellow-2); transform: translateY(-1px); }
+
+  /* ===== SHARED ===== */
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+  section { position: relative; }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+
+  .h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: clamp(48px, 6.4vw, 92px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .h1 .light { font-weight: 500; }
+  .h1 .coral { color: var(--coral); }
+
+  .h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .h2 .light { font-weight: 500; }
+  .h2 .coral { color: var(--coral); }
+
+  .lede {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 480px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 30px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 999px;
+    transition: all 0.18s;
+    line-height: 1;
+  }
+  .btn-primary {
+    background: var(--coral);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--coral-2); transform: translateY(-1px); }
+  .btn-primary .arrow-circle {
+    width: 26px; height: 26px;
+    background: var(--yellow);
+    color: var(--ink);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .btn-play {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .btn-play .play-circle {
+    width: 50px; height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 14px #1c1a171a;
+  }
+  .btn-play .play-circle::before {
+    content: '';
+    width: 0; height: 0;
+    border-left: 11px solid var(--ink);
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    margin-left: 3px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 60px 0 110px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 50px;
+    align-items: center;
+  }
+  .hero-copy { position: relative; z-index: 2; }
+  .squiggle-hero {
+    position: absolute;
+    color: var(--ink);
+    opacity: 0.35;
+  }
+  .squiggle-hero.q1 { top: 12%; right: -50px; width: 60px; }
+  .squiggle-hero.q2 { top: 38%; left: -80px; width: 70px; opacity: 0.25; }
+  .squiggle-hero.q3 { top: 12%; right: -110px; width: 80px; }
+
+  .hero h1 { margin: 12px 0 26px; position: relative; }
+  .hero h1 .scribble {
+    display: inline-block;
+    width: 38px;
+    height: 38px;
+    vertical-align: top;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  .hero .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-top: 38px;
+    flex-wrap: wrap;
+  }
+  .hero .trust {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .hero .trust .dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px #2a9d6e25;
+  }
+
+  /* hero photo composition */
+  .hero-photo {
+    position: relative;
+    height: 580px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .blob-yellow {
+    width: 220px;
+    height: 220px;
+    background: var(--yellow);
+    bottom: 50px;
+    right: 30px;
+    border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  }
+  .blob-yellow::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+    background: var(--cream);
+    border-radius: 50%;
+    top: 28%; left: 30%;
+    box-shadow:
+      18px 8px 0 var(--cream),
+      36px -2px 0 var(--cream),
+      8px 26px 0 var(--cream),
+      28px 22px 0 var(--cream);
+  }
+  .blob-dark {
+    width: 200px;
+    height: 230px;
+    background: var(--ink);
+    top: 40px;
+    left: 40px;
+    border-radius: 50% 50% 55% 45% / 60% 50% 50% 40%;
+  }
+  .blob-dark::after {
+    content: '';
+    position: absolute;
+    width: 8px; height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    top: 32%; right: 26%;
+    box-shadow:
+      -16px 6px 0 #fff,
+      -32px 14px 0 #fff,
+      -6px 22px 0 #fff,
+      -22px 28px 0 #fff;
+  }
+  .blob-coral-small {
+    position: absolute;
+    width: 70px; height: 70px;
+    background: var(--coral);
+    border-radius: 50%;
+    top: 50px;
+    right: 100px;
+    z-index: 1;
+  }
+  .blob-coral-small::after {
+    content: '';
+    position: absolute;
+    width: 28px; height: 28px;
+    background: transparent;
+    border: 4px solid var(--cream);
+    border-bottom: none;
+    border-right: none;
+    border-radius: 50%;
+    top: 22px; left: 22px;
+  }
+
+  .photo-slot {
+    position: relative;
+    z-index: 3;
+    width: 380px;
+    height: 480px;
+    background: var(--cream-2);
+    background-image:
+      repeating-linear-gradient(135deg, transparent 0 18px, #1c1a1708 18px 19px);
+    border: 1.5px dashed #1c1a1740;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    text-align: center;
+  }
+  .photo-slot .glyph {
+    width: 50px; height: 50px;
+    border: 1.5px dashed #1c1a1760;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', monospace;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 8px;
+  }
+  .photo-slot .lbl {
+    font-family: 'Plus Jakarta Sans', monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .photo-slot .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .photo-slot::before {
+    content: '';
+    position: absolute;
+    left: 25%; right: 25%;
+    bottom: -2px;
+    height: 2px;
+    background: var(--ink);
+  }
+  .photo-slot-dot {
+    position: absolute;
+    z-index: 4;
+    color: var(--ink);
+  }
+  .photo-slot-dot.d1 { top: -10px; left: 40%; width: 40px; height: 40px; }
+
+  /* dotted accent under hero */
+  .dotted {
+    position: absolute;
+    width: 100px; height: 60px;
+    color: var(--ink);
+    opacity: 0.5;
+  }
+
+  /* ===== SUMMARY / STATS BLOCK ===== */
+  .summary {
+    padding: 30px 0 110px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+    align-items: stretch;
+  }
+
+  .team-photo {
+    position: relative;
+    height: 360px;
+    background: var(--cream-2);
+    background-image: repeating-linear-gradient(135deg, transparent 0 18px, #1c1a1708 18px 19px);
+    border: 1.5px dashed #1c1a1740;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+  }
+  .team-photo .badge-floating {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 16px 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 18px #1c1a1718;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .team-photo .badge-floating .v {
+    width: 22px; height: 22px;
+    background: var(--coral);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 11px;
+  }
+  .team-photo .dots-deco {
+    position: absolute;
+    left: 16px;
+    bottom: 24px;
+    color: var(--yellow-2);
+    width: 60px; height: 60px;
+  }
+  .team-photo .glyph {
+    width: 60px; height: 60px;
+    border: 1.5px dashed #1c1a1760;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+  }
+  .team-photo .lbl {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: var(--ink-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .team-photo .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .summary-numbers {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .summary-numbers h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .summary-numbers h3 .ar {
+    color: var(--coral);
+    font-size: 24px;
+  }
+  .summary-numbers .sq-deco {
+    position: absolute;
+    right: -10px;
+    top: 6px;
+    width: 50px;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+  .num-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 28px;
+    margin-top: 26px;
+  }
+  .num-grid .stat {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+  }
+  .num-grid .stat .big {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .num-grid .stat .big .small { font-size: 24px; color: var(--coral); margin-left: 2px; }
+  .num-grid .stat .lbl {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* Dark card with media */
+  .dark-card {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 18px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+  }
+  .dark-card .corner {
+    position: absolute;
+    top: 0; right: 0;
+    width: 100px; height: 100px;
+    background: var(--coral);
+    border-bottom-left-radius: 50%;
+  }
+  .dark-card .corner::after {
+    content: '';
+    position: absolute;
+    width: 32px; height: 32px;
+    border: 4px solid var(--cream);
+    border-bottom: none;
+    border-right: none;
+    border-radius: 50%;
+    top: 24px; left: 24px;
+  }
+  .dark-card .icon-top {
+    width: 36px; height: 36px;
+    background: #ffffff15;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    color: var(--yellow);
+  }
+  .dark-card h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    max-width: 240px;
+    margin-bottom: 22px;
+  }
+  .dark-card .doc-mini {
+    margin-top: auto;
+    background: #ffffff10;
+    border: 1px solid #ffffff20;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dark-card .doc-mini .icon {
+    width: 36px; height: 36px;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .dark-card .doc-mini .meta { font-size: 12px; color: #ffffffb0; }
+  .dark-card .doc-mini .title { font-family: 'Bricolage Grotesque'; font-weight: 600; font-size: 14px; }
+  .dark-card .view-work {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .dark-card .view-work .ar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #ffffff15;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+  .scroll-down {
+    position: absolute;
+    right: -22px;
+    bottom: 28px;
+    width: 44px; height: 44px;
+    background: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 18px #1c1a1722;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .yellow-dot-tiny {
+    position: absolute;
+    right: 90px;
+    bottom: 14px;
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+  }
+
+  /* ===== PAIN ===== */
+  .pain {
+    padding: 50px 0 110px;
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+  }
+  .sec-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 50px;
+    align-items: end;
+    margin-bottom: 56px;
+    padding-top: 60px;
+  }
+  .sec-head .right { padding-bottom: 8px; }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .pain-card {
+    background: var(--paper);
+    border-radius: 22px;
+    padding: 32px 28px 30px;
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+  }
+  .pain-card .badge-num {
+    position: absolute;
+    top: 28px; right: 28px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .pain-card .icon-circle {
+    width: 56px; height: 56px;
+    background: var(--yellow);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+  }
+  .pain-card.alt .icon-circle { background: var(--coral); color: #fff; }
+  .pain-card.alt2 .icon-circle { background: var(--ink); color: var(--yellow); }
+  .pain-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+  }
+  .pain-card p {
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .pain-card .footnote {
+    margin-top: auto;
+    padding-top: 22px;
+    border-top: 1px dashed var(--rule);
+    margin-top: 22px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pain-card .footnote .v {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    color: var(--coral);
+    font-size: 16px;
+  }
+
+  /* ===== SOLUTION / STEPS ===== */
+  .solution {
+    background: var(--cream-2);
+    padding: 100px 0;
+    border-radius: 36px 36px 0 0;
+    position: relative;
+  }
+  .solution::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0; right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--cream-2));
+    pointer-events: none;
+    opacity: 0;
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .step-card {
+    background: var(--paper);
+    border-radius: 22px;
+    padding: 30px 28px 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 460px;
+  }
+  .step-card.feat {
+    background: var(--ink);
+    color: #fff;
+  }
+  .step-card .step-no {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .step-card.feat .step-no { color: var(--yellow); }
+  .step-card .step-no .bullet {
+    width: 26px; height: 26px;
+    background: var(--cream);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .step-card.feat .step-no .bullet { background: var(--coral); color: #fff; }
+  .step-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .step-card p {
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 26px;
+  }
+  .step-card.feat p { color: #ffffffb5; }
+  .step-card .mini {
+    margin-top: auto;
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 13px;
+  }
+  .step-card.feat .mini { background: #ffffff10; color: #fff; border: 1px solid #ffffff20; }
+  .step-card .mini .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+  }
+  .step-card .mini .row + .row { border-top: 1px solid var(--rule); }
+  .step-card.feat .mini .row + .row { border-top-color: #ffffff15; }
+  .step-card .mini .k { color: var(--muted); font-size: 12px; }
+  .step-card.feat .mini .k { color: #ffffff80; }
+  .step-card .mini .v {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .step-card .mini .v.ok { color: var(--green); }
+  .step-card.feat .mini .v.ok { color: #6ddca6; }
+
+  /* ===== CONFIDENTIALITÉ ===== */
+  .confid {
+    background: var(--cream-2);
+    padding: 30px 0 100px;
+  }
+  .confid-wrap {
+    background: var(--paper);
+    border-radius: 30px;
+    padding: 70px 70px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .confid-deco {
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 220px; height: 220px;
+    background: var(--yellow);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .confid-deco-2 {
+    position: absolute;
+    bottom: -30px; left: -30px;
+    width: 100px; height: 100px;
+    border: 6px solid var(--coral);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .confid-points {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .confid-points .item {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .confid-points .item .pn {
+    width: 38px; height: 38px;
+    background: var(--cream);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .confid-points .item:nth-child(1) .pn { background: var(--coral); color: #fff; }
+  .confid-points .item:nth-child(2) .pn { background: var(--yellow); }
+  .confid-points .item:nth-child(3) .pn { background: var(--ink); color: var(--yellow); }
+  .confid-points .item:nth-child(4) .pn { background: var(--cream-2); }
+  .confid-points h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .confid-points p { color: var(--ink-2); font-size: 14.5px; line-height: 1.55; }
+
+  .seal {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 22px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .seal-corner {
+    position: absolute;
+    top: 0; right: 0;
+    width: 90px; height: 90px;
+    background: var(--coral);
+    border-bottom-left-radius: 100%;
+  }
+  .seal-corner::after {
+    content: '🔒';
+    position: absolute;
+    top: 18px; right: 22px;
+    font-size: 22px;
+  }
+  .seal h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--yellow);
+    margin-bottom: 38px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .seal .big {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 80px;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    margin-bottom: 8px;
+  }
+  .seal .big .pct { color: var(--coral); }
+  .seal .lbl {
+    color: #ffffffb5;
+    font-size: 14px;
+    margin-bottom: 28px;
+    max-width: 220px;
+  }
+  .seal-rows {
+    border-top: 1px solid #ffffff20;
+  }
+  .seal-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #ffffff15;
+    font-size: 13.5px;
+  }
+  .seal-row .k { color: #ffffff85; }
+  .seal-row .v { font-family: 'Bricolage Grotesque'; font-weight: 600; }
+  .seal-row .v.check { color: var(--yellow); }
+  .seal-row .v.check::before { content: '✓ '; }
+
+  /* ===== POUR QUI ===== */
+  .pourqui { padding: 30px 0 100px; }
+  .aud-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .aud-card {
+    background: var(--paper);
+    border-radius: 22px;
+    padding: 32px 28px;
+    position: relative;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+  }
+  .aud-card.dark { background: var(--ink); color: #fff; }
+  .aud-card.yellow { background: var(--yellow); }
+  .aud-card .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cream);
+    border-radius: 999px;
+    padding: 6px 14px 6px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    width: fit-content;
+    margin-bottom: 30px;
+  }
+  .aud-card.dark .tag { background: #ffffff15; color: var(--yellow); }
+  .aud-card.yellow .tag { background: var(--ink); color: var(--yellow); }
+  .aud-card .tag .dot {
+    width: 16px; height: 16px;
+    background: var(--coral);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .aud-card.dark .tag .dot { background: var(--yellow); color: var(--ink); }
+  .aud-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .aud-card ul {
+    list-style: none;
+    margin-top: auto;
+    border-top: 1px solid var(--rule);
+    padding-top: 8px;
+  }
+  .aud-card.dark ul { border-top-color: #ffffff20; }
+  .aud-card.yellow ul { border-top-color: #1c1a1730; }
+  .aud-card li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+  }
+  .aud-card.dark li { border-bottom-color: #ffffff15; }
+  .aud-card.yellow li { border-bottom-color: #1c1a1722; }
+  .aud-card li:last-child { border-bottom: none; }
+  .aud-card li .meta {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600;
+  }
+  .aud-card.dark li .meta { color: #ffffff75; }
+
+  /* ===== RESULTS ===== */
+  .results {
+    padding: 30px 0 110px;
+    background: var(--cream);
+  }
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .res-card {
+    background: var(--paper);
+    border-radius: 22px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+  .res-card.feat {
+    background: var(--coral);
+    color: #fff;
+  }
+  .res-card .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .res-card .head .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .res-card.feat .head .lbl { color: #ffffffd0; }
+  .res-card .head .badge {
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .res-card.feat .head .badge { background: var(--ink); color: var(--yellow); }
+  .res-card .before {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-bottom: 6px;
+  }
+  .res-card.feat .before { color: #ffffffb0; }
+  .res-card .big {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 76px;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .res-card.feat .big { color: #fff; }
+  .res-card .big .unit {
+    font-size: 26px;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  .res-card.feat .big .unit { color: #ffffffc0; }
+  .res-card .desc {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin-top: auto;
+  }
+  .res-card.feat .desc { color: #ffffffd5; }
+  .res-card .delta {
+    margin-top: 22px;
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--coral);
+  }
+  .res-card.feat .delta { color: var(--yellow); }
+  .res-card .delta .arc {
+    width: 26px; height: 26px;
+    background: var(--coral);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+  .res-card.feat .delta .arc { background: var(--yellow); color: var(--ink); }
+
+  /* ===== CTA / FORM ===== */
+  .ctafinal {
+    padding: 30px 0 100px;
+    background: var(--cream);
+  }
+  .cta-wrap {
+    background: var(--ink);
+    color: #fff;
+    border-radius: 30px;
+    padding: 70px 70px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 70px;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-wrap-deco {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    background: var(--coral);
+    border-radius: 50%;
+    opacity: 0.85;
+  }
+  .cta-wrap-deco-2 {
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 140px; height: 140px;
+    background: var(--yellow);
+    border-radius: 50%;
+    opacity: 0.18;
+  }
+  .cta-wrap h2 {
+    color: #fff;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-wrap .lede {
+    color: #ffffffb5;
+    margin-bottom: 36px;
+    max-width: 440px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-wrap .reassure {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid #ffffff20;
+    padding-top: 22px;
+    display: grid;
+    gap: 14px;
+  }
+  .cta-wrap .reassure .row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #ffffffc0;
+  }
+  .cta-wrap .reassure .row .check {
+    width: 22px; height: 22px;
+    background: var(--yellow);
+    color: var(--ink);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .form {
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 22px;
+    padding: 36px;
+    position: relative;
+    z-index: 2;
+  }
+  .form-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .form-head .dot { width: 8px; height: 8px; background: var(--coral); border-radius: 50%; display: inline-block; margin-right: 8px; }
+  .field { display: block; margin-bottom: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .field input, .field select {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+  }
+  .field input:focus, .field select:focus { border-color: var(--coral); background: #fff; }
+  .form .btn { width: 100%; justify-content: center; margin-top: 12px; }
+  .form .legal {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--cream);
+    padding: 60px 0 30px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .foot-grid h5 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+  .foot-grid ul { list-style: none; }
+  .foot-grid li { margin-bottom: 10px; font-size: 14px; }
+  .foot-grid a { color: var(--ink-2); text-decoration: none; }
+  .foot-grid a:hover { color: var(--coral); }
+  .foot-grid .bio {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin-top: 16px;
+    max-width: 340px;
+  }
+  .foot-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 28px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot-bottom .links a { color: var(--muted); text-decoration: none; margin-left: 22px; }
+  .foot-bottom .links a:hover { color: var(--coral); }
+  .foot-wordmark {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: clamp(80px, 14vw, 200px);
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+    color: var(--ink);
+    margin: 40px 0 30px;
+    text-align: center;
+    position: relative;
+  }
+  .foot-wordmark .coral { color: var(--coral); }
+  .foot-wordmark .squig {
+    position: absolute;
+    top: -10px; right: 14%;
+    width: 60px;
+    color: var(--yellow-2);
+  }
+
+  /* ===== STICKY MOBILE CTA ===== */
+  .sticky-mobile { display: none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 920px) {
+    .topbar-inner { padding: 16px 20px; gap: 16px; }
+    .nav { display: none; }
+    .container { padding: 0 20px; }
+    .hero-grid, .summary-grid, .confid-wrap, .cta-wrap, .sec-head { grid-template-columns: 1fr; gap: 40px; }
+    .confid-wrap, .cta-wrap { padding: 40px 28px; border-radius: 20px; }
+    .hero-photo { height: 420px; }
+    .photo-slot { width: 280px; height: 360px; }
+    .pain-grid, .steps-grid, .aud-grid, .res-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .sticky-mobile {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 60;
+      background: var(--ink);
+      padding: 12px 16px;
+    }
+    .sticky-mobile a {
+      flex: 1;
+      background: var(--coral);
+      color: #fff;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      border-radius: 999px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="17" fill="#ff5b3a"/>
+          <path d="M11 11 L25 11 L25 14 L14 14 L14 17 L23 17 L23 20 L14 20 L14 25 L11 25 Z" fill="#fff"/>
+          <circle cx="22" cy="23" r="2" fill="#fdd649"/>
+        </svg>
+      </span>
+      <span>Bylora</span>
+    </a>
+    <nav class="nav">
+      <a href="#methode">Méthode</a>
+      <a href="#confidentialite">Confidentialité</a>
+      <a href="#pour-qui">Pour qui</a>
+      <a href="#resultats">Résultats</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="topbar-cta">Réserver un appel</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" data-screen-label="01 Hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <!-- Squiggle decorations -->
+        <svg class="squiggle-hero q2" viewBox="0 0 80 30" fill="none"><path d="M2 15 Q12 2 22 15 T42 15 T62 15 T78 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+        <div class="eyebrow">Expertise + IA souveraine</div>
+        <h1 class="h1">
+          Répondez à plus<br>
+          d'<span class="coral">appels d'offres</span><span class="scribble"><svg viewBox="0 0 38 38" fill="none"><path d="M6 32 Q14 8 22 18 T34 14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg></span><br>
+          <span class="light">sans embaucher.</span>
+        </h1>
+        <p class="lede">Bylora aide les PME du second œuvre — électricité, plomberie, CVC — à transformer 3 jours d'analyse DCE en 4 heures, et à livrer des mémoires techniques qui passent au premier tour.</p>
+
+        <div class="cta-row">
+          <a href="#contact" class="btn btn-primary">Réserver un appel <span class="arrow-circle">→</span></a>
+          <a href="#methode" class="btn-play">
+            <span class="play-circle"></span>
+            <span>Voir la méthode</span>
+          </a>
+        </div>
+
+        <div class="trust">
+          <span class="dot"></span>
+          Données confidentielles garanties · Hébergement français · NDA sous 24h
+        </div>
+      </div>
+
+      <div class="hero-photo">
+        <svg class="squiggle-hero q3" viewBox="0 0 80 60" fill="none"><path d="M4 30 Q14 12 24 30 T44 30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M50 22 Q58 8 68 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+        <div class="blob blob-yellow"></div>
+        <div class="blob blob-dark"></div>
+        <div class="blob-coral-small"></div>
+
+        <div class="photo-slot">
+          <div class="glyph">+</div>
+          <div class="lbl">[ Portrait dirigeant ]</div>
+          <div class="sub">Photo authentique d'un<br>gérant de PME BTP, sourire pro</div>
+          <div class="sub" style="margin-top:14px; font-family: 'Bricolage Grotesque'; font-weight:700; color:var(--ink);">Format vertical, fond neutre</div>
+        </div>
+
+        <svg class="photo-slot-dot d1" viewBox="0 0 40 40" fill="none"><path d="M6 32 Q14 6 22 18 T36 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUMMARY / STATS ============ -->
+<section class="summary" data-screen-label="02 Summary">
+  <div class="container">
+    <div class="summary-grid">
+      <!-- Team photo card -->
+      <div class="team-photo">
+        <div class="badge-floating">
+          <span class="v">B</span>
+          Bylora
+        </div>
+        <svg class="dots-deco" viewBox="0 0 60 60" fill="currentColor"><circle cx="6" cy="6" r="3"/><circle cx="20" cy="6" r="3"/><circle cx="6" cy="20" r="3"/><circle cx="34" cy="6" r="3"/><circle cx="20" cy="20" r="3"/><circle cx="6" cy="34" r="3"/><circle cx="48" cy="6" r="3"/><circle cx="34" cy="20" r="3"/><circle cx="20" cy="34" r="3"/></svg>
+        <div class="glyph">+</div>
+        <div class="lbl">[ Photo équipe ]</div>
+        <div class="sub">Bylora au travail —<br>réunion sur un DCE réel</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="summary-numbers">
+        <div>
+          <h3>Notre impact <span class="ar">→</span></h3>
+          <p style="color:var(--muted); font-size:14px; max-width: 280px;">Sur les 12 derniers mois, voici ce que nos clients PME ont mesuré.</p>
+        </div>
+        <svg class="sq-deco" viewBox="0 0 50 50" fill="none"><path d="M6 32 Q14 8 22 18 T44 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <div class="num-grid">
+          <div class="stat">
+            <div class="big">12<span class="small">ans</span></div>
+            <div class="lbl">d'expérience marchés publics</div>
+          </div>
+          <div class="stat">
+            <div class="big">240<span class="small">+</span></div>
+            <div class="lbl">dépôts accompagnés</div>
+          </div>
+          <div class="stat">
+            <div class="big">~100<span class="small">%</span></div>
+            <div class="lbl">conformité documentaire</div>
+          </div>
+          <div class="stat">
+            <div class="big">3×<span class="small">+</span></div>
+            <div class="lbl">vélocité d'analyse DCE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark card -->
+      <div class="dark-card">
+        <div class="corner"></div>
+        <div class="icon-top">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h4>Accompagner les PME du BTP français depuis 12 ans.</h4>
+        <div class="doc-mini">
+          <div class="icon">DCE</div>
+          <div>
+            <div class="title">Marché public — Lot CFO/CFA</div>
+            <div class="meta">Bailleur social · 187 pages · J−14</div>
+          </div>
+        </div>
+        <a href="#methode" class="view-work">Voir un cas <span class="ar">→</span></a>
+        <div class="yellow-dot-tiny"></div>
+        <span class="scroll-down">↓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PAIN ============ -->
+<section class="pain" data-screen-label="03 Pain">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Le diagnostic</div>
+        <h2 class="h2">Le temps perdu sur les appels d'offres, <span class="coral">ça coûte cher.</span></h2>
+      </div>
+      <div class="right">
+        <p class="lede">Sur un marché public, l'écart entre une réponse moyenne et une réponse gagnante se joue souvent sur 48 heures. Voici ce que ces heures vous coûtent vraiment.</p>
+      </div>
+    </div>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <span class="badge-num">01</span>
+        <div class="icon-circle">📄</div>
+        <h3>Décortiquer un DCE de 200 pages.</h3>
+        <p>CCTP, CCAP, BPU, DPGF, plans, annexes. Le directeur technique passe deux jours pleins à chercher les clauses qui éliminent — au lieu de chiffrer.</p>
+        <div class="footnote">
+          <span>Temps moyen</span>
+          <span class="v">2 jours min.</span>
+        </div>
+      </div>
+      <div class="pain-card alt">
+        <span class="badge-num">02</span>
+        <div class="icon-circle">↻</div>
+        <h3>La mémoire technique repart de zéro.</h3>
+        <p>À chaque lot, on réécrit méthodologie, références chantiers et planning. L'expertise reste dans les têtes — pas sur le papier qui gagne.</p>
+        <div class="footnote">
+          <span>Capitalisation</span>
+          <span class="v">≈ 0%</span>
+        </div>
+      </div>
+      <div class="pain-card alt2">
+        <span class="badge-num">03</span>
+        <div class="icon-circle">⚠</div>
+        <h3>Une pièce manquante = élimination.</h3>
+        <p>Attestation Qualibat périmée, signature manquante, DC4 oublié. La meilleure offre du marché ne passe même pas le contrôle administratif.</p>
+        <div class="footnote">
+          <span>Risque</span>
+          <span class="v">1 oubli / 5 dépôts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTION ============ -->
+<section class="solution" id="methode" data-screen-label="04 Method">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">La méthode Bylora</div>
+        <h2 class="h2">Trois étapes. <span class="coral">Un dépôt propre,</span> à chaque fois.</h2>
+      </div>
+      <div class="right">
+        <p class="lede">On ne remplace pas votre expertise métier — on lui retire les frottements. Vous restez maître de l'offre, vous gagnez le temps qui sert à la rendre meilleure.</p>
+      </div>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-no"><span class="bullet">1</span> Étape 01 — Analyse</div>
+        <h3>Lecture du DCE en 2 heures.</h3>
+        <p>Extraction automatisée des critères de notation, des clauses éliminatoires, du calendrier et des pièces à produire. Vous recevez une note de cadrage opérationnelle.</p>
+        <div class="mini">
+          <div class="row"><span class="k">Critères notation</span><span class="v">60 / 40</span></div>
+          <div class="row"><span class="k">Clauses éliminatoires</span><span class="v">3 détectées</span></div>
+          <div class="row"><span class="k">Date limite</span><span class="v">J + 21</span></div>
+          <div class="row"><span class="k">Pièces à produire</span><span class="v ok">12 / 12</span></div>
+        </div>
+      </div>
+
+      <div class="step-card feat">
+        <div class="step-no"><span class="bullet">2</span> Étape 02 — Structuration</div>
+        <h3>Mémoire technique sur votre historique.</h3>
+        <p>On part de vos chantiers passés, vos méthodes, vos hommes. Bylora structure le mémoire avec des trames éprouvées — vous ne réécrivez plus jamais l'introduction.</p>
+        <div class="mini">
+          <div class="row"><span class="k">Méthodologie</span><span class="v">3 phases · 14 sous-tâches</span></div>
+          <div class="row"><span class="k">Références</span><span class="v">4 / 4 pertinentes</span></div>
+          <div class="row"><span class="k">Planning</span><span class="v">Gantt 7 sem.</span></div>
+          <div class="row"><span class="k">SOSED</span><span class="v ok">Conforme</span></div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-no"><span class="bullet">3</span> Étape 03 — Relecture</div>
+        <h3>Cohérence, conformité, scoring estimé.</h3>
+        <p>Dernier passage à 4 yeux : cohérence prix/technique, conformité aux exigences du RC, et estimation du score selon la grille du pouvoir adjudicateur.</p>
+        <div class="mini">
+          <div class="row"><span class="k">Conformité RC</span><span class="v ok">22 / 22</span></div>
+          <div class="row"><span class="k">Cohérence prix</span><span class="v ok">OK</span></div>
+          <div class="row"><span class="k">Score estimé</span><span class="v">78 / 100</span></div>
+          <div class="row"><span class="k">Livraison</span><span class="v ok">Prêt à déposer</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONFIDENTIALITÉ ============ -->
+<section class="confid" id="confidentialite" data-screen-label="05 Confidentiality">
+  <div class="container">
+    <div class="confid-wrap">
+      <div class="confid-deco"></div>
+      <div class="confid-deco-2"></div>
+
+      <div class="confid-points">
+        <div style="margin-bottom: 14px; position: relative; z-index: 2;">
+          <div class="eyebrow">Confidentialité</div>
+          <h2 class="h2">Vos documents <span class="coral">restent vos documents.</span></h2>
+          <p class="lede" style="margin-top:18px;">Sur un appel d'offres, vos prix, méthodes et références sont vos actifs les plus sensibles. Bylora a été conçu pour qu'aucun ne quitte votre périmètre.</p>
+        </div>
+
+        <div class="item">
+          <div class="pn">1</div>
+          <div>
+            <h4>Aucune donnée transmise à un modèle tiers.</h4>
+            <p>Pas d'envoi vers OpenAI, Anthropic, Google ou tout fournisseur grand public. Modèles isolés par client sur infrastructure souveraine.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="pn">2</div>
+          <div>
+            <h4>Vos pièces ne nourrissent aucun entraînement.</h4>
+            <p>Contractuellement et techniquement : ni DCE, ni mémoires, ni références ne servent à entraîner un modèle. Suppression à la fin de la mission.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="pn">3</div>
+          <div>
+            <h4>NDA disponible avant tout échange.</h4>
+            <p>Accord de confidentialité signé sous 24h — y compris pour le simple appel découverte. Avant même de voir un DCE, le cadre est en place.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="pn">4</div>
+          <div>
+            <h4>Hébergement et traitement en France.</h4>
+            <p>Serveurs en France, chiffrement au repos et en transit, journalisation des accès. Compatible avec les clauses RGPD des marchés publics.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="seal">
+        <div class="seal-corner"></div>
+        <h4>Statut sécurité</h4>
+        <div class="big"><span class="pct">100</span><span style="font-size:42px; color:var(--coral);">%</span></div>
+        <div class="lbl">de vos pièces traitées en circuit fermé.</div>
+        <div class="seal-rows">
+          <div class="seal-row"><span class="k">Hébergement</span><span class="v">FR — souverain</span></div>
+          <div class="seal-row"><span class="k">Modèle IA</span><span class="v">Isolé / client</span></div>
+          <div class="seal-row"><span class="k">Entraînement</span><span class="v check">Exclu</span></div>
+          <div class="seal-row"><span class="k">NDA</span><span class="v check">Sous 24h</span></div>
+          <div class="seal-row" style="border-bottom:none;"><span class="k">RGPD</span><span class="v check">Conforme</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POUR QUI ============ -->
+<section class="pourqui" id="pour-qui" data-screen-label="06 Audience">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Pour qui</div>
+        <h2 class="h2">Fait pour les entreprises <span class="coral">du second œuvre.</span></h2>
+      </div>
+      <div class="right">
+        <p class="lede">Bylora a été calibré pour un type d'entreprise précis. Si vous vous reconnaissez ici, on parle le même langage dès le premier appel.</p>
+      </div>
+    </div>
+
+    <div class="aud-grid">
+      <div class="aud-card">
+        <span class="tag"><span class="dot">A</span> Métier</span>
+        <h3>Électricité, plomberie, CVC, génie climatique.</h3>
+        <ul>
+          <li>Électricité CFO/CFA <span class="meta">lot 8</span></li>
+          <li>Plomberie sanitaire <span class="meta">lot 9</span></li>
+          <li>CVC / climatisation <span class="meta">lot 10</span></li>
+          <li>Multi-techniques <span class="meta">TCE</span></li>
+        </ul>
+      </div>
+      <div class="aud-card yellow">
+        <span class="tag"><span class="dot">B</span> Taille</span>
+        <h3>De 5 à 200 collaborateurs.</h3>
+        <ul>
+          <li>TPE structurée <span class="meta">5—20</span></li>
+          <li>PME en croissance <span class="meta">20—80</span></li>
+          <li>ETI régionale <span class="meta">80—200</span></li>
+          <li>Plusieurs agences <span class="meta">multi-sites</span></li>
+        </ul>
+      </div>
+      <div class="aud-card dark">
+        <span class="tag"><span class="dot">C</span> Ambition</span>
+        <h3>Répondre à plus d'AO sans embaucher.</h3>
+        <ul>
+          <li>Marchés publics <span class="meta">collectivités</span></li>
+          <li>Bailleurs sociaux <span class="meta">OPH, ESH</span></li>
+          <li>Hôpitaux & écoles <span class="meta">SAE</span></li>
+          <li>Privés structurés <span class="meta">grands comptes</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section class="results" id="resultats" data-screen-label="07 Results">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">Résultats attendus</div>
+        <h2 class="h2">Ce que vous mesurez <span class="coral">au bout de 90 jours.</span></h2>
+      </div>
+      <div class="right">
+        <p class="lede">Pas des promesses vagues — des indicateurs que votre responsable AO et votre directeur technique peuvent suivre à la semaine.</p>
+      </div>
+    </div>
+
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="head">
+          <span class="lbl">R.01 — Vélocité</span>
+          <span class="badge">DCE</span>
+        </div>
+        <div class="before">Avant : 3 jours / DCE</div>
+        <div class="big">4<span class="unit">heures</span></div>
+        <div class="delta"><span class="arc">↓</span>−87% de temps d'analyse</div>
+        <div class="desc">Du dépôt du DCE à la note de cadrage opérationnelle, prête à chiffrer.</div>
+      </div>
+      <div class="res-card feat">
+        <div class="head">
+          <span class="lbl">R.02 — Conformité</span>
+          <span class="badge">Pièces admin.</span>
+        </div>
+        <div class="before">Avant : 1 oubli / 5 dépôts</div>
+        <div class="big">~100<span class="unit">%</span></div>
+        <div class="delta"><span class="arc">✓</span>0 élimination administrative</div>
+        <div class="desc">Taux de conformité documentaire au contrôle de recevabilité.</div>
+      </div>
+      <div class="res-card">
+        <div class="head">
+          <span class="lbl">R.03 — Volume</span>
+          <span class="badge">Dépôts / an</span>
+        </div>
+        <div class="before">Avant : 18 dépôts / an</div>
+        <div class="big">2×<span class="unit">plus</span></div>
+        <div class="delta"><span class="arc">↑</span>+100% sans recruter</div>
+        <div class="desc">Capacité à répondre à deux fois plus d'appels d'offres par an — sans chargé d'AO supplémentaire.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="ctafinal" id="contact" data-screen-label="08 Contact">
+  <div class="container">
+    <div class="cta-wrap">
+      <div class="cta-wrap-deco"></div>
+      <div class="cta-wrap-deco-2"></div>
+
+      <div style="position:relative; z-index:2;">
+        <div class="eyebrow" style="color:var(--yellow);">Premier échange — gratuit</div>
+        <h2 class="h2">Discutons de <span style="color:var(--yellow); font-weight:500;">votre prochain</span> appel d'offres.</h2>
+        <p class="lede">Donnez-nous 30 minutes et le contour de votre prochain dépôt. Vous repartez avec un plan d'attaque — que vous travailliez avec nous ensuite ou non.</p>
+        <div class="reassure">
+          <div class="row"><span class="check">✓</span>Réponse sous 24h ouvrées</div>
+          <div class="row"><span class="check">✓</span>Premier échange gratuit, sans engagement</div>
+          <div class="row"><span class="check">✓</span>NDA disponible avant tout partage</div>
+        </div>
+      </div>
+
+      <form class="form" onsubmit="event.preventDefault(); var b=this.querySelector('button'); b.innerHTML='✓ Merci — réponse sous 24h';">
+        <div class="form-head">
+          <span><span class="dot"></span>Formulaire — 4 champs</span>
+          <span>~ 60 sec.</span>
+        </div>
+        <div class="field-row">
+          <label class="field"><label>Nom complet</label><input type="text" placeholder="Jean Dupont" required></label>
+          <label class="field"><label>Entreprise</label><input type="text" placeholder="Société, ville" required></label>
+        </div>
+        <label class="field"><label>Email professionnel</label><input type="email" placeholder="j.dupont@entreprise.fr" required></label>
+        <label class="field"><label>Téléphone</label><input type="tel" placeholder="06 00 00 00 00"></label>
+        <label class="field">
+          <label>Votre prochain dépôt est dans…</label>
+          <select required>
+            <option value="">— Sélectionner —</option>
+            <option>Moins de 7 jours (urgent)</option>
+            <option>2 à 3 semaines</option>
+            <option>1 mois</option>
+            <option>Plus d'un mois</option>
+            <option>Pas de dépôt en cours</option>
+          </select>
+        </label>
+        <button class="btn btn-primary" type="submit">Réserver mon créneau <span class="arrow-circle">→</span></button>
+        <div class="legal">En envoyant ce formulaire, vous acceptez d'être recontacté par Bylora sous 24h ouvrées. Vos données ne sont jamais cédées à un tiers.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a href="#" class="brand">
+          <span class="brand-mark">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="17" fill="#ff5b3a"/>
+              <path d="M11 11 L25 11 L25 14 L14 14 L14 17 L23 17 L23 20 L14 20 L14 25 L11 25 Z" fill="#fff"/>
+              <circle cx="22" cy="23" r="2" fill="#fdd649"/>
+            </svg>
+          </span>
+          <span>Bylora</span>
+        </a>
+        <p class="bio">Cabinet de conseil dédié aux PME du second œuvre qui répondent aux appels d'offres publics et privés. Méthode + outillage IA souverain.</p>
+      </div>
+      <div>
+        <h5>Méthode</h5>
+        <ul>
+          <li><a href="#methode">Les 3 étapes</a></li>
+          <li><a href="#resultats">Résultats</a></li>
+          <li><a href="#pour-qui">Pour qui</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Confiance</h5>
+        <ul>
+          <li><a href="#confidentialite">Confidentialité</a></li>
+          <li><a href="#">NDA & RGPD</a></li>
+          <li><a href="#">Hébergement FR</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="#contact">Réserver un appel</a></li>
+          <li><a href="mailto:contact@bylora.fr">contact@bylora.fr</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-wordmark">
+      By<span class="coral">lora</span>
+      <svg class="squig" viewBox="0 0 60 20" fill="none"><path d="M2 10 Q12 0 22 10 T42 10 T58 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 Bylora — SIRET 000 000 000 00000</span>
+      <span class="links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Politique de confidentialité</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-mobile">
+  <a href="#contact">Réserver un appel →</a>
+</div>
+
+</body>
+</html>

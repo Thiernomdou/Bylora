@@ -1,0 +1,86 @@
+# =============================================================================
+# .gitignore — Workspace Jarvis
+# =============================================================================
+# Ce qui doit RESTER en local et NE JAMAIS arriver sur GitHub.
+# Ne pas alléger ce fichier sans réfléchir : une clé d'API qui fuit, c'est une
+# clé à révoquer en urgence.
+# =============================================================================
+
+# --- Secrets & variables d'environnement ---
+.env
+.env.*
+!.env.example
+
+# --- Clés et certificats (peu importe où ils traînent) ---
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+secrets/
+credentials/
+
+# --- Fichiers JSON de credentials (Google service accounts, Firebase, etc.) ---
+*-credentials.json
+*-service-account.json
+gcp-key.json
+
+# --- DÉPENDANCES ---
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# --- BUILD ET DIST ---
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.cache/
+*.min.js
+*.min.css
+
+# --- LOGS ---
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- ÉDITEURS ET IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# --- macOS / système ---
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- TEMPORAIRE ---
+tmp/
+temp/
+*.tmp
+*.bak
+*.orig
+
+# --- DONNÉES SENSIBLES ---
+*.csv
+# Décommenter si les CSV peuvent contenir des données clients
+# Pour l'instant commenté car les CSVs peuvent être utiles à versionner
